@@ -27,5 +27,8 @@
 
 \subsection{Solution Approach}
 For this work, energy data from the smart meter, as well as from at least one server, will be collected and subsequently sent to the AWS Cloud via an interface.
-For data collection from the smart meter, a product from Energie Steiermark called "Energylive" will be used.
+For data collection from the smart meter, a product from Energie Steiermark AG called "Energylive" will be used.
 In the AWS Cloud, the data will be aggregated using a time series database and visualized in a dashboard.
+In the next step, the smartENERGY API will be used to collect electricity price data in real time.
+The API provides data from the EPEX Spot AT electricity exchange at 15-minute intervals.
+Subsequently, the electricity price data will also be integrated into the dashboard.
