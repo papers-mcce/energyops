@@ -1,0 +1,92 @@
+@startuml
+' Use standard components instead of AWS-specific icons
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+' Define components using standard notation
+rectangle "Internet" {
+  component "Sagemcom Smart Meter\n(Energylive API)" as smartmeter
+  component "NETIO PowerCable" as netio
+  component "EPEX Spot API" as epex
+  actor "End Users" as users
+}
+
+rectangle "AWS Cloud" {
+  rectangle "VPC" {
+    rectangle "Public Subnet" {
+      component "API Gateway\nHTTPS:443" as apigateway
+      component "IoT Core\nMQTT:8883" as iotcore
+    }
+    
+    rectangle "Private Subnet" {
+      component "Lambda - REST API\nData Collection" as lambdarest
+      component "Lambda - MQTT\nData Processing" as lambdamqtt
+      component "Lambda - EPEX\nData Collection" as lambdaepex
+    }
+    
+    rectangle "Data Storage" {
+      database "DynamoDB\nEnergy Data" as dynamodb
+      database "S3\nData Backup" as s3
+    }
+    
+    component "QuickSight\nDashboard" as quicksight
+    
+    rectangle "Security & Monitoring" {
+      component "IAM\nAccess Control" as iam
+      component "CloudWatch\nMonitoring" as cloudwatch
+    }
+  }
+}
+
+' External connections - ingress
+smartmeter -[#green]-> apigateway : "HTTPS:443\nIngress: REST API Data"
+netio -[#green]-> iotcore : "MQTT:8883\nIngress: Device Data"
+epex -[#green]-> lambdaepex : "HTTPS:443\nIngress: Price Data"
+users -[#green]-> quicksight : "HTTPS:443\nIngress: User Access"
+
+' Internal connections
+apigateway -[#blue]-> lambdarest : "Integration"
+iotcore -[#blue]-> lambdamqtt : "Rule Action"
+
+lambdarest -[#blue]-> dynamodb : "PutItem, UpdateItem"
+lambdamqtt -[#blue]-> dynamodb : "PutItem, UpdateItem"
+lambdaepex -[#blue]-> dynamodb : "PutItem, UpdateItem"
+
+lambdarest -[#blue]-> s3 : "PutObject"
+lambdamqtt -[#blue]-> s3 : "PutObject" 
+lambdaepex -[#blue]-> s3 : "PutObject"
+
+dynamodb -[#blue]-> quicksight : "Data Source"
+s3 -[#blue]-> quicksight : "Data Source"
+
+' Egress connections
+lambdaepex -[#red]-> epex : "HTTPS:443\nEgress: API Requests"
+
+' Monitoring connections
+lambdarest -[#purple]-> cloudwatch : "Logs"
+lambdamqtt -[#purple]-> cloudwatch : "Logs"
+lambdaepex -[#purple]-> cloudwatch : "Logs"
+apigateway -[#purple]-> cloudwatch : "Logs"
+iotcore -[#purple]-> cloudwatch : "Logs"
+
+' IAM connections
+iam -[#orange]-> lambdarest : "Permissions"
+iam -[#orange]-> lambdamqtt : "Permissions"
+iam -[#orange]-> lambdaepex : "Permissions"
+iam -[#orange]-> dynamodb : "Permissions"
+iam -[#orange]-> s3 : "Permissions"
+iam -[#orange]-> quicksight : "Permissions"
+
+legend right
+  Color Codes:
+  <back:green>   Green   </back> : Ingress Traffic
+  <back:red>     Red     </back> : Egress Traffic
+  <back:blue>    Blue    </back> : Internal Data Flow
+  <back:purple>  Purple  </back> : Monitoring Flow
+  <back:orange>  Orange  </back> : IAM Permissions
+  
+  Ports & Protocols:
+  HTTPS:443 - Web/API Traffic
+  MQTT:8883 - IoT Device Communication
+endlegend
+@enduml
