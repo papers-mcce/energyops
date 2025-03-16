@@ -37,9 +37,9 @@ Additionally, while individual tools exist to monitor energy usage, there is no 
 The goal of this project is to address this gap by developing an integrated solution that provides actionable insights through real-time visualization, helping businesses make informed decisions about their IT infrastructure energy consumption.
 
 \subsection{Solution Approach}
-For this work, energy data from the smart meter, as well as from at least one server, will be collected and subsequently sent to the AWS Cloud via an interface.
-For data collection from the smart meter, a product from Energie Steiermark AG called "Energylive" will be used.
-In the AWS Cloud, the data will be aggregated using a time series database and visualized in a dashboard.
-In the next step, the smartENERGY API will be used to collect electricity price data in real time.
-The API provides data from the EPEX Spot AT electricity exchange at 15-minute intervals.
-Subsequently, the electricity price data will also be integrated into the dashboard.
+For this work, energy data from the Sagemcom smart meter via Energy Steiermark AG's 'Energylive' REST API, as well as from at least one server using NETIO PowerCable REST 101x, will be collected and subsequently sent to the AWS Cloud.
+The data collection process leverages AWS API Gateway for REST API connections and AWS IoT Core for MQTT-based messages. 
+In the AWS Cloud, AWS Lambda functions process and format the incoming data before storing it in Amazon DynamoDB, which serves as our primary data repository. 
+The collected data is visualized in a comprehensive dashboard built with Amazon QuickSight. In the next step, another Lambda function polls the smartENERGY API to collect electricity price data from the EPEX Spot AT electricity exchange at 15-minute intervals. 
+This real-time electricity price data is also stored in DynamoDB and integrated into the QuickSight dashboard, allowing SMEs to correlate energy consumption with current market prices. 
+Amazon S3 provides backup storage for all raw data, ensuring data durability and enabling future analytics capabilities as the solution matures beyond the Proof of Concept stage.
