@@ -30,11 +30,6 @@ rectangle "AWS Cloud" {
     }
     
     component "QuickSight\nDashboard" as quicksight
-    
-    rectangle "Security & Monitoring" {
-      component "IAM\nAccess Control" as iam
-      component "CloudWatch\nMonitoring" as cloudwatch
-    }
   }
 }
 
@@ -62,28 +57,11 @@ s3 -[#blue]-> quicksight : "Data Source"
 ' Egress connections
 lambdaepex -[#red]-> epex : "HTTPS:443\nEgress: API Requests"
 
-' Monitoring connections
-lambdarest -[#purple]-> cloudwatch : "Logs"
-lambdamqtt -[#purple]-> cloudwatch : "Logs"
-lambdaepex -[#purple]-> cloudwatch : "Logs"
-apigateway -[#purple]-> cloudwatch : "Logs"
-iotcore -[#purple]-> cloudwatch : "Logs"
-
-' IAM connections
-iam -[#orange]-> lambdarest : "Permissions"
-iam -[#orange]-> lambdamqtt : "Permissions"
-iam -[#orange]-> lambdaepex : "Permissions"
-iam -[#orange]-> dynamodb : "Permissions"
-iam -[#orange]-> s3 : "Permissions"
-iam -[#orange]-> quicksight : "Permissions"
-
 legend right
   Color Codes:
   <back:green>   Green   </back> : Ingress Traffic
   <back:red>     Red     </back> : Egress Traffic
   <back:blue>    Blue    </back> : Internal Data Flow
-  <back:purple>  Purple  </back> : Monitoring Flow
-  <back:orange>  Orange  </back> : IAM Permissions
   
   Ports & Protocols:
   HTTPS:443 - Web/API Traffic
