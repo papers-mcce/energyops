@@ -21,33 +21,32 @@
 
 \section{Introduction and Problem Background}
 
-\subsection{Research Field}
-The ongoing rise in energy prices presents a significant challenge for small and medium-sized enterprises (SMEs) in Styria, Austria. 
-Energy efficiency and cost optimization have become critical concerns, particularly for businesses operating on-premise server infrastructures. 
-The field of research for this project lies at the intersection of energy monitoring, IoT-based data collection, and cloud-based dashboard. 
-With the increasing availability of smart metering technology and real-time power market data, there is an opportunity to leverage modern digital tools to enhance energy management practices. 
+The ongoing rise in energy prices presents a significant challenge for small and medium-sized enterprises (SMEs).
+Energy efficiency and cost optimization have become critical concerns, particularly for businesses operating on-premise server infrastructures.
+In this paper we propose an architecture for energy monitoring, Internet of Things (IoT)-based data collection, and a cloud-based dashboard.
+With the increasing availability of smart metering technology and real-time power market data, there is an opportunity to leverage modern digital tools
+to enhance energy management practices.
 By integrating various data sources into a unified system, SMEs can gain detailed insights into the power consumption of their on-premise servers, 
 enabling data-driven decision-making to optimize costs and improve sustainability efforts.
 
-\subsection{Problem Statement}
-
 SMEs often lack transparent and real-time insights into the energy consumption of their server infrastructure, making it difficult to respond dynamically to fluctuating energy prices. 
 Traditional power monitoring solutions may be too costly or complex to implement, leaving many businesses without an effective strategy to optimize their energy use. 
-The absence of an integrated platform that consolidates smart meter data, power consumption insights from connected devices, and real-time energy market prices leads to inefficiencies and unnecessary expenses. 
+The absence of an integrated platform that consolidates smart meter data, power consumption insights from connected devices, and real-time energy market prices leads
+to inefficiencies and unnecessary expenses.
 Additionally, while individual tools exist to monitor energy usage, there is no comprehensive dashboard that provides SMEs with clear visibility 
 into the specific energy consumption patterns of their on-premise servers. 
 The goal of this project is to address this gap by developing an integrated solution that provides actionable insights through real-time visualization, 
-helping businesses make informed decisions about their IT infrastructure energy consumption.
+helping businesses make informed decisions about their Information Technology (IT) infrastructure energy consumption.
 
-\subsection{Solution Approach}
-For this work, energy data from the Sagemcom smart meter via Energy Steiermark AG's 'Energylive' REST API, 
-as well as from at least one server using NETIO PowerCable REST 101x, will be collected and subsequently sent to the AWS Cloud.
-The data collection process leverages AWS API Gateway for REST API connections and AWS IoT Core for MQTT-based messages. 
+For this work, energy data from a Sagemcom smart meter via a Representational State Transfer (REST) Application Programming Interface (API),
+as well as from at least one server using a NETIO PowerCable 1Kx, will be collected and subsequently sent to the Amazon Web Services (AWS) Cloud.
+The data collection process leverages AWS API Gateway for REST API connections and AWS IoT Core for Message Queuing Telementry Transport (MQTT)-based messages.
 In the AWS Cloud, AWS Lambda functions process and format the incoming data before storing it in Amazon DynamoDB, which serves as our primary data repository. 
 The collected data is visualized in a comprehensive dashboard built with Amazon QuickSight. In the next step, 
 another Lambda function polls the smartENERGY API to collect electricity price data from the EPEX Spot AT electricity exchange at 15-minute intervals. 
 This real-time electricity price data is also stored in DynamoDB and integrated into the QuickSight dashboard, allowing SMEs to correlate energy consumption with current market prices. 
-The plan is to test multiple load scenarios on the server and measure the power consumption of each specific load scenario.
-This approach will enable the identification of energy usage patterns under different operational conditions, providing valuable insights for optimization.
+The plan is to evaluate multiple load scenarios on the server and measure the power consumption of each specific load scenario.
+This approach enables the identification of energy usage patterns under different operational conditions, providing valuable insights for optimization.
 By analyzing these measurements, businesses can make informed decisions about when to run specific workloads to minimize energy costs based on real-time electricity prices.
-Amazon S3 provides backup storage for all raw data, ensuring data durability and enabling future analytics capabilities as the solution matures beyond the Proof of Concept stage.
+Amazon Simple Storage Service (S3) provides backup storage for all raw data,
+ensuring data durability and enabling future analytics capabilities as the solution matures beyond the Proof of Concept stage.
