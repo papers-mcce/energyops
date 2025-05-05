@@ -28,12 +28,12 @@ environments. The use case examines how businesses can benefit from having acces
 server consumption patterns and market conditions in a unified interface. By making this
 information accessible and understandable, SMEs can potentially shift energy-intensive computational
 tasks to periods of lower pricing, resulting in cost savings without compromising operational
-requirements.
+requirements. \cite{tropgen2024years}
 
 \subsection{Prototype}
 The prototype implements a serverless cloud architecture on Amazon Web Services (AWS) to collect,
 process, and visualize energy data from multiple sources. Figure 1 illustrates the system
-architecture and data flow of our solution.
+architecture and data flow of our proposedsolution.
 
 \begin{figure}[htbp]
     \centering
@@ -44,8 +44,8 @@ architecture and data flow of our solution.
 
 The prototype consists of three main components that work together to deliver a comprehensive
 energy monitoring solution for SME server environments. The data collection layer interfaces with
-external devices and services to gather the necessary information. The Sagemcom Smart Meter
-connects to the system via the Energylive API, providing facility-level energy consumption data at
+external devices and services to gather the necessary information. The data from the Sagemcom Smart
+Meter is collectedvia the Energylive API, providing facility-level energy consumption data at
 ten second intervals. This data includes overall electricity usage for the entire server room or IT
 infrastructure. The NETIO PowerCable device serves as an IoT sensor that measures power consumption
 of individual servers and critical IT equipment, offering granular insights into which systems
@@ -54,11 +54,11 @@ with the EPEX Spot API to retrieve real-time and forecasted electricity market p
 are essential for cost optimization strategies.
 
 The processing layer leverages AWS Lambda functions to handle the incoming data streams
-efficiently. An API Gateway serves as the entry point for REST API requests from the smart meter,
+efficiently. An API Gateway serves as the entry point for REST API requests from the Energy Live API,
 ensuring secure and scalable communication. IoT Core manages MQTT connections from the NETIO
 PowerCable device, providing a reliable communication channel for this IoT sensor.
 Three specialized Lambda functions handle different aspects of data processing: one dedicated to
-REST API data collection from the smart meter, another processing MQTT messages from the IoT device
+REST API data collection from the Energy Live API, another processing MQTT messages from the IoT device
 and a third specifically handling EPEX market data. This separation of concerns allows for
 independent scaling and maintenance of each data processing pipeline while minimizing operational
 overhead for SMEs with limited IT resources.
@@ -80,54 +80,80 @@ allowing for the necessary external integrations, addressing the security concer
 particularly important for SMEs handling sensitive business data.
 
 \subsection{Measurement}
-To evaluate the effectiveness of our approach, we will implement a comprehensive measurement
-framework that addresses technical performance, server energy consumption patterns, and economic
-impacts. This multi-faceted evaluation will provide insights into both the system's technical
-capabilities and its practical utility for SME operators.
+To evaluate the effectiveness of our approach, we will implement a comprehensive
+measurement framework that addresses technical performance, server energy
+consumption patterns, and economic impacts. This multi-faceted evaluation will
+provide insights into both the system's technical capabilities and its practical
+utility for SME operators.
 
-From a system performance perspective, we will measure several key technical metrics to ensure the
-solution meets the necessary requirements for a production environment in an SME context. Data
-collection latency will be carefully monitored to determine the time between actual energy
-consumption events and the availability of this data within the system. This metric is crucial for
-near real-time applications, particularly when operators might make decisions about server workload
-scheduling based on current consumption patterns and electricity prices. We will also assess
-processing throughput by measuring the number of data points the system can handle per minute,
-ensuring it can scale to accommodate multiple servers and frequent reporting intervals without
-requiring expensive infrastructure. System reliability will be evaluated through comprehensive
-monitoring of uptime percentages and error rates across all components, with particular attention
-to the critical data collection pathways.
+Server energy consumption analysis forms the core of our measurement approach.
+Using the NETIO PowerCable device, we will conduct detailed measurements of a
+single server under various operational scenarios to establish energy consumption
+profiles. Specifically, we will examine the following use cases:
 
-Server energy consumption analysis forms the core of our measurement approach. We will track total
-energy usage in kilowatt-hours across various time periods (hourly, daily, weekly, and monthly)
-to establish baseline consumption patterns and identify trends in server utilization. Detailed
-temporal analysis will reveal usage patterns throughout the day, highlighting peak usage times
-and baseline consumption levels that might represent always-on services or idle power states.
-The device-specific consumption data from the NETIO PowerCable devices will allow for granular
-analysis of which servers or systems contribute most significantly to overall energy usage,
-providing targeted opportunities for optimization. We will also correlate energy consumption with
-specific workloads and server utilization metrics to develop energy profiles for different
-operational scenarios.
+\begin{enumerate}
+    \item \textbf{Maximum computational load:} We will simulate 100\% CPU utilization across all
+    cores using the stress-ng tool on a Linux virtual machine. The stress-ng
+    command will be configured to spawn CPU-intensive worker processes equal to
+    the number of available virtual CPUs, ensuring maximum load across all cores.
+    This scenario represents peak computational demand typical of batch processing
+    or intensive data analysis tasks. \cite{stressng2020}
 
-The economic dimension of our measurement framework will focus on establishing the financial impact
-of the system for SMEs. We will analyze cost correlation by examining the relationship between
-energy prices from the EPEX Spot market and server consumption patterns, determining whether
-workloads naturally align with lower-price periods or if intervention is needed. Potential savings
-will be calculated by modeling the difference between current usage patterns and theoretically
-optimized scenarios where energy-intensive computational tasks are shifted to lower-price periods.
-A comprehensive return on investment analysis will evaluate the cost-benefit relationship of
-implementing the system versus the potential savings achieved through optimized energy usage, with
-specific attention to the financial constraints and considerations typical of SMEs.
+    \item \textbf{I/O stress testing:} Additionally, we will conduct I/O stress testing to evaluate
+    power consumption during intensive disk operations. Using fio (Flexible I/O Tester),
+    we will simulate maximum SSD utilization with sequential and random read/write
+    patterns. This I/O-intensive scenario represents workloads common in database operations,
+    log processing, and large file transfers, providing insights into storage
+    subsystem energy requirements under heavy load.
 
-The collected data will undergo rigorous statistical analysis to identify patterns and correlations
-between server energy consumption, market prices, and external factors such as time of day, day of
-week, and seasonal variations. Machine learning techniques may be applied to detect anomalies in
-consumption patterns and predict future usage based on historical data. This analytical approach
-will provide insights into potential optimization strategies and validate the effectiveness of the
-proposed solution in achieving its goals of reducing energy costs for SMEs while maintaining
-operational performance and reliability of their server infrastructure.
+    \item \textbf{System reboot cycle:} We will measure the complete power consumption profile
+    during a full reboot sequence of the host machine, capturing the energy
+    requirements during shutdown, boot, and system initialization phases. This
+    provides insights into the energy costs associated with maintenance operations
+    and system updates.
 
-Through this comprehensive measurement framework, we aim to demonstrate not only the technical
-feasibility of our approach but also its practical utility in helping SMEs make informed decisions
-about their server energy consumption in relation to dynamic market conditions, ultimately
-contributing to both cost savings and environmental sustainability.
+    \item \textbf{Maintenance operations:} We will monitor energy consumption during typical
+    maintenance activities, specifically the patching process of a Linux virtual
+    machine. This scenario represents regular administrative tasks that SMEs must
+    perform to maintain security and system integrity.
+
+    \item \textbf{Idle state:} We will establish baseline energy consumption when the server is
+    in an idle state with minimal active processes. This measurement is crucial
+    for understanding the fixed energy costs of maintaining server availability
+    even during periods of low utilization. \cite{moran2024dissecting,agilewatts2022}
+\end{enumerate}
+
+For each scenario, we will track total energy usage in kilowatt-hours and power
+consumption patterns over time, establishing detailed energy profiles that can be
+correlated with specific operational states. These measurements will reveal the
+energy intensity of different server activities and identify potential
+optimization opportunities, such as scheduling high-consumption tasks during
+periods of lower electricity pricing or implementing more efficient idle-state
+management. To ensure reliable and representative measurements, each test scenario will be
+conducted with specific time windows:
+
+\begin{itemize}
+    \item For maximum computational load and I/O stress testing scenarios, each
+    test window will span 30 minutes to capture steady-state behavior and account
+    for any thermal effects or performance throttling that may occur during
+    sustained high-load operations.
+
+    \item System reboot cycle measurements will be conducted over multiple
+    iterations, with each complete cycle (shutdown to fully operational)
+    typically lasting 5-10 minutes, repeated 5 times to ensure consistency and
+    account for variations in boot times.
+
+    \item Maintenance operation measurements will cover the entire duration of
+    typical update processes, estimated at 15-20 minutes per session, including
+    download, installation, and post-update system stabilization periods.
+
+    \item Idle state measurements will be conducted over longer 60-minute windows
+    during off-peak hours to establish accurate baseline consumption patterns and
+    capture any periodic background system activities.
+\end{itemize}
+
+Each scenario will be repeated three times to ensure statistical validity and
+account for any variations in system behavior or environmental conditions. A
+minimum cool-down period of 10 minutes will be observed between test iterations
+to ensure thermal conditions return to baseline.
 

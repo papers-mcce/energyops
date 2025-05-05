@@ -6,39 +6,49 @@
 
 %Englisch
 \section{Conclusion and Future Work}
+The rising energy costs present a significant challenge for small and medium-sized enterprises (SMEs)
+operating on-premise server infrastructures. This position paper addresses the critical gap in
+energy management solutions specifically tailored for SMEs, who often lack transparent insights
+into their server infrastructure's power consumption patterns and struggle to respond dynamically
+to fluctuating energy prices. While existing research has made significant advancements in
+process-level energy measurement, data center management, and IoT-based building management systems,
+our analysis reveals that no comprehensive solution exists that simultaneously delivers
+per-process energy attribution, smart-meter integration, real-time electricity price correlation,
+and a unified dashboard for actionable insights.
 
-Mit dem letzten Kapitel schließt das Position Paper ab und sollte im Idealfall folgende Informationen beinhalten:
-\begin{itemize}
-	\item Erinnert den Leser / die Leserin in welchem Universum / Forschungsfeld das Position Paper ist
-	\item Erinnert den Leser / die Leserin was die Problemstellung in diesem Universum / Forschungsfeld
-	\item Erinnert den Leser / die Leserin an die vorgeschlagene Herangehensweise aus Kapitel 3, wie ihr vor habt diese Problemstellung zu bearbeiten
-	\item gebt dem Leser / der Leserin die wichtigesten Key-Points eures Papers mit (bevor sie aufhören zu lesen), so dass sie sich "ewig" daran erinnern bzw. eure Ideen weitererzählen
-	\item gebt dem Leser / der Leserin einen Ausblick (Future Work) was ihr als nächstes tun werdet (einen Vorgeschmack auf das Final Paper)
-\end{itemize}
+Our proposed architecture leverages cloud-based technologies to create an integrated energy
+monitoring system that collects real-time consumption data from both smart meters and connected
+server equipment, while simultaneously incorporating dynamic electricity pricing information.
+The serverless implementation on AWS provides a scalable, cost-effective solution that minimizes
+operational overhead—a critical consideration for resource-constrained SMEs. Through the
+combination of IoT devices (NETIO PowerCable), facility-level monitoring via the Energy Live API
+(connected to the Sagemcom Smart Meter), and market data integration (EPEX Spot API), our system
+offers unprecedented visibility into energy consumption patterns and their economic implications.
 
-\vspace{10pt}
-\textbf{VORGABE}: dieses Kapitel soll nicht mehr als eine A4-Seite benötigen
+The proposed measurement methodology outlines an approach for detailed energy profiling across
+various operational scenarios, including maximum computational load, I/O stress testing, system
+reboot cycles, maintenance operations, and idle states. This comprehensive approach to energy
+measurement would provide the foundation for data-driven decision-making regarding workload
+scheduling and infrastructure optimization. By understanding the energy intensity of different
+server activities and correlating these with real-time electricity pricing, SMEs could implement
+targeted strategies to reduce costs without compromising operational requirements. Our position
+paper proposes several important potential benefits for SMEs:
 
-\vspace{10pt}
-Hier noch ein paar Position Paper (Beispiel) and denen ihr euch orientieren könnt:
-\begin{itemize}
-	\item\textbf{\textit{Paper \cite{ref01}}:} \\
-	Igor Ivki\'c, Andreas Mauthe, and Markus Tauber. (2019). 
-	\textit{"Towards a Security Cost Model for Cyber-Physical Systems"}. In Proceedings of the 16th Annual Consumer Communications \& Networking Conference (CCNS). 
-	IEEE.\\
-	\textbf{Beschreibung:} soll als Vorlage dienen, wie ein Position Paper aufgebaut sein kann\\
-	\textbf{Link:} \href{https://arxiv.org/pdf/1905.06124.pdf}{https://arxiv.org/pdf/1905.06124.pdf}\\
-	\item\textbf{\textit{Paper \cite{ref02}}:} \\
-	Igor Ivki\'c, Harald Pichler, Mario Zsilak, Andreas Mauthe, and Markus Tauber. (2019). 
-	\textit{“A Framework for Measuring the Costs of Security at Runtime”}. 
-	In Proceedings of the 9th International Conference on Cloud Computing and Services Science (CLOSER).\\
-	\textbf{Beschreibung:} soll als Vorlage dienen, wie ein Position Paper aufgebaut sein kann. \\
-	\textbf{Link:} \href{https://arxiv.org/pdf/1905.11180.pdf}{https://arxiv.org/pdf/1905.11180.pdf}\\
-	
-	\item\textbf{\textit{Paper \cite{ref03}}:} \\
-	Igor Ivki\'c, Patrizia Sailer, Antonios Gouglidis, Andreas Mauthe, and Markus Tauber. (2021).
-	\textit{"A Security Cost Modelling Framework for Cyber- Physical Systems"}.
-	ACM Transactions on Internet Technology (TOIT).\\
-	\textbf{Beschreibung:} soll als Vorlage dienen, wie man ein Related Work Kapitel aufziehen kann. Dieses Paper ist ein Journal-Artikel und untersucht ein Thema in der Tiefe. Im Vergleich dazu soll bei einem Position Paper ein neues Thema motiviert werden und der Anreiz geschaffen werden, dass es wichtig wäre, dies genauer zu untersuchen. \\
-	\textbf{Link:} \href{https://arxiv.org/pdf/2107.07784.pdf}{https://arxiv.org/pdf/2107.07784.pdf}\\
-\end{itemize}
+\begin{enumerate}
+	\item Server workload scheduling based on real-time energy pricing can yield significant cost
+	savings, particularly for energy-intensive computational tasks that can be time-shifted to
+	lower-cost periods.
+	\item The integration of IoT-based monitoring with cloud analytics provides a scalable solution
+	that grows with business needs without requiring substantial upfront investment.
+	\item The AWS serverless architecture offers an optimal balance of functionality, security,
+	and cost-effectiveness for SME implementations.
+	\item Granular visibility into server power consumption enables more informed infrastructure
+	planning and optimization.
+\end{enumerate}
+
+In the final paper, readers will find five concise, reproducible test scenarios—each emulating a
+typical VM action on a bare-metal server—to profile energy consumption and identify optimization
+opportunities. These include peak CPU stress, storage and network I/O workloads, full system
+reboot cycles, routine maintenance (OS patching), and idle-state baselines. For each scenario,
+we detail the tools, execution parameters, monitoring approach, and key metrics, enabling SMEs
+to replicate the methodology and correlate energy use with operational states.
