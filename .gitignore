@@ -294,3 +294,6 @@ Thumbs.db
 
 #pdf
 *.pdf
+
+# trunk
+.trunk/
