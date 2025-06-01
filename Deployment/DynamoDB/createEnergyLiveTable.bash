@@ -11,19 +11,38 @@ aws dynamodb create-table \
       AttributeName=device_id,KeyType=HASH \
       AttributeName=timestamp,KeyType=RANGE \
   --global-secondary-indexes \
-      IndexName=MeasurementTypeIndex,KeySchema=[{AttributeName=measurement_type,KeyType=HASH},{AttributeName=timestamp,KeyType=RANGE}],Projection={ProjectionType=ALL},ProvisionedThroughput={ReadCapacityUnits=5,WriteCapacityUnits=5} \
+      '[{
+        "IndexName": "MeasurementTypeIndex",
+        "KeySchema": [
+          {
+            "AttributeName": "measurement_type",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "timestamp",
+            "KeyType": "RANGE"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }]' \
   --provisioned-throughput ReadCapacityUnits=10,WriteCapacityUnits=10 \
-  --region eu-central-1
+  --region us-east-1
 
 # Wait for table to be created
 echo "Waiting for table to be created..."
-aws dynamodb wait table-exists --table-name EnergyLiveData --region eu-central-1
+aws dynamodb wait table-exists --table-name EnergyLiveData --region us-east-1
 
 # Enable TTL on the table (optional - for automatic data cleanup after 1 year)
 aws dynamodb update-time-to-live \
   --table-name EnergyLiveData \
   --time-to-live-specification Enabled=true,AttributeName=ttl \
-  --region eu-central-1
+  --region us-east-1
 
 echo "EnergyLiveData table created successfully with TTL enabled!"
 echo ""
@@ -34,7 +53,7 @@ echo "- TTL: Enabled on 'ttl' attribute (1 year retention)"
 echo ""
 echo "Sample query commands:"
 echo "# Get all measurements for a device:"
-echo "aws dynamodb query --table-name EnergyLiveData --key-condition-expression 'device_id = :device_id' --expression-attribute-values '{\":device_id\":{\"S\":\"I-10082023-01658401\"}}'"
+echo "aws dynamodb query --table-name EnergyLiveData --key-condition-expression 'device_id = :device_id' --expression-attribute-values '{\":device_id\":{\"S\":\"I-10082023-01658401\"}}' --region us-east-1"
 echo ""
 echo "# Get specific measurement type across all devices:"
-echo "aws dynamodb query --table-name EnergyLiveData --index-name MeasurementTypeIndex --key-condition-expression 'measurement_type = :measurement_type' --expression-attribute-values '{\":measurement_type\":{\"S\":\"0100010700\"}}'" 
+echo "aws dynamodb query --table-name EnergyLiveData --index-name MeasurementTypeIndex --key-condition-expression 'measurement_type = :measurement_type' --expression-attribute-values '{\":measurement_type\":{\"S\":\"0100010700\"}}' --region us-east-1"

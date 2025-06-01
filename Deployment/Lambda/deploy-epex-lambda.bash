@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-FUNCTION_NAME="energylive-api-collector"
+FUNCTION_NAME="epex-spot-collector"
 REGION="us-east-1"
 ROLE_NAME="LabRole"  # Using existing LabRole for AWS Academy
 
@@ -11,7 +11,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}Deploying energyLIVE API Lambda function...${NC}"
+echo -e "${YELLOW}Deploying EPEX Spot price Lambda function...${NC}"
 
 # Check if AWS CLI is configured
 if ! aws sts get-caller-identity &> /dev/null; then
@@ -25,22 +25,23 @@ ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 
 echo "Using AWS Account: $ACCOUNT_ID"
 echo "Using Region: $REGION"
-echo "Using Role: $ROLE_ARN (AWS Academy LabRole)"
+echo "Using Role: $ROLE_ARN"
 
 # Create deployment package
 echo -e "${YELLOW}Creating deployment package...${NC}"
-rm -f energylive-lambda.zip
+rm -f epex-lambda.zip
 
 # Install dependencies in a temporary directory
 mkdir -p package
 pip3 install -r requirements.txt -t package/
+pip3 install python-dateutil -t package/
 
 # Copy Lambda function
-cp energylive-api-collector.py package/
+cp epex-spot-collector.py package/
 
 # Create zip file
 cd package
-zip -r ../energylive-lambda.zip .
+zip -r ../epex-lambda.zip .
 cd ..
 
 # Clean up
@@ -54,14 +55,13 @@ if aws lambda get-function --function-name $FUNCTION_NAME --region $REGION &> /d
     echo "Function exists, updating..."
     aws lambda update-function-code \
         --function-name $FUNCTION_NAME \
-        --zip-file fileb://energylive-lambda.zip \
+        --zip-file fileb://epex-lambda.zip \
         --region $REGION
     
     aws lambda update-function-configuration \
         --function-name $FUNCTION_NAME \
         --timeout 60 \
         --memory-size 256 \
-        --environment Variables='{API_KEY=YOUR_API_KEY_HERE,DEVICE_UID=I-XXXXXXXX-XXXXXXXX}' \
         --region $REGION
 else
     echo "Creating new function..."
@@ -69,29 +69,24 @@ else
         --function-name $FUNCTION_NAME \
         --runtime python3.9 \
         --role $ROLE_ARN \
-        --handler energylive-api-collector.lambda_handler \
-        --zip-file fileb://energylive-lambda.zip \
+        --handler epex-spot-collector.lambda_handler \
+        --zip-file fileb://epex-lambda.zip \
         --timeout 60 \
         --memory-size 256 \
-        --environment Variables='{API_KEY=YOUR_API_KEY_HERE,DEVICE_UID=I-XXXXXXXX-XXXXXXXX}' \
         --region $REGION
 fi
 
 # Clean up zip file
-rm energylive-lambda.zip
+rm epex-lambda.zip
 
 echo -e "${GREEN}Lambda function deployed successfully!${NC}"
 echo ""
-echo -e "${YELLOW}IMPORTANT: Update environment variables${NC}"
-echo "aws lambda update-function-configuration \\"
-echo "  --function-name $FUNCTION_NAME \\"
-echo "  --environment Variables='{API_KEY=YOUR_ACTUAL_API_KEY,DEVICE_UID=YOUR_ACTUAL_DEVICE_UID}' \\"
-echo "  --region $REGION"
+echo -e "${YELLOW}No environment variables needed - the smartENERGY API is free and public!${NC}"
 echo ""
 echo -e "${YELLOW}To test the function:${NC}"
 echo "aws lambda invoke --function-name $FUNCTION_NAME --region $REGION output.json"
 echo ""
-echo -e "${YELLOW}To set up scheduled execution (every 5 minutes):${NC}"
-echo "aws events put-rule --name energylive-schedule --schedule-expression 'rate(5 minutes)' --region $REGION"
-echo "aws lambda add-permission --function-name $FUNCTION_NAME --statement-id energylive-schedule --action lambda:InvokeFunction --principal events.amazonaws.com --source-arn arn:aws:events:$REGION:$ACCOUNT_ID:rule/energylive-schedule --region $REGION"
-echo "aws events put-targets --rule energylive-schedule --targets Id=1,Arn=arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$FUNCTION_NAME --region $REGION" 
+echo -e "${YELLOW}To set up scheduled execution (every 15 minutes):${NC}"
+echo "aws events put-rule --name epex-schedule --schedule-expression 'rate(15 minutes)' --region $REGION"
+echo "aws lambda add-permission --function-name $FUNCTION_NAME --statement-id epex-schedule --action lambda:InvokeFunction --principal events.amazonaws.com --source-arn arn:aws:events:$REGION:$ACCOUNT_ID:rule/epex-schedule --region $REGION"
+echo "aws events put-targets --rule epex-schedule --targets Id=1,Arn=arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$FUNCTION_NAME --region $REGION" 
