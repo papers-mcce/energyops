@@ -1,0 +1,29 @@
+# AWS Configuration
+aws_region  = "eu-central-1"
+environment = "dev"
+
+# Project Configuration
+project_name = "energy-monitoring"
+
+# energyLIVE API Configuration
+# Get these values from your energyLIVE account
+energylive_api_key    = "your-energylive-api-key-here"
+energylive_device_uid = "I-10082023-01658401"  # Replace with your actual device UID
+
+# Lambda Configuration
+lambda_timeout     = 60
+lambda_memory_size = 256
+
+# DynamoDB Configuration
+dynamodb_read_capacity  = 5
+dynamodb_write_capacity = 5
+
+# EventBridge Schedule Configuration
+# Collect energyLIVE data every 5 minutes
+energylive_schedule_expression = "rate(5 minutes)"
+# Collect EPEX price data every 15 minutes
+epex_schedule_expression = "rate(15 minutes)"
+
+# IoT Configuration
+iot_thing_name = "netio-powercable-1"
+iot_topic_name = "sensors/power/data" 
