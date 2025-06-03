@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyResourceCreationOutsideEUCentral1",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:CreateVolume",
+        "ec2:CreateSnapshot",
+        "rds:CreateDBInstance",
+        "rds:CreateDBCluster",
+        "lambda:CreateFunction",
+        "elasticloadbalancing:CreateLoadBalancer",
+        "elasticloadbalancing:CreateTargetGroup",
+        "ecs:CreateCluster",
+        "ecs:CreateService",
+        "eks:CreateCluster",
+        "redshift:CreateCluster",
+        "elasticache:CreateCacheCluster",
+        "dynamodb:CreateTable"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": "eu-central-1"
+        }
+      }
+    },
+    {
+      "Sid": "DenyS3BucketCreationOutsideEUCentral1",
+      "Effect": "Deny",
+      "Action": ["s3:CreateBucket"],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "s3:LocationConstraint": ["eu-central-1", ""]
+        }
+      }
+    }
+  ]
+}

@@ -19,6 +19,59 @@ The deployment creates:
 2. **Terraform** >= 1.0 installed
 3. **energyLIVE API** credentials (API key and device UID)
 4. **NETIO PowerCable** device (optional, for IoT functionality)
+5. **jq** command-line JSON processor
+
+## 🔐 MFA Authentication
+
+If your AWS account has MFA (Multi-Factor Authentication) policies enabled, you'll need to authenticate before running Terraform commands.
+
+### Using the MFA Authentication Script
+
+The repository includes a convenient MFA authentication script:
+
+```bash
+# Navigate to the deployment directory
+cd Deployment
+
+# Method 1: Use eval (recommended)
+eval $(./mfa-auth.sh)
+
+# Method 2: Use process substitution
+source <(./mfa-auth.sh)
+
+# Method 3: Use the saved credentials file
+source aws-mfa-credentials.env
+```
+
+The script will:
+
+1. Prompt for your 6-digit MFA code
+2. Get temporary AWS credentials (valid for 1 hour)
+3. Set environment variables in your current shell
+4. Save credentials to `aws-mfa-credentials.env` for reuse
+
+> **🔒 Security Note**: The credentials file is automatically excluded by `.gitignore` to prevent accidental commits of sensitive AWS credentials.
+
+### Verify MFA is Working
+
+After authentication, verify your access:
+
+```bash
+# Test AWS access (should work)
+aws s3 ls
+aws iot describe-endpoint --endpoint-type iot:Data-ATS
+
+# Check current identity
+aws sts get-caller-identity
+```
+
+### MFA Script Commands
+
+```bash
+./mfa-auth.sh          # Authenticate and set credentials
+./mfa-auth.sh test     # Test current MFA credentials
+./mfa-auth.sh help     # Show help and usage
+```
 
 ## 🚀 Quick Start
 
@@ -28,7 +81,14 @@ The deployment creates:
 cd Deployment/terraform
 ```
 
-### 2. Configure Variables
+### 2. Authenticate with MFA (if required)
+
+```bash
+# If you have MFA policies enabled
+cd .. && eval $(./mfa-auth.sh) && cd terraform
+```
+
+### 3. Configure Variables
 
 Copy the example variables file and customize it:
 
@@ -49,7 +109,7 @@ project_name  = "my-energy-monitoring"
 environment   = "prod"
 ```
 
-### 3. Deploy Infrastructure
+### 4. Deploy Infrastructure
 
 ```bash
 # Initialize Terraform
@@ -62,7 +122,7 @@ terraform plan
 terraform apply
 ```
 
-### 4. Save IoT Certificates
+### 5. Save IoT Certificates
 
 After deployment, save the IoT certificates for your NETIO device:
 
@@ -231,6 +291,30 @@ terraform destroy
 3. **DynamoDB throttling**: Increase capacity units if you see throttling errors
 4. **IoT connection issues**: Verify certificates and endpoint URL
 
+### MFA Authentication Issues
+
+**Error: `AccessDenied` with "explicit deny in an identity-based policy"**
+
+- This means MFA is required but not active
+- Run the MFA authentication script: `eval $(../mfa-auth.sh)`
+- Verify MFA is working: `aws sts get-caller-identity`
+
+**Error: `MultiFactorAuthentication failed, unable to validate MFA code`**
+
+- Check your phone's time synchronization (MFA codes are time-based)
+- Ensure you're using the correct MFA device/app
+- Use a fresh MFA code (they expire every 30 seconds)
+- Verify MFA device serial number: `aws iam list-mfa-devices --user-name YOUR_USERNAME`
+
+**Error: `jq: command not found`**
+
+- Install jq: `sudo apt-get install jq` (Ubuntu/Debian) or `brew install jq` (macOS)
+
+**MFA credentials expired**
+
+- Re-run the MFA script: `eval $(../mfa-auth.sh)`
+- Credentials are valid for 1 hour by default
+
 ### Debug Commands
 
 ```bash
@@ -243,6 +327,12 @@ python3 test_local.py
 
 # Verify DynamoDB table status
 aws dynamodb describe-table --table-name EnergyLiveData
+
+# Test MFA credentials
+../mfa-auth.sh test
+
+# Check current AWS identity
+aws sts get-caller-identity
 ```
 
 ## 📚 Additional Resources

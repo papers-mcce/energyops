@@ -169,4 +169,52 @@ resource "aws_iam_policy" "eventbridge_lambda_policy" {
 resource "aws_iam_role_policy_attachment" "eventbridge_lambda_policy_attachment" {
   role       = aws_iam_role.eventbridge_role.name
   policy_arn = aws_iam_policy.eventbridge_lambda_policy.arn
+}
+
+# IAM Policy for IoT Core management (needed for Terraform deployment)
+resource "aws_iam_policy" "iot_management_policy" {
+  name        = "${var.project_name}-iot-management-policy"
+  description = "Policy for managing IoT Core resources during deployment"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "iot:CreateThing",
+          "iot:DeleteThing",
+          "iot:DescribeThing",
+          "iot:UpdateThing",
+          "iot:ListThings",
+          "iot:CreateKeysAndCertificate",
+          "iot:DeleteCertificate",
+          "iot:DescribeCertificate",
+          "iot:UpdateCertificate",
+          "iot:ListCertificates",
+          "iot:CreatePolicy",
+          "iot:DeletePolicy",
+          "iot:GetPolicy",
+          "iot:ListPolicies",
+          "iot:AttachPolicy",
+          "iot:DetachPolicy",
+          "iot:AttachThingPrincipal",
+          "iot:DetachThingPrincipal",
+          "iot:ListThingPrincipals",
+          "iot:CreateTopicRule",
+          "iot:DeleteTopicRule",
+          "iot:GetTopicRule",
+          "iot:ListTopicRules",
+          "iot:ReplaceTopicRule",
+          "iot:DescribeEndpoint"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+
+  tags = {
+    Name        = "IoT Management Policy"
+    Description = "Allows management of IoT Core resources for energy monitoring system"
+  }
 } 

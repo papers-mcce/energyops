@@ -61,8 +61,6 @@ resource "aws_iot_topic_rule" "power_data_rule" {
   lambda {
     function_arn = aws_lambda_function.mqtt_processor.arn
   }
-
-  depends_on = [aws_lambda_permission.allow_iot_core]
 }
 
 # CloudWatch Log Group for IoT Core

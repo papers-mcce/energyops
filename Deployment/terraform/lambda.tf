@@ -121,5 +121,4 @@ resource "aws_lambda_permission" "allow_iot_core" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.mqtt_processor.function_name
   principal     = "iot.amazonaws.com"
-  source_arn    = aws_iot_topic_rule.power_data_rule.arn
 } 

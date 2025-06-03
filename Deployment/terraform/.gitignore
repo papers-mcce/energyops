@@ -15,6 +15,12 @@ terraform.tfplan.*
 iot_certificates.json
 output.json
 
+# AWS credentials and sensitive files
+aws-mfa-credentials.env
+*.pem
+*.key
+*.crt
+
 # OS files
 .DS_Store
 Thumbs.db
