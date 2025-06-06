@@ -80,4 +80,17 @@ variable "iot_topic_name" {
   description = "MQTT topic name for IoT messages"
   type        = string
   default     = "sensors/power/data"
+}
+
+# Tasmota Configuration
+variable "tasmota_device_prefix" {
+  description = "Prefix for Tasmota device names"
+  type        = string
+  default     = "tasmota"
+}
+
+variable "nous_a5t_device_name" {
+  description = "Name for the NOUS A5T device"
+  type        = string
+  default     = "nous-a5t-powerstrip"
 } 
