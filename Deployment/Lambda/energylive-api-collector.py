@@ -4,6 +4,7 @@ import requests
 import os
 from datetime import datetime
 from decimal import Decimal
+import time
 
 # Initialize DynamoDB client
 dynamodb = boto3.resource('dynamodb')
@@ -77,7 +78,9 @@ def lambda_handler(event, context):
         
         # Process and store each measurement
         stored_count = 0
-        for measurement in measurements:
+        base_timestamp = int(time.time() * 1000)  # Current time in milliseconds
+        
+        for idx, measurement in enumerate(measurements):
             try:
                 # Extract measurement data
                 obis_code = measurement.get('measurement')
@@ -99,13 +102,17 @@ def lambda_handler(event, context):
                 dt = datetime.fromtimestamp(timestamp / 1000)  # Convert from ms to seconds
                 iso_timestamp = dt.isoformat()
                 
+                # Create a unique timestamp by adding microseconds
+                # This ensures each measurement has a unique sort key
+                unique_timestamp = timestamp + (idx * 100)  # Add 100ms per measurement
+                
                 # Convert float to Decimal for DynamoDB
                 decimal_value = Decimal(str(value))
                 
                 # Create item for DynamoDB
                 item = {
                     'device_id': device_uid,
-                    'timestamp': timestamp,  # Keep original timestamp as sort key
+                    'timestamp': unique_timestamp,  # Use unique timestamp as sort key
                     'iso_timestamp': iso_timestamp,
                     'obis_code': obis_code,
                     'measurement_name': obis_info['name'],
