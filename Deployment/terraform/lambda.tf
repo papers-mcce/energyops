@@ -5,16 +5,38 @@
 # Functions handle data collection, processing, and storage operations
 
 # =============================================================================
-# LAMBDA DEPLOYMENT PACKAGE
+# LAMBDA DEPLOYMENT PACKAGE WITH DEPENDENCIES
 # =============================================================================
-# Create ZIP archive of Lambda function code for deployment
+# Create ZIP archive of Lambda function code with dependencies for deployment
 
-# Archive Lambda function code
-data "archive_file" "energylive_lambda_zip" {
+# Archive source code for change detection
+data "archive_file" "lambda_source_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/../Lambda"  # Source directory containing Python code
-  output_path = "${path.module}/energylive-lambda.zip"  # Output ZIP file
-  excludes    = ["test_local.py", "README.md", "*.bash", "*.ps1"]  # Exclude non-essential files
+  source_dir  = "${path.module}/../Lambda"
+  output_path = "${path.module}/lambda-source.zip"
+  excludes    = ["test_local.py", "README.md", "*.bash", "*.ps1", "package/", "lambda-deployment.zip"]
+}
+
+# Install dependencies and create deployment package
+resource "null_resource" "lambda_dependencies" {
+  triggers = {
+    requirements = filemd5("${path.module}/../Lambda/requirements.txt")
+    source_code  = data.archive_file.lambda_source_zip.output_base64sha256
+    script       = filemd5("${path.module}/create_lambda_package.sh")
+  }
+
+  provisioner "local-exec" {
+    command = "chmod +x ${path.module}/create_lambda_package.sh && ${path.module}/create_lambda_package.sh '${path.module}/../Lambda'"
+    interpreter = ["/bin/bash", "-c"]
+  }
+}
+
+# Get the hash of the deployment package
+data "archive_file" "lambda_deployment_zip" {
+  type        = "zip"
+  source_file = "${path.module}/../Lambda/lambda-deployment.zip"
+  output_path = "${path.module}/lambda-deployment.zip"
+  depends_on  = [null_resource.lambda_dependencies]
 }
 
 # =============================================================================
@@ -24,11 +46,11 @@ data "archive_file" "energylive_lambda_zip" {
 
 # energyLIVE API Collector Lambda Function
 resource "aws_lambda_function" "energylive_collector" {
-  filename         = data.archive_file.energylive_lambda_zip.output_path
+  filename         = "${path.module}/../Lambda/lambda-deployment.zip"
   function_name    = "${var.project_name}-energylive-collector"
   role            = aws_iam_role.lambda_execution_role.arn
   handler         = "energylive-api-collector.lambda_handler"  # Python function entry point
-  source_code_hash = data.archive_file.energylive_lambda_zip.output_base64sha256
+  source_code_hash = data.archive_file.lambda_deployment_zip.output_base64sha256
   runtime         = "python3.9"  # Python runtime version
   timeout         = var.lambda_timeout      # Maximum execution time
   memory_size     = var.lambda_memory_size  # Memory allocation
@@ -47,6 +69,8 @@ resource "aws_lambda_function" "energylive_collector" {
     aws_iam_role_policy_attachment.lambda_basic_execution,
     aws_iam_role_policy_attachment.lambda_dynamodb_policy_attachment,
     aws_cloudwatch_log_group.energylive_lambda_logs,
+    null_resource.lambda_dependencies,
+    data.archive_file.lambda_deployment_zip,
   ]
 
   tags = {
@@ -62,11 +86,11 @@ resource "aws_lambda_function" "energylive_collector" {
 
 # EPEX Spot Collector Lambda Function
 resource "aws_lambda_function" "epex_collector" {
-  filename         = data.archive_file.energylive_lambda_zip.output_path
+  filename         = "${path.module}/../Lambda/lambda-deployment.zip"
   function_name    = "${var.project_name}-epex-collector"
   role            = aws_iam_role.lambda_execution_role.arn
   handler         = "epex-spot-collector.lambda_handler"  # Python function entry point
-  source_code_hash = data.archive_file.energylive_lambda_zip.output_base64sha256
+  source_code_hash = data.archive_file.lambda_deployment_zip.output_base64sha256
   runtime         = "python3.9"  # Python runtime version
   timeout         = var.lambda_timeout      # Maximum execution time
   memory_size     = var.lambda_memory_size  # Memory allocation
@@ -79,6 +103,8 @@ resource "aws_lambda_function" "epex_collector" {
     aws_iam_role_policy_attachment.lambda_basic_execution,
     aws_iam_role_policy_attachment.lambda_dynamodb_policy_attachment,
     aws_cloudwatch_log_group.epex_lambda_logs,
+    null_resource.lambda_dependencies,
+    data.archive_file.lambda_deployment_zip,
   ]
 
   tags = {
@@ -94,11 +120,11 @@ resource "aws_lambda_function" "epex_collector" {
 
 # MQTT Processor Lambda Function
 resource "aws_lambda_function" "mqtt_processor" {
-  filename         = data.archive_file.energylive_lambda_zip.output_path
+  filename         = "${path.module}/../Lambda/lambda-deployment.zip"
   function_name    = "${var.project_name}-mqtt-processor"
   role            = aws_iam_role.lambda_execution_role.arn
   handler         = "process-mqtt.lambda_handler"  # Python function entry point
-  source_code_hash = data.archive_file.energylive_lambda_zip.output_base64sha256
+  source_code_hash = data.archive_file.lambda_deployment_zip.output_base64sha256
   runtime         = "python3.9"  # Python runtime version
   timeout         = var.lambda_timeout      # Maximum execution time
   memory_size     = var.lambda_memory_size  # Memory allocation
@@ -115,6 +141,8 @@ resource "aws_lambda_function" "mqtt_processor" {
     aws_iam_role_policy_attachment.lambda_basic_execution,
     aws_iam_role_policy_attachment.lambda_dynamodb_policy_attachment,
     aws_cloudwatch_log_group.mqtt_lambda_logs,
+    null_resource.lambda_dependencies,
+    data.archive_file.lambda_deployment_zip,
   ]
 
   tags = {

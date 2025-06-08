@@ -101,19 +101,20 @@ variable "dynamodb_write_capacity" {
 # Cron-like expressions for automated data collection
 
 # How often to collect data from energyLIVE API
-# Format: rate(X minutes) or cron(0 0 * * ? *)
+# energyLIVE updates every 5 minutes, so this frequency is optimal
 variable "energylive_schedule_expression" {
   description = "Schedule expression for energyLIVE data collection"
   type        = string
-  default     = "rate(5 minutes)"  # Collect every 5 minutes
+  default     = "rate(5 minutes)"  # Collect every 5 minutes (matches API update frequency)
 }
 
 # How often to collect electricity price data from EPEX Spot
-# Less frequent as prices don't change as often
+# EPEX publishes day-ahead prices once daily at 17:00 CET
+# Check twice daily: once after 17:00 for next day, once in morning for current day
 variable "epex_schedule_expression" {
   description = "Schedule expression for EPEX price data collection"
   type        = string
-  default     = "rate(15 minutes)"  # Collect every 15 minutes
+  default     = "cron(0 6,18 * * ? *)"  # Daily at 06:00 and 18:00 CET
 }
 
 # =============================================================================

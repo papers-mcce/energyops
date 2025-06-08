@@ -32,15 +32,29 @@ resource "aws_dynamodb_table" "energy_live_data" {
   }
 
   attribute {
-    name = "measurement_type"
-    type = "S"  # String type for measurement category (power, energy, etc.)
+    name = "obis_code"
+    type = "S"  # String type for OBIS code
   }
 
-  # Global Secondary Index for querying by measurement type
-  # Allows queries like "get all power measurements in time range"
+  attribute {
+    name = "measurement_name"
+    type = "S"  # String type for measurement name
+  }
+
+  # Global Secondary Index for querying by OBIS code
   global_secondary_index {
-    name            = "MeasurementTypeIndex"
-    hash_key        = "measurement_type"  # Query by measurement type
+    name            = "ObisCodeIndex"
+    hash_key        = "obis_code"  # Query by OBIS code
+    range_key       = "timestamp"  # Sort by time
+    read_capacity   = var.dynamodb_read_capacity
+    write_capacity  = var.dynamodb_write_capacity
+    projection_type = "ALL"  # Include all attributes in the index
+  }
+
+  # Global Secondary Index for querying by measurement name
+  global_secondary_index {
+    name            = "MeasurementNameIndex"
+    hash_key        = "measurement_name"  # Query by measurement name
     range_key       = "timestamp"         # Sort by time
     read_capacity   = var.dynamodb_read_capacity
     write_capacity  = var.dynamodb_write_capacity

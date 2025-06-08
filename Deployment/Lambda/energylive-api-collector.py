@@ -9,6 +9,30 @@ from decimal import Decimal
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('EnergyLiveData')
 
+# OBIS code mapping
+OBIS_CODES = {
+    '0100010700': {
+        'name': 'active_power_plus',
+        'description': 'Active power (P+)',
+        'unit': 'W'
+    },
+    '0100010800': {
+        'name': 'active_energy_plus',
+        'description': 'Active energy (E+)',
+        'unit': 'Wh'
+    },
+    '0100020700': {
+        'name': 'active_power_minus',
+        'description': 'Active power (P-)',
+        'unit': 'W'
+    },
+    '0100020800': {
+        'name': 'active_energy_minus',
+        'description': 'Active energy (E-)',
+        'unit': 'Wh'
+    }
+}
+
 def lambda_handler(event, context):
     """
     Lambda function to fetch data from energyLIVE API and store in DynamoDB
@@ -56,13 +80,20 @@ def lambda_handler(event, context):
         for measurement in measurements:
             try:
                 # Extract measurement data
-                measurement_type = measurement.get('measurement')
+                obis_code = measurement.get('measurement')
                 timestamp = measurement.get('timestamp')
                 value = measurement.get('value')
                 
-                if not all([measurement_type, timestamp, value is not None]):
+                if not all([obis_code, timestamp, value is not None]):
                     print(f"Skipping incomplete measurement: {measurement}")
                     continue
+                
+                # Get OBIS code information
+                obis_info = OBIS_CODES.get(obis_code, {
+                    'name': obis_code,
+                    'description': f'Unknown measurement ({obis_code})',
+                    'unit': 'unknown'
+                })
                 
                 # Convert timestamp to ISO format for better readability
                 dt = datetime.fromtimestamp(timestamp / 1000)  # Convert from ms to seconds
@@ -76,7 +107,10 @@ def lambda_handler(event, context):
                     'device_id': device_uid,
                     'timestamp': timestamp,  # Keep original timestamp as sort key
                     'iso_timestamp': iso_timestamp,
-                    'measurement_type': measurement_type,
+                    'obis_code': obis_code,
+                    'measurement_name': obis_info['name'],
+                    'description': obis_info['description'],
+                    'unit': obis_info['unit'],
                     'value': decimal_value,
                     'collection_time': datetime.now().isoformat(),
                     'ttl': int((datetime.now().timestamp() + (365 * 24 * 60 * 60)))  # 1 year TTL
@@ -86,7 +120,7 @@ def lambda_handler(event, context):
                 table.put_item(Item=item)
                 stored_count += 1
                 
-                print(f"Stored measurement: {measurement_type} = {value} at {iso_timestamp}")
+                print(f"Stored measurement: {obis_info['description']} = {value} {obis_info['unit']} at {iso_timestamp}")
                 
             except Exception as e:
                 print(f"Error processing measurement {measurement}: {str(e)}")
