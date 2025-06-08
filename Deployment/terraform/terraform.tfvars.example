@@ -25,5 +25,5 @@ energylive_schedule_expression = "rate(5 minutes)"
 epex_schedule_expression = "rate(15 minutes)"
 
 # IoT Configuration
-iot_thing_name = "netio-powercable-1"
-iot_topic_name = "sensors/power/data" 
+# Note: IoT configuration is now handled by the CloudFormation stack in iot_tasmota.tf
+# No manual IoT variables needed for the simplified Tasmota authentication 

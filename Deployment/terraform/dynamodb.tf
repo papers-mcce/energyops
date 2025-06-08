@@ -1,42 +1,57 @@
+# =============================================================================
+# DYNAMODB TABLES CONFIGURATION
+# =============================================================================
+# This file defines DynamoDB tables for storing energy monitoring data
+# Tables are configured with appropriate indexes, TTL, and capacity settings
+
+# =============================================================================
+# ENERGYLIVE DATA TABLE
+# =============================================================================
+# Primary table for storing energy consumption data from smart meters
+
 # DynamoDB table for energyLIVE data
 resource "aws_dynamodb_table" "energy_live_data" {
   name           = "EnergyLiveData"
-  billing_mode   = "PROVISIONED"
+  billing_mode   = "PROVISIONED"  # Use provisioned capacity for predictable costs
   read_capacity  = var.dynamodb_read_capacity * 2  # Higher capacity for main table
   write_capacity = var.dynamodb_write_capacity * 2
 
-  hash_key  = "device_id"
-  range_key = "timestamp"
+  # Primary key structure for efficient querying
+  hash_key  = "device_id"   # Partition key: identifies the specific device
+  range_key = "timestamp"   # Sort key: allows time-based queries
 
+  # Define attributes used in keys and indexes
   attribute {
     name = "device_id"
-    type = "S"
+    type = "S"  # String type for device identifier
   }
 
   attribute {
     name = "timestamp"
-    type = "N"
+    type = "N"  # Number type for Unix timestamp
   }
 
   attribute {
     name = "measurement_type"
-    type = "S"
+    type = "S"  # String type for measurement category (power, energy, etc.)
   }
 
   # Global Secondary Index for querying by measurement type
+  # Allows queries like "get all power measurements in time range"
   global_secondary_index {
     name            = "MeasurementTypeIndex"
-    hash_key        = "measurement_type"
-    range_key       = "timestamp"
+    hash_key        = "measurement_type"  # Query by measurement type
+    range_key       = "timestamp"         # Sort by time
     read_capacity   = var.dynamodb_read_capacity
     write_capacity  = var.dynamodb_write_capacity
-    projection_type = "ALL"
+    projection_type = "ALL"  # Include all attributes in the index
   }
 
   # TTL configuration for automatic data cleanup
+  # Prevents unlimited data growth and manages storage costs
   ttl {
-    attribute_name = "ttl"
-    enabled        = true
+    attribute_name = "ttl"     # Attribute containing expiration timestamp
+    enabled        = true      # Enable automatic deletion
   }
 
   tags = {
@@ -45,27 +60,35 @@ resource "aws_dynamodb_table" "energy_live_data" {
   }
 }
 
+# =============================================================================
+# EPEX SPOT PRICES TABLE
+# =============================================================================
+# Table for storing electricity market price data
+
 # DynamoDB table for EPEX Spot prices
 resource "aws_dynamodb_table" "epex_spot_prices" {
   name           = "EPEXSpotPrices"
-  billing_mode   = "PROVISIONED"
+  billing_mode   = "PROVISIONED"  # Use provisioned capacity
   read_capacity  = var.dynamodb_read_capacity
   write_capacity = var.dynamodb_write_capacity
 
-  hash_key  = "tariff"
-  range_key = "timestamp"
+  # Primary key for price data
+  hash_key  = "tariff"      # Partition key: price tariff type (e.g., EPEXSPOTAT)
+  range_key = "timestamp"   # Sort key: time of price data
 
+  # Define key attributes
   attribute {
     name = "tariff"
-    type = "S"
+    type = "S"  # String type for tariff identifier
   }
 
   attribute {
     name = "timestamp"
-    type = "N"
+    type = "N"  # Number type for Unix timestamp
   }
 
   # TTL configuration for automatic data cleanup
+  # Price data older than retention period will be automatically deleted
   ttl {
     attribute_name = "ttl"
     enabled        = true
@@ -77,27 +100,35 @@ resource "aws_dynamodb_table" "epex_spot_prices" {
   }
 }
 
+# =============================================================================
+# IOT SENSOR DATA TABLE
+# =============================================================================
+# Table for storing real-time data from IoT devices (NETIO PowerCable, etc.)
+
 # DynamoDB table for IoT sensor data (NETIO PowerCable)
 resource "aws_dynamodb_table" "sensor_data" {
   name           = "SensorData"
-  billing_mode   = "PROVISIONED"
+  billing_mode   = "PROVISIONED"  # Use provisioned capacity
   read_capacity  = var.dynamodb_read_capacity
   write_capacity = var.dynamodb_write_capacity
 
-  hash_key  = "device_id"
-  range_key = "timestamp"
+  # Primary key for sensor data
+  hash_key  = "device_id"   # Partition key: identifies the IoT device
+  range_key = "timestamp"   # Sort key: time of measurement
 
+  # Define key attributes
   attribute {
     name = "device_id"
-    type = "S"
+    type = "S"  # String type for device identifier
   }
 
   attribute {
     name = "timestamp"
-    type = "S"
+    type = "S"  # String type for ISO timestamp (different from other tables)
   }
 
   # TTL configuration for automatic data cleanup
+  # Sensor data will be automatically deleted after retention period
   ttl {
     attribute_name = "ttl"
     enabled        = true
