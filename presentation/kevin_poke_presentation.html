@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Poké-DevOps Präsentation - Team Gruppe 1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #181a1b;
+            color: #f1f1f1;
+            font-size: 14px;
+        }
+        .slideshow-container {
+            max-width: 1100px;
+            margin: 30px auto 0 auto;
+            background: #232526;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
+            overflow: hidden;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            padding: 40px 40px 80px 40px;
+            min-height: 600px;
+            animation: fadein 0.5s;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            color: white;
+            padding: 28px 20px 20px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
+        }
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2em;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px #000;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.85;
+            margin-bottom: 10px;
+        }
+        .meta-info {
+            background: rgba(255,255,255,0.07);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.95em;
+            color: #ffff;
+            margin-top: 10px;
+        }
+        .signpost {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+			margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .signpost-icon {
+            font-size: 1.7em;
+            color: #888;
+            background: #232526;
+            border-radius: 50%;
+            padding: 10px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .signpost-icon.active {
+            color: #feca57;
+            background: #181a1b;
+            box-shadow: 0 0 0 2px #feca57;
+        }
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            color: #feca57;
+            text-align: center;
+            margin: 25px 0 20px;
+            font-size: 1.4em;
+            letter-spacing: 1px;
+        }
+        .pokemon-card {
+            background: linear-gradient(145deg, #232526 60%, #181a1b 100%);
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18);
+        }
+        .pokemon-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: inherit;
+        }
+        .pikachu { border-color: #feca57; }
+        .pikachu::before { background: linear-gradient(90deg, #feca57, #ff9ff3); }
+        .evoli { border-color: #96ceb4; }
+        .evoli::before { background: linear-gradient(90deg, #96ceb4, #74b9ff); }
+        .relaxo { border-color: #74b9ff; }
+        .relaxo::before { background: linear-gradient(90deg, #74b9ff, #a29bfe); }
+        .bisasam { border-color: #6c5ce7; }
+        .bisasam::before { background: linear-gradient(90deg, #6c5ce7, #00b894); }
+        .pokemon-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .pokemon-emoji {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        .pokemon-info h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        .pokemon-type {
+            color: #feca57;
+            font-style: italic;
+            font-size: 0.95em;
+        }
+        .special-attack {
+            background: rgba(108, 92, 231, 0.13);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #6c5ce7;
+            font-size: 0.98em;
+            color: #fff;
+        }
+        .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .achievement {
+            background: #00b894;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .battle-section {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: #fff;
+            padding: 22px;
+            border-radius: 15px;
+            margin: 22px 0;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18);
+        }
+        .battle-section h2 {
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            color: #feca57;
+        }
+        .arena-fight {
+            background: rgba(255,255,255,0.04);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+        .arena-fight h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #ff9ff3;
+        }
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .flow-step {
+            background: rgba(255,255,255,0.08);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+            position: relative;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #feca57;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: #232526;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.95em;
+            color: #fff;
+        }
+        .stats-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px;
+            text-align: left;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85em;
+        }
+        .stats-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #333;
+        }
+        .validation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: #232526;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .validation-table th {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 10px 8px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85em;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .validation-table td {
+            padding: 8px;
+            border-bottom: 1px solid #333;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .validation-table td:first-child {
+            text-align: left;
+            background: rgba(0, 184, 148, 0.13);
+            color: #00b894;
+        }
+        .repo-link {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .repo-link h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .repo-link a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+        .repo-link ul {
+            text-align: left;
+            max-width: 90%;
+            margin: 10px auto;
+            font-size: 0.95em;
+        }
+        .finale {
+            background: linear-gradient(135deg, #feca57, #ff9ff3, #74b9ff);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: #181a1b;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .finale h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .finale h3 {
+            margin: 25px 0 15px;
+            font-size: 1.2em;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .team-member {
+            background: rgba(255,255,255,0.08);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            font-size: 0.95em;
+            color: #fff;
+        }
+        .team-member h4 {
+            margin: 8px 0 4px;
+            font-size: 1em;
+            color: #feca57;
+        }
+        .ascii-art {
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            background: #232526;
+            color: #00b894;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 1em;
+        }
+        .footer {
+            background: #232526;
+            color: #fff;
+            padding: 22px 10px 18px 10px;
+            text-align: center;
+            font-size: 1.05em;
+            border-radius: 18px 18px 0 0;
+            margin-top: 30px;
+            letter-spacing: 0.2px;
+            box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer i {
+            color: #feca57;
+            margin-right: 6px;
+        }
+        .footer em {
+            color: #ff9ff3;
+        }
+        .footer strong {
+            color: #00b894;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+            color: #181a1b;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.1em;
+            margin: 0 10px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #ff9ff3, #feca57);
+            color: #232526;
+        }
+        /* Pokeball animation for demo slide */
+        .pokeball-demo {
+            margin: 40px auto 0 auto;
+            width: 120px;
+            height: 120px;
+            position: relative;
+            animation: bounce 1.2s infinite alternate;
+        }
+        .pokeball-top {
+            width: 120px;
+            height: 60px;
+            background: #ee1c23;
+            border-top-left-radius: 60px 60px;
+            border-top-right-radius: 60px 60px;
+            border: 4px solid #222;
+            border-bottom: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .pokeball-bottom {
+            width: 120px;
+            height: 60px;
+            background: #fff;
+            border-bottom-left-radius: 60px 60px;
+            border-bottom-right-radius: 60px 60px;
+            border: 4px solid #222;
+            border-top: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .pokeball-center {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border: 4px solid #222;
+            border-radius: 50%;
+            position: absolute;
+            top: 38px;
+            left: 42px;
+            z-index: 2;
+            box-shadow: 0 0 0 8px #232526;
+        }
+        .pokeball-center-inner {
+            width: 16px;
+            height: 16px;
+            background: #eee;
+            border: 3px solid #222;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+        .pokeball-band {
+            width: 120px;
+            height: 16px;
+            background: #222;
+            position: absolute;
+            top: 52px;
+            left: 0;
+            z-index: 1;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-18px);}
+        }
+        @media (max-width: 900px) {
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .team-grid { grid-template-columns: 1fr; }
+            .header, .finale, .battle-section, .pokemon-card, .repo-link, .footer, .slide { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+
+        <!-- Slide 1: Agenda -->
+        <div class="slide active" id="slide-0">
+            <div class="header">
+                <h1>🎮 Poké-DevOps & Release</h1>
+                <div class="subtitle">Ein humorvoller Abschluss</div>
+                <div class="meta-info">
+                    <strong>Team Gruppe 1 - DevOps Pokémon-Meister Report</strong><br>
+                    Datum: Juni 14, 2025<br>
+                    Projekt: Tricentis Vehicle Insurance Test Automation
+                </div>
+            </div>
+            <div class="signpost">
+                <span class="signpost-icon active" title="Agenda">🎮</span>
+                <span class="signpost-icon" title="Team">⚡️</span>
+                <span class="signpost-icon" title="Kämpfe">🤖</span>
+                <span class="signpost-icon" title="Pokédex">📦</span>
+                <span class="signpost-icon" title="Demo">🕹️</span>
+                <span class="signpost-icon" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Agenda</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-top: 30px;">
+                <div class="pokemon-card pikachu" style="min-width:220px;flex:1;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ⚡️ <span>Team</span>
+                    </div>
+                </div>
+                <div class="pokemon-card evoli" style="min-width:220px;flex:1;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        🤖 <span>Kämpfe</span>
+                    </div>
+                </div>
+                <div class="pokemon-card relaxo" style="min-width:220px;flex:1;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        📦 <span>Pokédex</span>
+                    </div>
+                </div>
+                <div class="pokemon-card" style="min-width:220px;flex:1;border-color:#ee1c23;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        🕹️ <span>Live Demo</span>
+                    </div>
+                </div>
+                <div class="pokemon-card bisasam" style="min-width:220px;flex:1;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        🏆 <span>Finale</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>🎮 Poké-DevOps – Agenda</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Team -->
+        <div class="slide" id="slide-1">
+            <div class="signpost">
+                <span class="signpost-icon" title="Agenda">🎮</span>
+                <span class="signpost-icon active" title="Team">⚡️</span>
+                <span class="signpost-icon" title="Kämpfe">🤖</span>
+                <span class="signpost-icon" title="Pokédex">📦</span>
+                <span class="signpost-icon" title="Demo">🕹️</span>
+                <span class="signpost-icon" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Unser Poké-DevOps Team</h2>
+            <section>
+                <div class="pokemon-card pikachu">
+                    <div class="pokemon-header">
+                        <div class="pokemon-emoji">⚡️</div>
+                        <div class="pokemon-info">
+                            <h3>Harald "Pikachu" Beier</h3>
+                            <div class="pokemon-type">Typ: GitHub Actions Spezialist</div>
+                        </div>
+                    </div>
+                    <div class="special-attack">
+                        <strong>Spezialattacke: Matrix-Strategy-Blitz</strong><br>
+                        Effekt: Fängt Chrome und Edge gleichzeitig!
+                    </div>
+                    <div class="achievements">
+                        <div class="achievement">✅ Multi-Browser Pipeline Setup</div>
+                        <div class="achievement">✅ Artifact Management Champion</div>
+                    </div>
+                </div>
+                <div class="pokemon-card evoli">
+                    <div class="pokemon-header">
+                        <div class="pokemon-emoji">🦊</div>
+                        <div class="pokemon-info">
+                            <h3>Susanne "Evoli" Peer</h3>
+                            <div class="pokemon-type">Typ: WebDriver-Entwicklerin</div>
+                        </div>
+                    </div>
+                    <div class="special-attack">
+                        <strong>Spezialattacke: Test-Evolution</strong><br>
+                        Effekt: Verwandelt simple Tests in mächtige E2E-Suites!
+                    </div>
+                    <div class="achievements">
+                        <div class="achievement">✅ 5-Step User Journey Implementation</div>
+                        <div class="achievement">✅ Cross-Browser Compatibility Master</div>
+                    </div>
+                </div>
+                <div class="pokemon-card relaxo">
+                    <div class="pokemon-header">
+                        <div class="pokemon-emoji">😴</div>
+                        <div class="pokemon-info">
+                            <h3>Patrick "Relaxo" Prugger</h3>
+                            <div class="pokemon-type">Typ: Test-Data-Architekt</div>
+                        </div>
+                    </div>
+                    <div class="special-attack">
+                        <strong>Spezialattacke: Scenario-Schlummer</strong><br>
+                        Effekt: Generiert 16 Test-Szenarien im Schlaf!
+                    </div>
+                    <div class="achievements">
+                        <div class="achievement">✅ Dynamic Test Data Generation</div>
+                        <div class="achievement">✅ 16 Insurance Scenarios Created</div>
+                    </div>
+                </div>
+                <div class="pokemon-card bisasam">
+                    <div class="pokemon-header">
+                        <div class="pokemon-emoji">🌱</div>
+                        <div class="pokemon-info">
+                            <h3>Philipp "Bisasam" Palatin</h3>
+                            <div class="pokemon-type">Typ: Code-Gärtner</div>
+                        </div>
+                    </div>
+                    <div class="special-attack">
+                        <strong>Spezialattacke: Artifact-Wachstum</strong><br>
+                        Effekt: Lässt HTML-Reports wie Blumen sprießen!
+                    </div>
+                    <div class="achievements">
+                        <div class="achievement">✅ Test Report Generation</div>
+                        <div class="achievement">✅ Documentation Excellence</div>
+                    </div>
+                </div>
+            </section>
+            <div class="footer">
+                <span>⚡️ Unser Poké-DevOps Team</span>
+            </div>
+        </div>
+
+        <!-- Slide 3: Kämpfe -->
+        <div class="slide" id="slide-2">
+            <div class="signpost">
+                <span class="signpost-icon" title="Agenda">🎮</span>
+                <span class="signpost-icon" title="Team">⚡️</span>
+                <span class="signpost-icon active" title="Kämpfe">🤖</span>
+                <span class="signpost-icon" title="Pokédex">📦</span>
+                <span class="signpost-icon" title="Demo">🕹️</span>
+                <span class="signpost-icon" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Unsere Arena-Kämpfe</h2>
+            <div class="battle-section">
+                <div class="arena-fight">
+                    <h3>🎪 Tricentis-Arena: 5 Kampfrunden gemeistert</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-step">🚗<br>Vehicle Data</div>
+                        <div class="flow-step">👤<br>Insurant Data</div>
+                        <div class="flow-step">📋<br>Product Data</div>
+                        <div class="flow-step">💰<br>Price Selection</div>
+                        <div class="flow-step">📧<br>Quote Submission</div>
+                    </div>
+                </div>
+                <div class="arena-fight">
+                    <h3>🤖 CI/CD-Gym: Browser-Matrix-Champion</h3>
+                    <table class="stats-table">
+                        <tr>
+                            <th>Browser</th>
+                            <th>Status</th>
+                            <th>Test Cases</th>
+                            <th>Artifacts</th>
+                        </tr>
+                        <tr>
+                            <td>🌐 Chrome</td>
+                            <td style="color: #00b894; font-weight: bold;">✅ PASSED</td>
+                            <td>32/32</td>
+                            <td>📊 Generated</td>
+                        </tr>
+                        <tr>
+                            <td>🔷 Edge</td>
+                            <td style="color: #00b894; font-weight: bold;">✅ PASSED</td>
+                            <td>32/32</td>
+                            <td>📊 Generated</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arena-fight">
+                    <h3>📊 Validation-Liga: Alle 4 Preisstufen erfolgreich validiert</h3>
+                    <table class="validation-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Silver</th>
+                                <th>Gold</th>
+                                <th>Platinum</th>
+                                <th>Ultimate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base</td>
+                                <td>✅ 331€</td>
+                                <td>✅ 977€</td>
+                                <td>✅ 1917€</td>
+                                <td>✅ 3652€</td>
+                            </tr>
+                            <tr style="background: rgba(255,255,255,0.05);">
+                                <td>HighPerf</td>
+                                <td>✅ 337€</td>
+                                <td>✅ 993€</td>
+                                <td>✅ 1949€</td>
+                                <td>✅ 3712€</td>
+                            </tr>
+                            <tr>
+                                <td>Premium</td>
+                                <td>✅ 466€</td>
+                                <td>✅ 1374€</td>
+                                <td>✅ 2697€</td>
+                                <td>✅ 5137€</td>
+                            </tr>
+                            <tr style="background: rgba(255,255,255,0.05);">
+                                <td>Bonus</td>
+                                <td>✅ 322€</td>
+                                <td>✅ 948€</td>
+                                <td>✅ 1861€</td>
+                                <td>✅ 3546€</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="arena-fight">
+                    <h3>🎭 Live-Share-Festival: Gemeinsam gecoded wie ein Schwarm Zubat!</h3>
+                </div>
+            </div>
+            <div class="footer">
+                <span>🤖 Unsere Arena-Kämpfe</span>
+            </div>
+        </div>
+
+        <!-- Slide 4: Pokédex -->
+        <div class="slide" id="slide-3">
+            <div class="signpost">
+                <span class="signpost-icon" title="Agenda">🎮</span>
+                <span class="signpost-icon" title="Team">⚡️</span>
+                <span class="signpost-icon" title="Kämpfe">🤖</span>
+                <span class="signpost-icon active" title="Pokédex">📦</span>
+                <span class="signpost-icon" title="Demo">🕹️</span>
+                <span class="signpost-icon" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Unser digitaler Pokédex</h2>
+            <div class="repo-link">
+                <h3>🔗 Repository</h3>
+                <p><strong>Repository:</strong> <a href="https://github.com/Gruppe1DevOps/DevOpsG1/tree/main/Horvath" target="_blank">https://github.com/Gruppe1DevOps/DevOpsG1/tree/main/Horvath</a></p>
+                <p style="margin-top: 10px;"><strong>Was findet Professor Horvath in unserem Repo:</strong></p>
+                <ul>
+                    <li>📁 <strong>GitHub Actions Workflow</strong> (.github/workflows/test.yml)</li>
+                    <li>🧪 <strong>WebdriverIO Test Suite</strong> (test/test.e2e.js)</li>
+                    <li>📊 <strong>Test Data Architecture</strong> (test/VehicleInsuranceTestData.js)</li>
+                    <li>📈 <strong>PlantUML Diagramme</strong> (Sequence & Flowchart)</li>
+                    <li>📝 <strong>Comprehensive Documentation</strong> (README.md)</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span>📦 Unser Pokédex</span>
+            </div>
+        </div>
+
+        <!-- Slide 5: Live Demo -->
+        <div class="slide" id="slide-4">
+            <div class="signpost">
+                <span class="signpost-icon" title="Agenda">🎮</span>
+                <span class="signpost-icon" title="Team">⚡️</span>
+                <span class="signpost-icon" title="Kämpfe">🤖</span>
+                <span class="signpost-icon" title="Pokédex">📦</span>
+                <span class="signpost-icon active" title="Demo">🕹️</span>
+                <span class="signpost-icon" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Live Demo – PokéDevOps in Aktion!</h2>
+            <div style="text-align:center;">
+                <div class="pokeball-demo">
+                    <div class="pokeball-top"></div>
+                    <div class="pokeball-bottom"></div>
+                    <div class="pokeball-band"></div>
+                    <div class="pokeball-center">
+                        <div class="pokeball-center-inner"></div>
+                    </div>
+                </div>
+                <h3 style="margin-top:40px;font-size:1.5em;color:#feca57;">Bereit für den Live-Kampf!</h3>
+                <p style="font-size:1.1em;margin-top:18px;">Jetzt zeigen wir euch, wie wir unsere Poké-DevOps Skills live einsetzen.<br>
+                <span style="font-size:2em;">🕹️</span> <br>
+                <em>It's super effective!</em>
+                </p>
+            </div>
+            <div class="footer">
+                <span>🕹️ Live Demo – PokéDevOps in Aktion</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Finale -->
+        <div class="slide" id="slide-5">
+            <div class="signpost">
+                <span class="signpost-icon" title="Agenda">🎮</span>
+                <span class="signpost-icon" title="Team">⚡️</span>
+                <span class="signpost-icon" title="Kämpfe">🤖</span>
+                <span class="signpost-icon" title="Pokédex">📦</span>
+                <span class="signpost-icon" title="Demo">🕹️</span>
+                <span class="signpost-icon active" title="Finale">🏆</span>
+            </div>
+            <h2 class="section-title">Finale</h2>
+            <div class="finale">
+                <div class="ascii-art">⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️
+🎯 MISSION ACCOMPLISHED 🎯
+⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️</div>
+                <h2>🎵 "Gotta Test 'Em All!" - Finale</h2>
+                <p style="font-size: 1.1em; margin: 15px 0;"><strong>Professor Horvath</strong>, mit Ihren Lektionen haben wir die ultimative DevOps-Evolution durchlebt:</p>
+                <div style="text-align: left; max-width: 80%; margin: 15px auto; font-size: 1em;">
+                    <p>🔥 <strong>Von Noobs zu CI/CD-Champions</strong></p>
+                    <p>🚀 <strong>Von manuellen Tests zu automatisierten Pipelines</strong></p>
+                    <p>🎯 <strong>Von Einzelkämpfern zu einem synchronisierten Team</strong></p>
+                </div>
+                <p style="font-size: 1.1em; margin: 20px 0;">Wir sind jetzt bereit für die nächste Generation der DevOps-Evolution! Bringen Sie die nächste Herausforderung - wir haben genug XP gesammelt! 💪</p>
+                <h3>🏅 Team Gruppe 1 - Pokémon DevOps Masters</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div style="font-size: 1.5em;">👨‍💻</div>
+                        <h4>Harald Beier</h4>
+                        <p>"Pikachu"</p>
+                        <p>⚡️ GitHub Actions</p>
+                    </div>
+                    <div class="team-member">
+                        <div style="font-size: 1.5em;">👩‍💻</div>
+                        <h4>Susanne Peer</h4>
+                        <p>"Evoli"</p>
+                        <p>🦊 WebDriver Evolution</p>
+                    </div>
+                    <div class="team-member">
+                        <div style="font-size: 1.5em;">👨‍💻</div>
+                        <h4>Patrick Prugger</h4>
+                        <p>"Relaxo"</p>
+                        <p>😴 Test Data Zen</p>
+                    </div>
+                    <div class="team-member">
+                        <div style="font-size: 1.5em;">👨‍💻</div>
+                        <h4>Philipp Palatin</h4>
+                        <p>"Bisasam"</p>
+                        <p>🌱 Code Garden Growth</p>
+                    </div>
+                </div>
+            </div>     
+			<div class="footer" style="color:#16a34a;">
+				<p><em>Erstellt mit ❤️ und viel ☕ von Team Gruppe 1</em></p>
+				<p><strong>DevOps ILV & PT - MCCE Semester 2</strong></p>
+				<p><strong>Lecturer: Kevin Horvath</strong> 🎓</p>
+			</div>
+        </div>
+
+        <div style="text-align:center; margin: 30px 0 18px 0;">
+            <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+            <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+    <script>
+        // Slide navigation logic
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === idx);
+                // Update signpost icons
+                const signposts = slide.querySelectorAll('.signpost-icon');
+                signposts.forEach((icon, j) => {
+                    icon.classList.toggle('active', j === idx);
+                });
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevBtn.click();
+            }
+        });
+
+        // Allow clicking signpost icons to jump to slide
+        document.querySelectorAll('.signpost').forEach((signpost, slideIdx) => {
+            signpost.querySelectorAll('.signpost-icon').forEach((icon, idx) => {
+                icon.style.cursor = 'pointer';
+                icon.addEventListener('click', () => {
+                    currentSlide = idx;
+                    showSlide(currentSlide);
+                });
+            });
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

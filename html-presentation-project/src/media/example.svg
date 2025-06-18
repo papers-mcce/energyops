@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Meine Präsentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #181a1b;
+            color: #f1f1f1;
+            font-size: 14px;
+        }
+        .slideshow-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: #232526;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            overflow: hidden;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: fadein 0.5s;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+            border-radius: 0 0 18px 18px;
+        }
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            color: #feca57;
+            text-align: center;
+            margin: 25px 0;
+            font-size: 1.4em;
+        }
+        .media-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            background: #232526;
+            color: #fff;
+            padding: 22px 10px;
+            text-align: center;
+            font-size: 1.05em;
+            border-radius: 18px 18px 0 0;
+            margin-top: 30px;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+            color: #181a1b;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #ff9ff3, #feca57);
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+
+        <!-- Slide 1: Introduction -->
+        <div class="slide active" id="slide-0">
+            <div class="header">
+                <h1>📊 Meine Präsentation</h1>
+                <div class="subtitle">Ein Überblick über spannende Themen</div>
+            </div>
+            <h2 class="section-title">Willkommen!</h2>
+            <div class="media-container">
+                <img src="path/to/your/image.png" alt="Willkommen Bild" style="max-width: 100%; height: auto;">
+            </div>
+            <div class="footer">
+                <span>📊 Einführung</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Thema 1 -->
+        <div class="slide" id="slide-1">
+            <div class="header">
+                <h1>📈 Thema 1</h1>
+            </div>
+            <h2 class="section-title">Einführung in Thema 1</h2>
+            <div class="media-container">
+                <img src="path/to/your/image2.png" alt="Thema 1 Bild" style="max-width: 100%; height: auto;">
+                <p>Hier ist eine SVG-Grafik:</p>
+                <object type="image/svg+xml" data="path/to/your/image.svg" style="max-width: 100%; height: auto;">SVG nicht unterstützt</object>
+            </div>
+            <div class="footer">
+                <span>📈 Thema 1</span>
+            </div>
+        </div>
+
+        <!-- Slide 3: Thema 2 -->
+        <div class="slide" id="slide-2">
+            <div class="header">
+                <h1>📉 Thema 2</h1>
+            </div>
+            <h2 class="section-title">Einführung in Thema 2</h2>
+            <div class="media-container">
+                <video controls style="max-width: 100%; height: auto;">
+                    <source src="path/to/your/video.mp4" type="video/mp4">
+                    Ihr Browser unterstützt das Video-Tag nicht.
+                </video>
+            </div>
+            <div class="footer">
+                <span>📉 Thema 2</span>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin: 30px 0;">
+            <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+            <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Slide navigation logic
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === idx);
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

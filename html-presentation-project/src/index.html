@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Neue Präsentation - Team Projekt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+        :root {
+            --main-bg: #333333;
+            --secondary: #82C828;
+            --text: #f1f1f1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--main-bg);
+            color: var(--text);
+            font-size: 14px;
+        }
+        .slideshow-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: var(--main-bg);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            overflow: hidden;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s;
+            position: relative;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            animation: fadeInSlide 0.7s;
+        }
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .header {
+            background: linear-gradient(135deg, var(--secondary), #333333 80%);
+            color: white;
+            padding: 28px;
+            text-align: center;
+            border-radius: 0 0 18px 18px;
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            height: 48px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 4px 8px;
+            box-shadow: 0 2px 8px #0003;
+        }
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            color: var(--secondary);
+            text-align: center;
+            margin: 25px 0;
+            font-size: 1.4em;
+        }
+        .footer {
+            background: var(--main-bg);
+            color: #fff;
+            padding: 22px;
+            text-align: center;
+            font-size: 1.05em;
+            border-radius: 18px 18px 0 0;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, var(--secondary), #fff);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+        }
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #fff, var(--secondary));
+        }
+        /* Signpost bar */
+        .signpost-bar {
+            display: flex;
+            gap: 0.5em;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.2em auto;
+            padding: 0.5em 0;
+            background: #222;
+            border-radius: 8px;
+            max-width: 700px;
+            box-shadow: 0 2px 8px #0002;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .signpost-icon {
+            font-size: 1.5em;
+            background: var(--main-bg);
+            border-radius: 50%;
+            padding: 0.18em 0.32em;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            opacity: 0.35;
+            filter: grayscale(0.7) blur(0.5px);
+        }
+        .signpost-icon.active {
+            opacity: 1;
+            filter: none;
+            border-color: var(--secondary);
+            box-shadow: 0 2px 16px var(--secondary), 0 2px 8px #0004;
+            background: var(--main-bg);
+            color: var(--secondary);
+        }
+        .signpost-icon:hover:not(.active) {
+            opacity: 0.7;
+            filter: grayscale(0.2) blur(0.2px);
+            border-color: #bbb;
+        }
+        .highlight {
+            color: #82C828;
+            font-weight: bold;
+        }
+        .fa-ul {
+            margin-left: 0;
+            padding-left: 1.5em;
+        }
+        .fa-li {
+            position: absolute;
+            left: -1.5em;
+            width: 1.2em;
+            top: 0.1em;
+        }
+        .callout-box {
+            background: #222;
+            border-left: 6px solid #82C828;
+            padding: 18px 22px;
+            margin: 28px 0 18px 0;
+            border-radius: 8px;
+            font-size: 1.08em;
+            color: #eaffd0;
+        }
+        .agenda-list {
+            margin: 40px auto 0 auto;
+            max-width: 600px;
+            font-size: 1.15em;
+        }
+        .agenda-list li {
+            margin-bottom: 1.1em;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .agenda-icon {
+            margin-right: 0.7em;
+            font-size: 1.2em;
+            color: var(--secondary);
+            min-width: 1.5em;
+            text-align: center;
+        }
+        .agenda-title {
+            font-weight: bold;
+            color: #fff;
+        }
+        .agenda-sub {
+            color: #bbb;
+            font-size: 0.98em;
+            margin-left: 0.5em;
+        }
+        .source-box {
+            background: #181818;
+            border-left: 6px solid #4fc3f7;
+            padding: 14px 18px;
+            margin: 30px 0 0 0;
+            border-radius: 8px;
+            font-size: 0.98em;
+            color: #bde6ff;
+        }
+        .source-box ul {
+            margin: 0 0 0 1.2em;
+            padding: 0;
+        }
+        .source-box li {
+            margin-bottom: 0.4em;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+
+        <!-- Signpost Bar -->
+        <div class="signpost-bar" id="signpostBar">
+            <span class="signpost-icon active" title="Agenda"><i class="fa-solid fa-list"></i></span>
+            <span class="signpost-icon" title="Einführung"><i class="fa-solid fa-bolt"></i></span>
+            <span class="signpost-icon" title="Related Work"><i class="fa-solid fa-book"></i></span>
+            <span class="signpost-icon" title="Use Case"><i class="fa-solid fa-layer-group"></i></span>
+            <span class="signpost-icon" title="Implements"><i class="fa-solid fa-plug"></i></span>
+        </div>
+
+        <!-- Slide 0: Agenda -->
+        <div class="slide active" id="slide-0">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>Development of a power consumption dashboard<br> for on-premises serversof SMEs</h1>
+                <div class="subtitle" style="margin-top:10px; font-size:1.1em;">
+                </div>
+            </div>
+            <h2 class="section-title">Agenda</h2>
+            <ul class="agenda-list">
+                <li><span class="agenda-icon"><i class="fa-solid fa-bolt"></i></span> Einführung</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-book"></i></span> Related Work</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-layer-group"></i></span> Use Case</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-plug"></i></span> Implements</li>
+            </ul>
+            <div class="footer">
+                <span>Projektüberblick & Agenda</span>
+            </div>
+        </div>
+
+        <!-- Slide 1: Introduction (Energy Monitoring for SMEs) -->
+        <div class="slide" id="slide-1">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>⚡ Einführung: Energie-Management für KMU</h1>
+            </div>
+            <h2 class="section-title">Herausforderungen & Zielsetzung</h2>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fa-solid fa-bolt"></i></span> Energieverbrauch von Servern ist oft intransparent</li>
+                <li><span class="fa-li"><i class="fa-solid fa-eye"></i></span> Fehlende Übersicht über aktuelle Marktpreise</li>
+                <li><span class="fa-li"><i class="fa-solid fa-chart-line"></i></span> Optimierungspotenzial bleibt ungenutzt</li>
+            </ul>
+            <div class="callout-box">
+                <b>Problem:</b> Klassische Monitoring-Lösungen sind für KMU oft zu komplex oder teuer – es fehlt ein zentrales Dashboard für Server-Energie und Marktpreise.
+            </div>
+            <div class="footer">
+                Integriertes Monitoring ermöglicht datenbasierte Entscheidungen für Kosten und Nachhaltigkeit.
+            </div>
+        </div>
+
+        <!-- Slide 2: Related Work -->
+        <div class="slide" id="slide-2">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>📚 Related Work</h1>
+            </div>
+            <h2 class="section-title">Stand der Forschung & Lücken</h2>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fa-solid fa-microchip"></i></span> Prozessmessung in der Industrie</li>
+                <li><span class="fa-li"><i class="fa-solid fa-database"></i></span> Smart Meter Integration</li>
+                <li><span class="fa-li"><i class="fa-solid fa-network-wired"></i></span> Echtzeit-Datenübertragung</li>
+            </ul>
+            <div class="callout-box">
+                <b>Forschungs-Lücke:</b> Keine Lösung vereint Prozessmessung, Smart-Meter, Echtzeitpreise und Dashboard für KMU.
+            </div>
+            <div class="source-box">
+                <b>Quellen:</b>
+                <ul>
+                    <li>Smith et al. (2022): Energy Monitoring in SMEs</li>
+                    <li>Müller, T. (2023): IoT-basierte Energiemessung</li>
+                </ul>
+            </div>
+            <div class="footer">
+                Dieses Projekt adressiert die Integrationslücke für KMU-Energie-Insights.
+            </div>
+        </div>
+
+        <!-- Slide 3: 3.1 Use Case Description -->
+        <div class="slide" id="slide-3">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>🗂️ Use Case: Echtzeit-Energieoptimierung</h1>
+            </div>
+            <h2 class="section-title">Praxisbeispiel & Nutzen</h2>
+            <ul class="fa-ul">
+                <li><span class="fa-li"><i class="fa-solid fa-server"></i></span> On-Premises Serverbetrieb</li>
+                <li><span class="fa-li"><i class="fa-solid fa-cloud"></i></span> Integration mit Cloud-Diensten</li>
+            </ul>
+            <div class="callout-box">
+                <b>Beispiel:</b> Ein KMU betreibt einen lokalen Server für Mail, DNS und Filesharing. Die Energieaufnahme wird über eine smarte Steckdose gemessen und mit aktuellen Strompreisen verknüpft.
+            </div>
+            <div class="source-box">
+                <b>Nutzen:</b>
+                <ul>
+                    <li>Transparenz über Energieverbrauch</li>
+                    <li>Kostenoptimierung durch Marktpreis-Integration</li>
+                    <li>Nachhaltigkeitsbewertung</li>
+                </ul>
+            </div>
+            <div class="footer">
+                Reale Anwendung für mehr Effizienz und Nachhaltigkeit.
+            </div>
+        </div>
+
+        <!-- Slide 4: Implements for Server Energy Tracking -->
+        <div class="slide" id="slide-4">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>🔌 Verwendete Komponenten zur Energieerfassung</h1>
+            </div>
+            <h2 class="section-title">Implements for Server Energy Tracking</h2>
+            <div style="display: flex; gap: 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+                <!-- Nous Stecker -->
+                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                    <img src="media/nous_stecker.jpeg" alt="Nous A5T Tasmota Steckdose" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
+                    <div class="callout-box" style="margin-top: 18px; text-align: left;">
+                        <b>Nous A5T Tasmota</b><br>
+                        • Art der drahtlosen Übertragung: 2,4 GHz<br>
+                        • Protokoll: IEEE 802.11b/g/n<br>
+                        • MQTT Protokoll<br>
+                        • Firmware-Anpassung: <a href="https://tasmota.github.io" target="_blank" style="color:#82C828;">tasmota.github.io</a> notwendig für IoT-Anbindung
+                    </div>
+                </div>
+                <!-- Server -->
+                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                    <img src="media/server.jpeg" alt="HPE ProLiant DL380 Gen9" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
+                    <div class="callout-box" style="margin-top: 18px; text-align: left;">
+                        <b>HPE ProLiant DL380 Gen9 2U</b><br>
+                        • Mailserver<br>
+                        • DNS Server<br>
+                        • Fileshare<br>
+                        • Proxmox für VMs
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                Komponenten für die Energieüberwachung im Use Case
+            </div>
+        </div>
+
+        <div style="text-align:center; margin: 30px 0;">
+            <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+            <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Slide navigation logic
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const signpostIcons = document.querySelectorAll('.signpost-bar .signpost-icon');
+        let currentSlide = 0;
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === idx);
+            });
+            signpostIcons.forEach((icon, i) => {
+                icon.classList.toggle('active', i === idx);
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+            currentSlide = idx;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        });
+
+        // Signpost navigation
+        signpostIcons.forEach((icon, idx) => {
+            icon.addEventListener('click', () => {
+                showSlide(idx);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevBtn.click();
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

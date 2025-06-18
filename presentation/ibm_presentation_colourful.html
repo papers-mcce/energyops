@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud-Souveränität in Europa – Kompakte Präsentation</title>
+    <meta name="viewport" content="width=1280">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(120deg, #232323 0%, #181818 100%);
+            color: #f4f4f4;
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .slideshow-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 0 40px 0;
+        }
+        .slide {
+            display: none;
+            background: #232323;
+            border-radius: 14px;
+            box-shadow: 0 2px 16px #0007;
+            margin: 32px 0 0 0;
+            padding: 38px 48px 30px 48px;
+            min-height: 440px;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            animation: fadeInSlide 0.7s;
+        }
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .footer {
+            background: #181818;
+            color: #bbb;
+            border-top: 2px solid #444;
+            padding: 1em 1.5em 1em 1.5em;
+            font-size: 1.04em;
+            margin-top: 2em;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 -2px 8px #0004;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #fff;
+            margin-top: 0;
+            font-weight: 700;
+        }
+        h1 { font-size: 2.1em; margin-bottom: 0.2em; }
+        h2 { font-size: 1.35em; margin-bottom: 0.7em; }
+        h3 { font-size: 1.1em; margin-bottom: 0.5em; }
+        .headbox {
+            background: #222;
+            border-left: 7px solid #4fc3f7;
+            border-radius: 8px;
+            padding: 1em 1.5em;
+            margin-bottom: 1.2em;
+            font-size: 1.18em;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+            box-shadow: 0 2px 8px #0004;
+        }
+        .signpost-bar {
+            display: flex;
+            gap: 0.5em;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.2em auto;
+            padding: 0.5em 0;
+            background: #181818;
+            border-radius: 8px;
+            max-width: 700px;
+            box-shadow: 0 2px 8px #0002;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .signpost-icon {
+            font-size: 1.5em;
+            background: #232323;
+            border-radius: 50%;
+            padding: 0.18em 0.32em;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            opacity: 0.35;
+            filter: grayscale(0.7) blur(0.5px);
+            margin-bottom: 0;
+        }
+        .signpost-icon.active {
+            opacity: 1;
+            filter: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 2px 16px #4fc3f7cc, 0 2px 8px #0004, 0 0 12px #4fc3f7;
+            background: #232323;
+        }
+        .signpost-icon:hover:not(.active) {
+            opacity: 0.7;
+            filter: grayscale(0.2) blur(0.2px);
+            border-color: #bbb;
+        }
+        /* Icon color classes */
+        .icon-info { color: #4fc3f7; }
+        .icon-reg { color: #f9a825; }
+        .icon-arch { color: #43aa8b; }
+        .icon-risk { color: #e63946; }
+        .icon-best { color: #ffd166; }
+        .icon-route { color: #118ab2; }
+        .icon-future { color: #9d4edd; }
+        .icon-src { color: #adb5bd; }
+        .plantuml-diagram {
+            width: 98%;
+            min-height: 220px;
+            max-width: 700px;
+            display: block;
+            margin: 1.2em auto 1.2em auto;
+            background: #232323;
+            border-radius: 10px;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px #0004;
+            opacity: 0;
+            transition: opacity 0.7s;
+        }
+        .plantuml-diagram.visible {
+            opacity: 1;
+        }
+        ul, ol { margin-top: 0.5em; margin-bottom: 1em; }
+        ul { padding-left: 1.3em; }
+        li { margin-bottom: 0.3em; }
+        .fa-ul { margin-left: 0; padding-left: 1.5em; }
+        .fa-li { position: absolute; left: -1.5em; width: 1.2em; top: 0.1em; }
+        .nav-btn {
+            background: #232323;
+            color: #4fc3f7;
+            border: 2px solid #4fc3f7;
+            border-radius: 8px;
+            padding: 0.6em 1.5em;
+            font-size: 1.1em;
+            margin: 0 0.7em;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-btn:disabled {
+            color: #888;
+            border-color: #444;
+            background: #181818;
+            cursor: not-allowed;
+        }
+        .agenda-slide {
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            min-height: 0;
+        }
+        .agenda-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.2em 2.5em;
+            margin: 40px 0 0 0;
+        }
+        .agenda-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            margin-bottom: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .agenda-item:hover {
+            transform: scale(1.07);
+        }
+        .agenda-icon {
+            font-size: 2.7em;
+            margin-bottom: 0.3em;
+            border-radius: 50%;
+            padding: 0.25em 0.4em;
+            background: #232323;
+            border: 3px solid #4fc3f7;
+            color: #4fc3f7;
+            box-shadow: 0 2px 12px #4fc3f733;
+        }
+        .agenda-label {
+            font-size: 1.08em;
+            color: #8ecae6;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 0.2em;
+        }
+        .callout-box {
+            background: #232323;
+            border-left: 5px solid #4fc3f7;
+            color: #fff;
+            padding: 1em 1.5em;
+            margin: 1.2em 0;
+            border-radius: 8px;
+            font-size: 1.13em;
+            box-shadow: 0 2px 8px #0004;
+            position: relative;
+            overflow: hidden;
+        }
+        .callout-box::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 5px;
+            background: linear-gradient(#4fc3f7, #43aa8b);
+            border-radius: 5px 0 0 5px;
+        }
+        #progressBar {
+            height: 6px;
+            width: 100%;
+            background: #232323;
+            border-radius: 3px;
+            margin: 0 0 0.5em 0;
+            overflow: hidden;
+        }
+        #progressFill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4fc3f7 60%, #43aa8b 100%);
+            border-radius: 3px;
+            transition: width 0.4s;
+        }
+        #slideNumber {
+            position: fixed;
+            bottom: 18px;
+            right: 32px;
+            color: #4fc3f7;
+            font-size: 1.1em;
+            opacity: 0.7;
+            z-index: 99;
+        }
+        .highlight {
+            background: #4fc3f7;
+            color: #181818;
+            padding: 0.1em 0.5em;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .fade-in {
+            animation: fadeInText 1s;
+        }
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .key-takeaway {
+            background: #181818;
+            color: #ffd166;
+            border-left: 5px solid #ffd166;
+            padding: 0.7em 1.2em;
+            border-radius: 7px;
+            margin: 1.2em 0 0.5em 0;
+            font-size: 1.08em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px #0003;
+        }
+        @media (max-width: 1100px) {
+            .slide { padding: 24px 8px 18px 8px; }
+            .signpost-bar { max-width: 98vw; }
+        }
+        @media (max-width: 700px) {
+            .slide { padding: 8px 2vw 8px 2vw; }
+            .agenda-item { width: 90px; }
+            .signpost-bar { max-width: 99vw; }
+        }
+    </style>
+</head>
+<body>
+<div class="slideshow-container">
+
+    <!-- Signpost Bar -->
+    <div class="signpost-bar" id="signpostBar">
+        <span class="signpost-icon icon-info"><i class="fa-solid fa-circle-info"></i></span>
+        <span class="signpost-icon icon-reg"><i class="fa-solid fa-gavel"></i></span>
+        <span class="signpost-icon icon-arch"><i class="fa-solid fa-layer-group"></i></span>
+        <span class="signpost-icon icon-risk"><i class="fa-solid fa-shield-halved"></i></span>
+        <span class="signpost-icon icon-best"><i class="fa-solid fa-lightbulb"></i></span>
+        <span class="signpost-icon icon-route"><i class="fa-solid fa-route"></i></span>
+        <span class="signpost-icon icon-future"><i class="fa-solid fa-brain"></i></span>
+        <span class="signpost-icon icon-src"><i class="fa-solid fa-book-open"></i></span>
+    </div>
+    <div id="progressBar"><div id="progressFill"></div></div>
+
+    <!-- Slide 0: Agenda -->
+    <div class="slide agenda-slide active" id="slide-0">
+        <h1 style="text-align:center; color:#4fc3f7; margin-bottom:0.5em;">Agenda</h1>
+        <div class="agenda-list">
+            <div class="agenda-item"><span class="agenda-icon icon-info"><i class="fa-solid fa-circle-info"></i></span><span class="agenda-label">Definition</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-reg"><i class="fa-solid fa-gavel"></i></span><span class="agenda-label">Regulatorik</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-arch"><i class="fa-solid fa-layer-group"></i></span><span class="agenda-label">Architektur</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-risk"><i class="fa-solid fa-shield-halved"></i></span><span class="agenda-label">Risiken</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-best"><i class="fa-solid fa-lightbulb"></i></span><span class="agenda-label">Best Practices</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-route"><i class="fa-solid fa-route"></i></span><span class="agenda-label">Fahrplan</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-future"><i class="fa-solid fa-brain"></i></span><span class="agenda-label">Zukunft</span></div>
+            <div class="agenda-item"><span class="agenda-icon icon-src"><i class="fa-solid fa-book-open"></i></span><span class="agenda-label">Quellen &amp; Methode</span></div>
+        </div>
+    </div>
+
+    <!-- Slide 1: Definition & Grundlagen -->
+    <div class="slide" id="slide-1">
+        <div class="headbox"><i class="fa-solid fa-circle-info icon-info"></i> Was bedeutet Cloud-Souveränität in Europa?</div>
+        <ul class="fa-ul fade-in" id="defList">
+            <li><span class="fa-li"><i class="fa-solid fa-check icon-info"></i></span><span class="highlight">Volle Kontrolle</span> über Daten, Anwendungen und Infrastruktur</li>
+            <li><span class="fa-li"><i class="fa-solid fa-check icon-info"></i></span>Daten bleiben unter <span class="highlight">EU-Recht</span> und Jurisdiktion</li>
+            <li><span class="fa-li"><i class="fa-solid fa-check icon-info"></i></span><span class="highlight">Schutz</span> vor Zugriff durch Drittstaaten</li>
+            <li><span class="fa-li"><i class="fa-solid fa-check icon-info"></i></span>Transparenz über Subunternehmer und Metadaten</li>
+        </ul>
+        <div class="callout-box fade-in" id="defCallout">
+            <span class="highlight">80%</span> der digitalen Dienste in der EU stammen von Nicht-EU-Anbietern – das birgt Risiken für Datenschutz und Unabhängigkeit.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Souveränität bedeutet Wahlfreiheit, Kontrolle und Transparenz.</div>
+        <img id="defPlantUML" class="plantuml-diagram" alt="Definition PlantUML" />
+        <div class="footer fade-in" id="defFooter">
+            Cloud-Souveränität = Kontrolle, Transparenz, Unabhängigkeit.
+        </div>
+    </div>
+
+    <!-- Slide 2: Regulatorik & Markt -->
+    <div class="slide" id="slide-2">
+        <div class="headbox"><i class="fa-solid fa-gavel icon-reg"></i> Regulatorische Grundlagen & Marktüberblick</div>
+        <ul class="fa-ul fade-in" id="regList">
+            <li><span class="fa-li"><i class="fa-solid fa-shield-halved icon-reg"></i></span><b>DSGVO:</b> Datenschutz & hohe Bußgelder</li>
+            <li><span class="fa-li"><i class="fa-solid fa-shield-halved icon-reg"></i></span><b>NIS-2:</b> Cybersicherheit für kritische Sektoren</li>
+            <li><span class="fa-li"><i class="fa-solid fa-shield-halved icon-reg"></i></span><b>Data Act:</b> Portabilität & Wechsel zwischen Anbietern</li>
+            <li><span class="fa-li"><i class="fa-solid fa-shield-halved icon-reg"></i></span><b>Digitalstrategie:</b> Souveränität als Ziel der EU-Agenda</li>
+        </ul>
+        <div class="callout-box fade-in" id="regCallout">
+            <b>Praxis:</b> Ohne Einhaltung dieser Vorgaben keine Cloud-Nutzung im öffentlichen Sektor!
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Regulatorik ist die Basis für Vertrauen und Innovation.</div>
+        <img id="regPlantUML" class="plantuml-diagram" alt="Regulatorik PlantUML" />
+        <div class="footer fade-in" id="regFooter">
+            EU-Regulierung schafft Rahmen für sichere und souveräne Cloud-Nutzung.
+        </div>
+    </div>
+
+    <!-- Slide 3: Architektur & Stack -->
+    <div class="slide" id="slide-3">
+        <div class="headbox"><i class="fa-solid fa-layer-group icon-arch"></i> Referenzarchitektur: EuroStack & Open Source</div>
+        <ul class="fa-ul fade-in" id="archList">
+            <li><span class="fa-li"><i class="fa-solid fa-cubes icon-arch"></i></span><b>OpenStack, Kubernetes, SECA-API, Monitoring</b></li>
+            <li><span class="fa-li"><i class="fa-solid fa-cubes icon-arch"></i></span>Vermeidung von <span class="highlight">Vendor-Lock-in</span></li>
+            <li><span class="fa-li"><i class="fa-solid fa-cubes icon-arch"></i></span>Interoperabilität und offene Standards</li>
+            <li><span class="fa-li"><i class="fa-solid fa-cubes icon-arch"></i></span>Edge-Integration für <span class="highlight">niedrige Latenz</span> und <span class="highlight">Datenkontrolle</span></li>
+        </ul>
+        <div class="callout-box fade-in" id="archCallout">
+            <b>Gaia-X & EuroStack:</b> Europäische Initiativen für offene, sichere Cloud-Infrastrukturen.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Open Source ist der Schlüssel zur Unabhängigkeit.</div>
+        <img id="archPlantUML" class="plantuml-diagram" alt="Referenzarchitektur PlantUML" />
+        <div class="footer fade-in" id="archFooter">
+            Open Source und europäische Standards als Basis für Souveränität.
+        </div>
+    </div>
+
+    <!-- Slide 4: Risiken & SWOT -->
+    <div class="slide" id="slide-4">
+        <div class="headbox"><i class="fa-solid fa-shield-halved icon-risk"></i> Risiken & Souveränitätslücken</div>
+        <ul class="fa-ul fade-in" id="swotList">
+            <li><span class="fa-li"><i class="fa-solid fa-exclamation-triangle icon-risk"></i></span>Abhängigkeit von <span class="highlight">US-Hyperscalern</span></li>
+            <li><span class="fa-li"><i class="fa-solid fa-exclamation-triangle icon-risk"></i></span>Zugriff durch Drittstaaten (<b>CLOUD Act</b>, <b>China Law</b>)</li>
+            <li><span class="fa-li"><i class="fa-solid fa-exclamation-triangle icon-risk"></i></span>Fragmentierung des EU-Markts</li>
+            <li><span class="fa-li"><i class="fa-solid fa-exclamation-triangle icon-risk"></i></span>Herausforderungen für <span class="highlight">KMU</span> (Kosten, Know-how)</li>
+        </ul>
+        <div class="callout-box fade-in" id="swotCallout">
+            <b>Chancen:</b> Open Source, EU-Initiativen, neue Zertifizierungen.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Risiken aktiv adressieren, Chancen nutzen!</div>
+        <img id="swotPlantUML" class="plantuml-diagram" alt="SWOT PlantUML" />
+        <div class="footer fade-in" id="swotFooter">
+            Risiken: Lock-in, Kontrollverlust, Compliance-Verstöße.
+        </div>
+    </div>
+
+    <!-- Slide 5: Best Practices & Fallstudien -->
+    <div class="slide" id="slide-5">
+        <div class="headbox"><i class="fa-solid fa-lightbulb icon-best"></i> Best Practices & Fallstudien</div>
+        <ul class="fa-ul fade-in" id="bpList">
+            <li><span class="fa-li"><i class="fa-solid fa-lightbulb icon-best"></i></span><b>ZenDiS:</b> Open Source für Behörden</li>
+            <li><span class="fa-li"><i class="fa-solid fa-lightbulb icon-best"></i></span><b>OpenDesk:</b> Souveräner Arbeitsplatz</li>
+			<li><span class="fa-li"><i class="fa-solid fa-lightbulb icon-best"></i></span><b>ENISA:</b> EUCS – CLOUD SERVICES SCHEME</li>
+			<li><span class="fa-li"><i class="fa-solid fa-lightbulb icon-best"></i></span><b>EURITAS:</b> Foundations of Cloud Services for Public Services</li>
+            <li><span class="fa-li"><i class="fa-solid fa-lightbulb icon-best"></i></span><b>BRZ:</b> Selbstgehosteter Openshift-Cluster und GovCloud für Österreichische Behörden</li>
+        </ul>
+        <div class="callout-box fade-in" id="bpCallout">
+            <b>Erfolg:</b> Open Source und europäische Lösungen stärken Unabhängigkeit und Sicherheit.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Praxis zeigt – Souveränität ist machbar!</div>
+        <img id="bpPlantUML" class="plantuml-diagram" alt="Best Practices PlantUML" />
+        <div class="footer fade-in" id="bpFooter">
+            Praxis: Open Source und europäische Lösungen stärken Unabhängigkeit.
+        </div>
+    </div>
+
+    <!-- Slide 6: Migrationsfahrplan -->
+    <div class="slide" id="slide-6">
+        <div class="headbox"><i class="fa-solid fa-route icon-route"></i> Souveränitäts-Migrationsfahrplan</div>
+        <ol class="fade-in" id="fahrplanList">
+            <li><b>Analyse & Planung:</b> Ist-Stand, Risiken, Compliance prüfen</li>
+            <li><b>Pilotmigration:</b> Testlauf mit ausgewählten Workloads</li>
+            <li><b>Systematische Migration & Optimierung:</b> Schrittweise Umstellung, Monitoring, Schulung</li>
+        </ol>
+        <div class="callout-box fade-in" id="fahrplanCallout">
+            <b>Tipp:</b> Frühzeitig Stakeholder einbinden und auf <span class="highlight">Zero Trust</span> setzen!
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Migration ist ein Prozess, kein Big Bang.</div>
+        <img id="fahrplanPlantUML" class="plantuml-diagram" alt="Migrationsfahrplan PlantUML" />
+        <div class="footer fade-in" id="fahrplanFooter">
+            Schrittweise Migration mit Fokus auf Compliance und Kontrolle.
+        </div>
+    </div>
+
+    <!-- Slide 7: Zukunft & Trends -->
+    <div class="slide" id="slide-7">
+        <div class="headbox"><i class="fa-solid fa-brain icon-future"></i> KI, Post-Quantum & Zukunftstrends</div>
+        <ul class="fa-ul fade-in" id="futureList">
+            <li><span class="fa-li"><i class="fa-solid fa-brain icon-future"></i></span><b>Souveräne KI-Infrastruktur</b> in Europa</li>
+            <li><span class="fa-li"><i class="fa-solid fa-lock icon-future"></i></span><b>Post-Quantum-Kryptografie</b> als neuer Standard</li>
+            <li><span class="fa-li"><i class="fa-solid fa-users icon-future"></i></span><b>Kollaborative Open-Source-Modelle</b> für Innovation</li>
+        </ul>
+        <div class="callout-box fade-in" id="futureCallout">
+            <b>Fazit:</b> Innovation und Sicherheit bestimmen die Zukunft der Cloud-Souveränität.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Europa setzt auf sichere, offene und innovative Cloud-Lösungen.</div>
+        <img id="futurePlantUML" class="plantuml-diagram" alt="Future PlantUML" />
+        <div class="footer fade-in" id="futureFooter">
+            Europa setzt auf sichere, offene und innovative Cloud-Lösungen.
+        </div>
+    </div>
+
+    <!-- Slide 8: Quellen & Methode -->
+    <div class="slide" id="slide-8">
+        <div class="headbox"><i class="fa-solid fa-book-open icon-src"></i> Quellen & Erklärung</div>
+        <ul class="fa-ul fade-in" id="srcList">
+            <li><span class="fa-li"><i class="fa-solid fa-book icon-src"></i></span>Wissenschaftliche Publikationen, EU-Dokumente, Marktstudien (z.B. Statista, WEF, EU-Kommission, NIS-2, DSGVO, Data Act).</li>
+            <li><span class="fa-li"><i class="fa-solid fa-gears icon-src"></i></span>Inhalte wurden aus dem Dokument komprimiert und zusammengefasst.</li>
+            <li><span class="fa-li"><i class="fa-solid fa-code icon-src"></i></span>Diagramme wurden mit PlantUML generiert.</li>
+        </ul>
+        <div class="callout-box fade-in" id="srcCallout">
+            Für Rückfragen und vollständige Quellenliste: siehe Enddokument.
+        </div>
+        <div class="key-takeaway"><i class="fa-solid fa-lightbulb icon-best"></i> Takeaway: Wissenschaftlich fundiert, kompakt und praxisnah.</div>
+        <div class="footer fade-in" id="srcFooter">
+            Ergebnis: Kompakte Übersicht als Executive Summary | Dokument mit Quellen und genauerer Analyse | Präsentation
+        </div>
+    </div>
+
+    <div style="text-align:center; margin: 30px 0 18px 0;">
+        <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+        <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+</div>
+<div id="slideNumber"></div>
+
+<script>
+    // Slide navigation
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const signpostIcons = document.querySelectorAll('.signpost-bar .signpost-icon');
+    let currentSlide = 0;
+
+    function showSlide(n) {
+        slides.forEach((slide, idx) => {
+            slide.classList.toggle('active', idx === n);
+            // Animate PlantUML diagrams
+            const diagrams = slide.querySelectorAll('.plantuml-diagram');
+            diagrams.forEach(img => {
+                if (idx === n) {
+                    setTimeout(() => img.classList.add('visible'), 300);
+                } else {
+                    img.classList.remove('visible');
+                }
+            });
+            // Animate fade-in elements
+            slide.querySelectorAll('.fade-in').forEach((el, i) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.animation = 'fadeInText 0.7s';
+                }, 200 + i * 120);
+            });
+        });
+        prevBtn.disabled = n === 0;
+        nextBtn.disabled = n === slides.length - 1;
+        signpostIcons.forEach((icon, idx) => {
+            icon.classList.toggle('active', idx === n - 1);
+        });
+        updateProgressBar();
+        updateSlideNumber();
+    }
+    function updateProgressBar() {
+        const fill = document.getElementById('progressFill');
+        fill.style.width = ((currentSlide) / (slides.length - 1) * 100) + "%";
+    }
+    function updateSlideNumber() {
+        document.getElementById('slideNumber').textContent = `Folie ${currentSlide} / ${slides.length - 1}`;
+    }
+    prevBtn.onclick = () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    };
+    nextBtn.onclick = () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    };
+    signpostIcons.forEach((icon, idx) => {
+        icon.onclick = () => {
+            currentSlide = idx + 1;
+            showSlide(currentSlide);
+        };
+    });
+    document.querySelectorAll('.agenda-item').forEach((item, idx) => {
+        item.onclick = () => {
+            currentSlide = idx + 1;
+            showSlide(currentSlide);
+        };
+    });
+
+    // PlantUML code for all diagrams
+    const archPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+skinparam packageBorderColor #444444
+skinparam packageBackgroundColor #232323
+skinparam componentBorderColor #f4f4f4
+skinparam componentBackgroundColor #232323
+skinparam ArrowColor #4fc3f7
+skinparam shadowing false
+title Referenzarchitektur – EuroStack
+package "IaaS" {
+  [OpenStack]
+}
+package "CaaS" {
+  [Kubernetes]
+}
+package "IAM" {
+  [SECA-API]
+}
+package "Operations" {
+  [Monitoring]
+  [Logging]
+}
+[OpenStack] --> [Kubernetes] : Provisionierung
+[Kubernetes] --> [SECA-API] : Authentifizierung
+[SECA-API] --> [Monitoring]
+[SECA-API] --> [Logging]
+@enduml
+`;
+    const swotPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+skinparam packageBorderColor #444444
+skinparam packageBackgroundColor #232323
+skinparam componentBorderColor #f4f4f4
+skinparam componentBackgroundColor #232323
+skinparam ArrowColor #f4f4f4
+skinparam shadowing false
+title Souveränitätslücken – SWOT
+package "Stärken" {
+  [Datenkontrolle]
+  [Transparenz]
+}
+package "Schwächen" {
+  [Abhängigkeit von Hyperscalern]
+  [Fragmentierung]
+}
+package "Chancen" {
+  [Open Source]
+  [EU-Initiativen]
+}
+package "Risiken" {
+  [Zugriff durch Drittstaaten]
+  [Vendor-Lock-in]
+}
+[Abhängigkeit von Hyperscalern] --> [Zugriff durch Drittstaaten]
+[Open Source] --> [Datenkontrolle]
+[EU-Initiativen] --> [Transparenz]
+@enduml
+`;
+    const fahrplanPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+skinparam ArrowColor #43aa8b
+skinparam shadowing false
+title Souveränitäts-Migrationsfahrplan
+start
+:Analyse & Planung;
+:Migration Pilot;
+:Migration & Optimierung;
+stop
+@enduml
+`;
+    const defPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+actor Organisation
+rectangle "Cloud-Souveränität" as S {
+  [Datenkontrolle]
+  [Transparenz]
+  [Unabhängigkeit]
+}
+Organisation --> S
+@enduml
+`;
+    const regPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+rectangle "Regulatorik" {
+  [DSGVO]
+  [NIS-2]
+  [Data Act]
+}
+[DSGVO] --> [Datenresidenz]
+[NIS-2] --> [Cybersicherheit]
+[Data Act] --> [Portabilität]
+@enduml
+`;
+    const bpPlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+actor "Behörde"
+rectangle "ZenDiS" as Zen
+rectangle "OpenDesk" as Desk
+rectangle "BRZ" as BRZ
+"Behörde" --> Zen : Open Source
+"Behörde" --> Desk : Arbeitsplatz
+"Behörde" --> BRZ : Infrastruktur
+@enduml
+`;
+    const futurePlantUML = `
+@startuml
+!theme spacelab
+skinparam backgroundColor #181818
+skinparam defaultFontColor #f4f4f4
+rectangle "Zukunft" {
+  [KI-Infrastruktur]
+  [Post-Quantum]
+  [Open Innovation]
+}
+@enduml
+`;
+
+    // Helper to render PlantUML diagrams
+    function renderPlantUML(id, plantumlCode) {
+        const encoded = plantumlEncoder.encode(plantumlCode);
+        const url = "https://www.plantuml.com/plantuml/svg/" + encoded;
+        const img = document.getElementById(id);
+        if (img) img.src = url;
+    }
+    window.onload = function() {
+        showSlide(currentSlide);
+        renderPlantUML("archPlantUML", archPlantUML);
+        renderPlantUML("swotPlantUML", swotPlantUML);
+        renderPlantUML("fahrplanPlantUML", fahrplanPlantUML);
+        renderPlantUML("defPlantUML", defPlantUML);
+        renderPlantUML("regPlantUML", regPlantUML);
+        renderPlantUML("bpPlantUML", bpPlantUML);
+        renderPlantUML("futurePlantUML", futurePlantUML);
+        updateProgressBar();
+        updateSlideNumber();
+    };
+</script>
+</body>
+</html>
