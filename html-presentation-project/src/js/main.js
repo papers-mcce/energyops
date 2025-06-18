@@ -21,6 +21,21 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = idx === slides.length - 1;
         currentSlide = idx;
         console.log('Switched to slide', idx);
+        
+        // Update progress bar
+        updateProgressBar(idx);
+    }
+    
+    function updateProgressBar(currentSlideIndex) {
+        const progressBar = document.querySelector('.progress-bar');
+        const progressText = document.querySelector('.progress-text');
+        const totalSlides = slides.length;
+        const progressPercentage = ((currentSlideIndex + 1) / totalSlides) * 100;
+        
+        if (progressBar && progressText) {
+            progressBar.style.width = progressPercentage + '%';
+            progressText.textContent = Math.round(progressPercentage) + '%';
+        }
     }
 
     prevBtn.addEventListener('click', () => {

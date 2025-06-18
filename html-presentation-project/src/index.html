@@ -115,13 +115,22 @@
             align-items: center;
             margin: 0 auto 1.2em auto;
             padding: 0.5em 0;
-            background: #222;
+            background: rgba(34,34,34,0.85);
             border-radius: 8px;
             max-width: 700px;
-            box-shadow: 0 2px 8px #0002;
+            box-shadow: 0 1px 6px #0002;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(130, 200, 40, 0.10);
+        }
+        .signpost-bar:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 20px rgba(130, 200, 40, 0.3);
+            background: rgba(34,34,34,0.97);
+            border: 1.5px solid rgba(130, 200, 40, 0.3);
         }
         .signpost-icon {
             font-size: 1.5em;
@@ -284,6 +293,36 @@
         img, canvas {
             max-width: 85% !important;
             height: auto !important;
+        }
+        /* Progress bar styles */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #4fc3f7);
+            width: 0%;
+            transition: width 0.6s ease;
+            box-shadow: 0 0 10px rgba(130, 200, 40, 0.5);
+        }
+        .progress-text {
+            position: fixed;
+            top: 8px;
+            right: 20px;
+            color: var(--secondary);
+            font-size: 0.8em;
+            font-weight: bold;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Orbitron', monospace;
         }
     </style>
 </head>
@@ -834,6 +873,11 @@
             <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
             <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
         </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+        <span class="progress-text">0%</span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
