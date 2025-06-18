@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const energyLivePlantUML = `
     @startuml
     !theme plain
+    left to right direction
     actor Benutzer as User
     rectangle "Zählerkasten\\nmit energyLIVE" as Meter {
       [energyLIVE]

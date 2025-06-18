@@ -197,6 +197,46 @@
             font-size: 0.98em;
             margin-left: 0.5em;
         }
+        /* New agenda grid styles */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px auto 0 auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        .agenda-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .agenda-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(130, 200, 40, 0.3);
+            border-color: #fff;
+        }
+        .agenda-box-icon {
+            font-size: 2.5em;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .agenda-box-title {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .agenda-box-subtitle {
+            color: #bbb;
+            font-size: 0.9em;
+        }
         .source-box {
             background: #181818;
             border-left: 5px solid #4fc3f7;
@@ -275,18 +315,58 @@
                 </div>
                 <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Agenda</h2>
             </div>
-            <ul class="agenda-list">
-                <li><span class="agenda-icon"><i class="fa-solid fa-bolt"></i></span> Einführung</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-book"></i></span> Stand der Forschung</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-layer-group"></i></span> Use Case</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-plug"></i></span> Implementierung</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-broadcast-tower"></i></span> energyLIVE</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-link"></i></span> APIs</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-road-barrier"></i></span> Hindernisse</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-power-off"></i></span> Demo</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-diagram-project"></i></span> Architektur</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-flag-checkered"></i></span> Fazit</li>
-            </ul>
+            <div class="agenda-grid">
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <div class="agenda-box-title">Einführung</div>
+                    <div class="agenda-box-subtitle">Einführung: Energie-Management für KMU</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-book"></i></span>
+                    <div class="agenda-box-title">Stand der Forschung</div>
+                    <div class="agenda-box-subtitle">Forschungsstand & Lücken</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-layer-group"></i></span>
+                    <div class="agenda-box-title">Use Case</div>
+                    <div class="agenda-box-subtitle">Praxisbeispiel & Nutzen</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-plug"></i></span>
+                    <div class="agenda-box-title">Implementierung</div>
+                    <div class="agenda-box-subtitle">Verwendete Komponenten zur Energieerfassung</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-broadcast-tower"></i></span>
+                    <div class="agenda-box-title">energyLIVE</div>
+                    <div class="agenda-box-subtitle">Smart Meter Anbindung</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-link"></i></span>
+                    <div class="agenda-box-title">APIs</div>
+                    <div class="agenda-box-subtitle">Eingesetzte APIs</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-road-barrier"></i></span>
+                    <div class="agenda-box-title">Hindernisse</div>
+                    <div class="agenda-box-subtitle">Praktische Herausforderungen im Projekt</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-power-off"></i></span>
+                    <div class="agenda-box-title">Demo</div>
+                    <div class="agenda-box-subtitle">Präsentation des Dashboards</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-diagram-project"></i></span>
+                    <div class="agenda-box-title">Architektur</div>
+                    <div class="agenda-box-subtitle">Systemarchitektur</div>
+                </div>
+                <div class="agenda-box">
+                    <span class="agenda-box-icon"><i class="fa-solid fa-flag-checkered"></i></span>
+                    <div class="agenda-box-title">Fazit</div>
+                    <div class="agenda-box-subtitle">Zusammenfassung & Ausblick</div>
+                </div>
+            </div>
             <div class="footer">
                 <span>Projektüberblick & Agenda</span>
             </div>
@@ -529,6 +609,7 @@
                 </div>
                 <!-- Strompreis API (EPEX Spot) -->
                 <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
+                    <img src="media/epec.jpg" alt="SIDC/EPEX Map" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004; margin-bottom: 18px; margin-top: 8px;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>Strompreis API (smartENERGY)</b><br>
                         • Bietet aktuelle und zukünftige Strompreise im 15-Minuten-Takt.<br>
@@ -553,10 +634,10 @@
                 <h1 style="font-size:2em; text-align:center; margin-top:30px;">🚧 Hindernisse & Stolpersteine</h1>
                 <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Praktische Herausforderungen im Projekt</h2>
             </div>
-            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:48px; margin-top:40px;">
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:48px; margin-top:40px;">
                 <!-- Animiertes Hindernis-Symbol -->
-                <div style="flex:0 1 180px; min-width:120px; text-align:center; display:flex; align-items:center; justify-content:center;">
-                    <span class="fa-stack fa-4x charging-animate" style="color:#e74c3c;">
+                <div style="flex:0 1 220px; min-width:140px; text-align:center; display:flex; align-items:center; justify-content:center;">
+                    <span class="fa-stack fa-5x charging-animate" style="color:#e74c3c; font-size:4.2em; margin-right:0;">
                         <i class="fa-solid fa-circle fa-stack-2x" style="color:#222;"></i>
                         <i class="fa-solid fa-road-barrier fa-stack-1x" style="color:#e74c3c;"></i>
                     </span>
