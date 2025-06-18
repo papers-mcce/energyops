@@ -17,21 +17,21 @@
             font-family: 'Roboto', sans-serif;
             background: var(--main-bg);
             color: var(--text);
-            font-size: 14px;
+            font-size: 17px;
         }
         .slideshow-container {
-            max-width: 1100px;
-            margin: 30px auto;
+            max-width: 1400px;
+            margin: 18px auto;
             background: var(--main-bg);
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
             overflow: hidden;
             position: relative;
         }
         .slide {
             display: none;
-            padding: 40px;
-            min-height: 600px;
+            padding: 24px 18px 24px 18px;
+            min-height: 420px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.6s;
@@ -50,35 +50,47 @@
         .header {
             background: linear-gradient(135deg, var(--secondary), #333333 80%);
             color: white;
-            padding: 28px;
+            padding: 8px 0 8px 0;
             text-align: center;
-            border-radius: 0 0 18px 18px;
+            border-radius: 0 0 10px 10px;
             position: relative;
+            font-size: 0.85em;
+            padding-left: 60px;
+        }
+        .header h1 {
+            font-size: 1.45em;
+            margin: 0.12em 0 0.12em 0;
         }
         .logo {
             position: absolute;
-            top: 18px;
-            left: 18px;
-            height: 48px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 4px 8px;
-            box-shadow: 0 2px 8px #0003;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            height: 28px;
+            width: 28px;
+            min-width: 28px;
+            min-height: 28px;
+            max-width: 28px;
+            max-height: 28px;
+            background: none;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px #0002;
+            padding: 0;
         }
         .section-title {
             font-family: 'Orbitron', monospace;
             color: var(--secondary);
             text-align: center;
-            margin: 25px 0;
-            font-size: 1.4em;
+            margin: 14px 0;
+            font-size: 1.08em;
         }
         .footer {
             background: var(--main-bg);
             color: #fff;
-            padding: 22px;
+            padding: 10px;
             text-align: center;
-            font-size: 1.05em;
-            border-radius: 18px 18px 0 0;
+            font-size: 0.98em;
+            border-radius: 10px 10px 0 0;
         }
         .nav-btn {
             background: linear-gradient(135deg, var(--secondary), #fff);
@@ -151,17 +163,17 @@
         }
         .callout-box {
             background: #222;
-            border-left: 6px solid #82C828;
-            padding: 18px 22px;
-            margin: 28px 0 18px 0;
-            border-radius: 8px;
-            font-size: 1.08em;
+            border-left: 5px solid #82C828;
+            padding: 10px 14px;
+            margin: 14px 0 10px 0;
+            border-radius: 6px;
+            font-size: 0.98em;
             color: #eaffd0;
         }
         .agenda-list {
             margin: 40px auto 0 auto;
             max-width: 600px;
-            font-size: 1.15em;
+            font-size: 1.1em;
         }
         .agenda-list li {
             margin-bottom: 1.1em;
@@ -187,10 +199,10 @@
         }
         .source-box {
             background: #181818;
-            border-left: 6px solid #4fc3f7;
-            padding: 14px 18px;
-            margin: 30px 0 0 0;
-            border-radius: 8px;
+            border-left: 5px solid #4fc3f7;
+            padding: 8px 12px;
+            margin: 14px 0 0 0;
+            border-radius: 6px;
             font-size: 0.98em;
             color: #bde6ff;
         }
@@ -228,6 +240,11 @@
             from { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 8px #4fc3f7) drop-shadow(0 0 8px #82C82822); }
             to { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 24px #4fc3f7) drop-shadow(0 0 24px #82C82866); }
         }
+        /* Bildgrößen reduzieren */
+        img, canvas {
+            max-width: 85% !important;
+            height: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -237,31 +254,38 @@
         <div class="signpost-bar" id="signpostBar">
             <span class="signpost-icon active" title="Agenda"><i class="fa-solid fa-list"></i></span>
             <span class="signpost-icon" title="Einführung"><i class="fa-solid fa-bolt"></i></span>
-            <span class="signpost-icon" title="Related Work"><i class="fa-solid fa-book"></i></span>
+            <span class="signpost-icon" title="Stand der Forschung"><i class="fa-solid fa-book"></i></span>
             <span class="signpost-icon" title="Use Case"><i class="fa-solid fa-layer-group"></i></span>
-            <span class="signpost-icon" title="Implements"><i class="fa-solid fa-plug"></i></span>
+            <span class="signpost-icon" title="Implementierung"><i class="fa-solid fa-plug"></i></span>
             <span class="signpost-icon" title="energyLIVE"><i class="fa-solid fa-broadcast-tower"></i></span>
             <span class="signpost-icon" title="APIs"><i class="fa-solid fa-link"></i></span>
-            <span class="signpost-icon" title="Demo Time"><i class="fa-solid fa-power-off"></i></span>
+            <span class="signpost-icon" title="Hindernisse"><i class="fa-solid fa-road-barrier"></i></span>
+            <span class="signpost-icon" title="Demo"><i class="fa-solid fa-power-off"></i></span>
+            <span class="signpost-icon" title="Architektur"><i class="fa-solid fa-diagram-project"></i></span>
+            <span class="signpost-icon" title="Fazit"><i class="fa-solid fa-flag-checkered"></i></span>
         </div>
 
         <!-- Slide 0: Agenda -->
         <div class="slide active" id="slide-0">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
-                <h1>Development of a power consumption dashboard<br> for on-premises serversof SMEs</h1>
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
+                <h1>Entwicklung eines Dashboards zur Überwachung des Energieverbrauchs<br> für On-Premises-Server von KMU</h1>
                 <div class="subtitle" style="margin-top:10px; font-size:1.1em;">
+                    <span style="background:#222; color:#82C828; padding:4px 12px; border-radius:6px; font-weight:bold;">Positionspapier & Experimentelles Artefakt</span>
                 </div>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Agenda</h2>
             </div>
-            <h2 class="section-title">Agenda</h2>
             <ul class="agenda-list">
                 <li><span class="agenda-icon"><i class="fa-solid fa-bolt"></i></span> Einführung</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-book"></i></span> Related Work</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-book"></i></span> Stand der Forschung</li>
                 <li><span class="agenda-icon"><i class="fa-solid fa-layer-group"></i></span> Use Case</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-plug"></i></span> Implements</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-plug"></i></span> Implementierung</li>
                 <li><span class="agenda-icon"><i class="fa-solid fa-broadcast-tower"></i></span> energyLIVE</li>
                 <li><span class="agenda-icon"><i class="fa-solid fa-link"></i></span> APIs</li>
-                <li><span class="agenda-icon"><i class="fa-solid fa-power-off"></i></span> Demo Time</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-road-barrier"></i></span> Hindernisse</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-power-off"></i></span> Demo</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-diagram-project"></i></span> Architektur</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-flag-checkered"></i></span> Fazit</li>
             </ul>
             <div class="footer">
                 <span>Projektüberblick & Agenda</span>
@@ -271,10 +295,13 @@
         <!-- Slide 1: Introduction (Energy Monitoring for SMEs) -->
         <div class="slide" id="slide-1">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo Energie Steiermark" class="logo">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo Energie Steiermark" class="logo" width="28" height="28">
                 <h1>⚡ Einführung: Energie-Management für KMU</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Herausforderungen & Zielsetzung</h2>
             </div>
-            <h2 class="section-title">Herausforderungen & Zielsetzung</h2>
+            <div class="callout-box fade-in" style="border-left:6px solid #e74c3c; color:#fff;">
+                <b>Forschungslücke:</b> Es existiert keine integrierte, praxisnahe Lösung, die Energieverbrauch, Smart-Meter-Daten und Echtzeit-Strompreise für KMU in einem Dashboard vereint.
+            </div>
             <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 30px;">
                 <div style="text-align:center;">
                     <i class="fa-solid fa-bolt fa-3x" style="color:#82C828;"></i>
@@ -300,17 +327,38 @@
         <!-- Slide 2: Related Work -->
         <div class="slide" id="slide-2">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
-                <h1>📚 Related Work</h1>
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
+                <h1>📚 Stand der Forschung</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Forschungsstand & Lücken</h2>
             </div>
-            <h2 class="section-title">Stand der Forschung & Lücken</h2>
-            <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fa-solid fa-microchip"></i></span> Prozessmessung in der Industrie</li>
-                <li><span class="fa-li"><i class="fa-solid fa-database"></i></span> Smart Meter Integration</li>
-                <li><span class="fa-li"><i class="fa-solid fa-network-wired"></i></span> Echtzeit-Datenübertragung</li>
-            </ul>
-            <div class="callout-box">
-                <b>Forschungs-Lücke:</b> Keine Lösung vereint Prozessmessung, Smart-Meter, Echtzeitpreise und Dashboard für KMU.
+            <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+                <thead>
+                    <tr style="color:#bbb; font-size:0.98em;">
+                        <th style="text-align:center; width:44px;"></th>
+                        <th style="text-align:left; padding-left:8px;">Thema</th>
+                        <th style="text-align:left; padding-left:8px;">Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-microchip" style="color:#82C828;"></i></td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Prozessmessung in der Industrie</td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Erfassung von Energie- und Prozessdaten in industriellen Anlagen</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-database" style="color:#4fc3f7;"></i></td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Smart Meter Integration</td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Einbindung von intelligenten Stromzählern zur Verbrauchserfassung</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-network-wired" style="color:#feca57;"></i></td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Echtzeit-Datenübertragung</td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Übermittlung von Messdaten in Echtzeit an zentrale Systeme</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout-box" style="border-left:6px solid #e74c3c; color:#fff;">
+                <b>Gap-Analyse:</b> Keine Lösung vereint Prozessmessung, Smart-Meter, Echtzeitpreise und Dashboard für KMU. Unser Ansatz schließt diese Lücke.
             </div>
             <div class="source-box">
                 <b>Quellen:</b>
@@ -327,14 +375,34 @@
         <!-- Slide 3: 3.1 Use Case Description -->
         <div class="slide" id="slide-3">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
                 <h1>🗂️ Use Case: Echtzeit-Energieoptimierung</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Praxisbeispiel & Nutzen</h2>
             </div>
-            <h2 class="section-title">Praxisbeispiel & Nutzen</h2>
-            <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fa-solid fa-server"></i></span> On-Premises Serverbetrieb</li>
-                <li><span class="fa-li"><i class="fa-solid fa-cloud"></i></span> Integration mit Cloud-Diensten</li>
-            </ul>
+            <div class="callout-box" style="border-left:6px solid #4fc3f7; color:#fff;">
+                <b>Methodik:</b> Realtime-Datenerfassung, Cloud-Verarbeitung und reproduzierbare Messszenarien für KMU-Serverumgebungen.
+            </div>
+            <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+                <thead>
+                    <tr style="color:#bbb; font-size:0.98em;">
+                        <th style="text-align:center; width:44px;"></th>
+                        <th style="text-align:left; padding-left:8px;">Thema</th>
+                        <th style="text-align:left; padding-left:8px;">Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-server" style="color:#82C828;"></i></td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">On-Premises Serverbetrieb</td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Lokaler Server für Mail, DNS und Filesharing im Unternehmen</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-cloud" style="color:#4fc3f7;"></i></td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Integration mit Cloud-Diensten</td>
+                        <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Anbindung an Cloud-Services für Datenverarbeitung und Analyse</td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="callout-box">
                 <b>Beispiel:</b> Ein KMU betreibt einen lokalen Server für Mail, DNS und Filesharing. Die Energieaufnahme wird über eine smarte Steckdose gemessen und mit aktuellen Strompreisen verknüpft.
             </div>
@@ -354,13 +422,16 @@
         <!-- Slide 4: Implements for Server Energy Tracking -->
         <div class="slide" id="slide-4">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
                 <h1>🔌 Verwendete Komponenten zur Energieerfassung</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Implementierung & Messaufbau</h2>
             </div>
-            <h2 class="section-title">Implements for Server Energy Tracking</h2>
-            <div style="display: flex; gap: 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+            <div class="callout-box" style="border-left:6px solid #4fc3f7; color:#fff;">
+                <b>Experimentelles Artefakt:</b> Architektur und Messaufbau sind dokumentiert und für akademische Replikation ausgelegt.
+            </div>
+            <div style="display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1400px; margin: 0 auto;">
                 <!-- Nous Stecker -->
-                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <img src="media/nous_stecker.jpeg" alt="Nous A5T Tasmota Steckdose" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>Nous A5T Tasmota</b><br>
@@ -371,7 +442,7 @@
                     </div>
                 </div>
                 <!-- Server -->
-                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <img src="media/server.jpeg" alt="HPE ProLiant DL380 Gen9" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>HPE ProLiant DL380 Gen9 2U</b><br>
@@ -390,13 +461,16 @@
         <!-- Slide 5: energyLIVE Device Features -->
         <div class="slide" id="slide-5">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
                 <h1>📡 energyLIVE – Smart Meter Anbindung</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Anschluss & Übertragung</h2>
             </div>
-            <h2 class="section-title">Anschluss & Übertragung</h2>
-            <div style="display: flex; gap: 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+            <div class="callout-box" style="border-left:6px solid #4fc3f7; color:#fff;">
+                <b>Messszenarien:</b> CPU-Stress, I/O-Stress, Reboot, Wartung, Idle – alle Szenarien sind dokumentiert und im Dashboard visualisiert.
+            </div>
+            <div style="display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1400px; margin: 0 auto;">
                 <!-- energyLIVE Device -->
-                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <img src="media/energy_live_unverbaut.png" alt="energyLIVE Gerät" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>Anschlussmöglichkeiten am Smart Meter:</b><br>
@@ -411,7 +485,7 @@
                     </div>
                 </div>
                 <!-- energyLIVE Verbaut (Sagemcom T210) -->
-                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <img src="media/energy_live_verbaut.jpeg" alt="energyLIVE verbaut am Sagemcom T210" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>Sagemcom T210</b><br>
@@ -434,13 +508,16 @@
         <!-- Slide 6: Verwendete APIs -->
         <div class="slide" id="slide-6">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo" class="logo" width="28" height="28">
                 <h1>🔗 Eingesetzte APIs</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Schnittstellen für Datenintegration</h2>
             </div>
-            <h2 class="section-title">Schnittstellen für Datenintegration</h2>
-            <div style="display: flex; gap: 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+            <div class="callout-box" style="border-left:6px solid #82C828; color:#fff;">
+                <b>Reproduzierbarkeit:</b> Alle APIs und Messszenarien sind dokumentiert und ermöglichen eine akademische Replikation.
+            </div>
+            <div style="display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1400px; margin: 0 auto;">
                 <!-- energyLIVE Dashboard -->
-                <div style="flex: 1 1 340px; max-width: 400px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <img src="media/energy_live_dashboard.jpeg" alt="energyLIVE Dashboard" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004; margin-bottom: 18px;">
                     <div class="callout-box" style="text-align: left;">
                         <b>energyLIVE API</b><br>
@@ -451,7 +528,7 @@
                     </div>
                 </div>
                 <!-- Strompreis API (EPEX Spot) -->
-                <div style="flex: 1 1 340px; max-width: 400px; text-align: center;">
+                <div style="flex: 1 1 600px; max-width: 600px; text-align: center;">
                     <div class="callout-box" style="margin-top: 18px; text-align: left;">
                         <b>Strompreis API (smartENERGY)</b><br>
                         • Bietet aktuelle und zukünftige Strompreise im 15-Minuten-Takt.<br>
@@ -469,12 +546,68 @@
             </div>
         </div>
 
-        <!-- Final Slide: Demo Time / Präsentation des Dashboards -->
+        <!-- Slide 6.9: Hindernisse -->
+        <div class="slide" id="slide-6-9">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo Energie Steiermark" class="logo" width="28" height="28">
+                <h1 style="font-size:2em; text-align:center; margin-top:30px;">🚧 Hindernisse & Stolpersteine</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Praktische Herausforderungen im Projekt</h2>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:48px; margin-top:40px;">
+                <!-- Animiertes Hindernis-Symbol -->
+                <div style="flex:0 1 180px; min-width:120px; text-align:center; display:flex; align-items:center; justify-content:center;">
+                    <span class="fa-stack fa-4x charging-animate" style="color:#e74c3c;">
+                        <i class="fa-solid fa-circle fa-stack-2x" style="color:#222;"></i>
+                        <i class="fa-solid fa-road-barrier fa-stack-1x" style="color:#e74c3c;"></i>
+                    </span>
+                </div>
+                <!-- Tabelle mit Hindernissen -->
+                <div style="flex:1 1 600px; min-width:340px; max-width:700px;">
+                    <div class="callout-box fade-in" style="font-size:1.08em;">
+                        <b>Wesentliche Stolpersteine im Projektverlauf:</b>
+                        <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+                            <thead>
+                                <tr style="color:#bbb; font-size:0.98em;">
+                                    <th style="text-align:center; width:48px;"></th>
+                                    <th style="text-align:left; padding-left:8px;">Komponente</th>
+                                    <th style="text-align:left; padding-left:8px;">Erläuterung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:center; padding-top:12px; padding-bottom:12px;"><i class="fa-solid fa-user-gear" style="color:#feca57;"></i></td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">Kundenschnittstelle</td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">Mehrere Wochen keine Freischaltung durch Netze Graz</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:12px; padding-bottom:12px;"><i class="fa-solid fa-plug-circle-xmark" style="color:#ff6b6b;"></i></td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">NetIO</td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">NetIO konnten die Steckerleiste nicht liefern, andere notwendig</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:12px; padding-bottom:12px;"><i class="fa-solid fa-database" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">Dynamo DB</td>
+                                    <td style="padding-left:8px; padding-top:12px; padding-bottom:12px;">Anbindung nur durch Glue Crawler, Glue Catalog, Lambda und Athena möglich in Quicksight</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Herausforderungen & Lessons Learned</span>
+            </div>
+        </div>
+
+        <!-- Slide 7: Demo Time / Präsentation des Dashboards -->
         <div class="slide" id="slide-7">
             <div class="header">
-                <img src="media/Energie_Steiermark_Logo.png" alt="Logo Energie Steiermark" class="logo">
-                <h1 style="font-size:2.5em; text-align:center; margin-top:40px;">⚡ <span id="powerSymbol" class="power-animate">&#x23FB;</span> Demo Time</h1>
-                <h2 class="section-title" style="margin-top:20px;">Präsentation des Dashboards</h2>
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo Energie Steiermark" class="logo" width="28" height="28">
+                <h1 style="font-size:2.5em; text-align:center; margin-top:40px;">⚡ <span id="powerSymbol" class="power-animate">&#x23FB;</span> Demo: Experimentelles Artefakt</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Präsentation des Dashboards</h2>
+            </div>
+            <div class="callout-box" style="border-left:6px solid #4fc3f7; color:#fff; margin-bottom:24px;">
+                <b>Visualisierte Messszenarien:</b> CPU-Stress, I/O-Stress, Reboot, Wartung, Idle – alle im Dashboard abgebildet und dokumentiert.
             </div>
             <div style="display:flex; flex-direction:column; align-items:center; margin-top:40px;">
                 <span class="charging-animate" style="font-size:4em; margin-bottom:24px; color:#4fc3f7;">
@@ -485,6 +618,134 @@
             </div>
             <div class="footer">
                 <span>Live-Demo: Dashboard in Aktion</span>
+            </div>
+        </div>
+
+        <!-- Slide 7.5: Demo Time – Architekturdiagramm -->
+        <div class="slide" id="slide-7-arch">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo Energie Steiermark" class="logo" width="28" height="28">
+                <h1 style="font-size:2em; text-align:center; margin-top:30px;">⚡ Demo: Systemarchitektur</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Architekturüberblick (draw.io)</h2>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:48px; margin-top:40px;">
+                <!-- Diagramm (SVG oder PNG, hier als Platzhalter) -->
+                <div style="flex:1 1 700px; min-width:340px; max-width:800px; text-align:center;">
+                    <!-- Ersetze src durch exportiertes SVG/PNG aus draw.io -->
+                    <img src="media/poster_diagram.svg" alt="Systemarchitektur Diagramm" style="max-width:100%; border-radius:12px; box-shadow:0 2px 12px #0004; background:#fff; padding:18px;">
+                </div>
+                <!-- Komponentenbeschreibung -->
+                <div style="flex:1 1 400px; min-width:320px; max-width:500px;">
+                    <div class="callout-box fade-in" style="font-size:1.08em;">
+                        <b>Architektur-Komponenten (AWS & IoT):</b>
+                        <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+                            <thead>
+                                <tr style="color:#bbb; font-size:0.98em;">
+                                    <th style="text-align:center; width:44px;"></th>
+                                    <th style="text-align:left; padding-left:8px;">Komponente</th>
+                                    <th style="text-align:left; padding-left:8px;">Beschreibung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-plug" style="color:#82C828;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Nous A5T Tasmota</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Smarte Steckdose zur Energieverbrauchsmessung (IoT-Gerät)</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-bolt" style="color:#feca57;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Energy Live API</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Echtzeit-Energiedatenquelle</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-chart-line" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">EPEX Spot</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Marktpreis-Datenquelle (Strombörse)</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-cogs" style="color:#82C828;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS Lambda</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Serverlose Funktionen für Datenerfassung und -verarbeitung</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-database" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon DynamoDB</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">NoSQL-Datenbank zur Speicherung der Energiedaten</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-network-wired" style="color:#82C828;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon IoT Core</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">IoT-Geräteverwaltung und MQTT-Messaging</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-calendar" style="color:#feca57;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon EventBridge</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Zeitgesteuerte Ereignisauslösung</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-eye" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon CloudWatch</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Logging und Monitoring</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-lock" style="color:#82C828;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS IAM</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Identitäts- und Zugriffsmanagement</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-code" style="color:#feca57;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS CloudFormation</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Infrastructure as Code für IoT-Authentifizierung</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-box-open" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon S3</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Datenspeicherung und Exporte</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-table" style="color:#82C828;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon Athena</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">SQL-Abfragen für Datenanalyse</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-layer-group" style="color:#feca57;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS Glue</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Datenkatalog und ETL-Service</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-chart-bar" style="color:#4fc3f7;"></i></td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon QuickSight</td>
+                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Business Intelligence und Analytics Dashboard</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px; color:#bbb; font-size:0.98em;">Alle Komponenten sind modular und für akademische Replikation dokumentiert.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>Architektur-Demo: Übersicht aller Systembausteine</span>
+            </div>
+        </div>
+
+        <!-- Slide 8: Conclusion & Impact -->
+        <div class="slide" id="slide-8">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.svg" alt="Logo Energie Steiermark" class="logo" width="28" height="28">
+                <h1 style="font-size:2.2em; text-align:center; margin-top:40px;">🏁 Fazit & Ausblick</h1>
+                <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Zusammenfassung & Ausblick</h2>
+            </div>
+            <div class="callout-box" style="border-left:6px solid #82C828; color:#fff; margin-bottom:24px;">
+                <b>Wissenschaftlicher Beitrag:</b> Das vorgestellte System schließt die Forschungslücke für KMU durch eine integrierte, cloudbasierte Energieüberwachung und ermöglicht datenbasierte Optimierung von Server-Workloads.
+            </div>
+            <div class="callout-box" style="border-left:6px solid #4fc3f7; color:#fff; margin-bottom:24px;">
+                <b>Reproduzierbarkeit:</b> Alle Messszenarien und APIs sind dokumentiert und können von Dritten nachvollzogen werden.
+            </div>
+            <div class="callout-box" style="border-left:6px solid #e74c3c; color:#fff; margin-bottom:24px;">
+                <b>Ausblick:</b> Weitere Optimierungsmöglichkeiten, Integration zusätzlicher Datenquellen und Automatisierung der Workload-Steuerung sind geplant.
+            </div>
+            <div class="footer">
+                <span>Vielen Dank für Ihre Aufmerksamkeit!</span>
             </div>
         </div>
 
