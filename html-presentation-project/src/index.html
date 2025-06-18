@@ -213,6 +213,7 @@
             <span class="signpost-icon" title="Related Work"><i class="fa-solid fa-book"></i></span>
             <span class="signpost-icon" title="Use Case"><i class="fa-solid fa-layer-group"></i></span>
             <span class="signpost-icon" title="Implements"><i class="fa-solid fa-plug"></i></span>
+            <span class="signpost-icon" title="energyLIVE"><i class="fa-solid fa-broadcast-tower"></i></span>
         </div>
 
         <!-- Slide 0: Agenda -->
@@ -229,6 +230,7 @@
                 <li><span class="agenda-icon"><i class="fa-solid fa-book"></i></span> Related Work</li>
                 <li><span class="agenda-icon"><i class="fa-solid fa-layer-group"></i></span> Use Case</li>
                 <li><span class="agenda-icon"><i class="fa-solid fa-plug"></i></span> Implements</li>
+                <li><span class="agenda-icon"><i class="fa-solid fa-broadcast-tower"></i></span> energyLIVE</li>
             </ul>
             <div class="footer">
                 <span>Projektüberblick & Agenda</span>
@@ -342,6 +344,45 @@
             </div>
             <div class="footer">
                 Komponenten für die Energieüberwachung im Use Case
+            </div>
+        </div>
+
+        <!-- Slide 5: energyLIVE Device Features -->
+        <div class="slide" id="slide-5">
+            <div class="header">
+                <img src="media/Energie_Steiermark_Logo.png" alt="Logo" class="logo">
+                <h1>📡 energyLIVE – Smart Meter Anbindung</h1>
+            </div>
+            <h2 class="section-title">Anschluss & Übertragung</h2>
+            <div style="display: flex; gap: 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+                <!-- energyLIVE Device -->
+                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                    <img src="media/energy_live_unverbaut.png" alt="energyLIVE Gerät" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
+                    <div class="callout-box" style="margin-top: 18px; text-align: left;">
+                        <b>Anschlussmöglichkeiten am Smart Meter:</b><br>
+                        • Optische Schnittstelle<br>
+                        • MBus Kabel<br>
+                        • P1 Kabel (Kabellänge jeweils 1 m)<br><br>
+                        <b>Netzwerkverbindung:</b><br>
+                        • WiFi 2,4 GHz<br>
+                        • LoRa P2P 868 MHz<br><br>
+                        <b>Sendet Verbrauchswerte:</b><br>
+                        • Alle 10 Sekunden
+                    </div>
+                </div>
+                <!-- energyLIVE Verbaut (Sagemcom T210) -->
+                <div style="flex: 1 1 320px; max-width: 350px; text-align: center;">
+                    <img src="media/energy_live_verbaut.jpeg" alt="energyLIVE verbaut am Sagemcom T210" style="max-width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #0004;">
+                    <div class="callout-box" style="margin-top: 18px; text-align: left;">
+                        <b>Sagemcom T210</b><br>
+                        • P1 Anbindung<br>
+                        • kein Gateway notwendig<br>
+                        • WiFi 2,4 GHz
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                energyLIVE – Schnittstelle zwischen Smart Meter und Dashboard
             </div>
         </div>
 
