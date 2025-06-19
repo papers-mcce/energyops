@@ -47,7 +47,7 @@ energy monitoring solution for SME server environments. The data collection laye
 external devices and services to gather the necessary information. The data from the Sagemcom Smart
 Meter is collectedvia the Energylive API, providing facility-level energy consumption data at
 ten second intervals. This data includes overall electricity usage for the entire server room or IT
-infrastructure. The NETIO PowerCable device serves as an IoT sensor that measures power consumption
+infrastructure. The NOUS A5T PowerCable device serves as an IoT sensor that measures power consumption
 of individual servers and critical IT equipment, offering granular insights into which systems
 contribute most significantly to the overall energy footprint. Additionally, the system integrates
 with the EPEX Spot API to retrieve real-time and forecasted electricity market prices, which
@@ -55,7 +55,7 @@ are essential for cost optimization strategies.
 
 The processing layer leverages AWS Lambda functions to handle the incoming data streams
 efficiently. An API Gateway serves as the entry point for REST API requests from the Energy Live API,
-ensuring secure and scalable communication. IoT Core manages MQTT connections from the NETIO
+ensuring secure and scalable communication. IoT Core manages MQTT connections from the NOUS A5T
 PowerCable device, providing a reliable communication channel for this IoT sensor.
 Three specialized Lambda functions handle different aspects of data processing: one dedicated to
 REST API data collection from the Energy Live API, another processing MQTT messages from the IoT device
@@ -87,7 +87,7 @@ provide insights into both the system's technical capabilities and its practical
 utility for SME operators.
 
 Server energy consumption analysis forms the core of our measurement approach.
-Using the NETIO PowerCable device, we will conduct detailed measurements of a
+Using the NOUS A5T PowerCable device, we will conduct detailed measurements of a
 single server under various operational scenarios to establish energy consumption
 profiles. Specifically, we will examine the following use cases:
 
