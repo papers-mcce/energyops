@@ -33,6 +33,28 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
+# Function to clear expired AWS credentials
+clear_expired_credentials() {
+    print_status "Clearing any expired AWS credentials..."
+    
+    # Check if we have temporary credentials that might be expired
+    if [ -n "$AWS_SESSION_TOKEN" ] || [ -n "$AWS_ACCESS_KEY_ID" ] || [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
+        print_warning "Found temporary AWS credentials in environment."
+        print_status "Clearing them to prevent authentication conflicts..."
+        
+        # Clear the environment variables
+        unset AWS_SESSION_TOKEN
+        unset AWS_ACCESS_KEY_ID
+        unset AWS_SECRET_ACCESS_KEY
+        
+        print_success "✅ Cleared temporary credentials."
+        echo "" >&2
+    else
+        print_status "No temporary credentials found in environment."
+        echo "" >&2
+    fi
+}
+
 # Function to check if AWS CLI is configured
 check_aws_cli() {
     if ! command -v aws &> /dev/null; then
@@ -40,9 +62,22 @@ check_aws_cli() {
         exit 1
     fi
     
-    if ! aws sts get-caller-identity &> /dev/null; then
+    # Check if AWS CLI has basic configuration
+    if ! aws configure list &> /dev/null; then
         print_error "AWS CLI is not configured. Please run 'aws configure' first."
         exit 1
+    fi
+    
+    # Try to get caller identity, but don't fail if credentials are expired
+    if ! aws sts get-caller-identity &> /dev/null; then
+        print_warning "AWS credentials appear to be expired or invalid."
+        print_status "This is normal if your MFA session has expired."
+        print_status "Continuing with MFA authentication..."
+        echo "" >&2
+    else
+        CURRENT_USER=$(aws sts get-caller-identity --query 'Arn' --output text 2>/dev/null || echo "Unknown")
+        print_status "Current AWS Identity: $CURRENT_USER"
+        echo "" >&2
     fi
 }
 
@@ -52,9 +87,7 @@ get_mfa_token() {
     echo "==========================================" >&2
     echo "" >&2
     
-    # Get current user info
-    CURRENT_USER=$(aws sts get-caller-identity --query 'Arn' --output text 2>/dev/null || echo "Unknown")
-    print_status "Current AWS Identity: $CURRENT_USER"
+    # Show MFA device info
     print_status "MFA Device: $MFA_SERIAL_NUMBER"
     echo "" >&2
     
@@ -68,15 +101,27 @@ get_mfa_token() {
     
     print_status "Getting temporary credentials..."
     
-    # Get session token
-    CREDENTIALS=$(aws sts get-session-token \
+    # Get session token with timeout
+    print_status "Calling AWS STS (this may take a few seconds)..."
+    
+    # Use timeout to prevent hanging
+    CREDENTIALS=$(timeout 30 aws sts get-session-token \
         --serial-number "$MFA_SERIAL_NUMBER" \
         --token-code "$MFA_CODE" \
         --duration-seconds "$SESSION_DURATION" \
-        --output json 2>/dev/null)
+        --output json 2>&1)
     
-    if [ $? -ne 0 ]; then
-        print_error "Failed to get session token. Please check your MFA code and try again."
+    TIMEOUT_EXIT_CODE=$?
+    
+    if [ $TIMEOUT_EXIT_CODE -eq 124 ]; then
+        print_error "Request timed out after 30 seconds. Please check your internet connection and try again."
+        exit 1
+    fi
+    
+    if [ $TIMEOUT_EXIT_CODE -ne 0 ]; then
+        print_error "Failed to get session token. Error:"
+        echo "$CREDENTIALS" >&2
+        print_error "Please check your MFA code and try again."
         exit 1
     fi
     
@@ -88,6 +133,8 @@ get_mfa_token() {
     
     if [ "$ACCESS_KEY" = "null" ] || [ "$SECRET_KEY" = "null" ] || [ "$SESSION_TOKEN" = "null" ]; then
         print_error "Failed to parse credentials from AWS response."
+        print_error "Response was:"
+        echo "$CREDENTIALS" >&2
         exit 1
     fi
     
@@ -184,6 +231,9 @@ main() {
     echo "" >&2
     echo "🔐 AWS MFA Authentication Script" >&2
     echo "================================" >&2
+    
+    # Clear any expired credentials first
+    clear_expired_credentials
     
     # Check prerequisites
     check_aws_cli
