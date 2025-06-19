@@ -748,99 +748,125 @@
                 <h1 style="font-size:2em; text-align:center; margin-top:30px;">⚡ Demo: Systemarchitektur</h1>
                 <h2 class="section-title" style="font-size:1.15em; margin-top:10px;">Architekturüberblick (draw.io)</h2>
             </div>
-            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:48px; margin-top:40px;">
-                <!-- Diagramm (SVG oder PNG, hier als Platzhalter) -->
-                <div style="flex:1 1 700px; min-width:340px; max-width:800px; text-align:center;">
-                    <!-- Ersetze src durch exportiertes SVG/PNG aus draw.io -->
-                    <img src="media/poster_diagram.svg" alt="Systemarchitektur Diagramm" style="max-width:100%; border-radius:12px; box-shadow:0 2px 12px #0004; background:#fff; padding:18px;">
-                </div>
-                <!-- Komponentenbeschreibung -->
-                <div style="flex:1 1 400px; min-width:320px; max-width:500px;">
-                    <div class="callout-box fade-in" style="font-size:1.08em;">
-                        <b>Architektur-Komponenten (AWS & IoT):</b>
-                        <table style="width:100%; border-collapse:collapse; margin-top:14px;">
-                            <thead>
-                                <tr style="color:#bbb; font-size:0.98em;">
-                                    <th style="text-align:center; width:44px;"></th>
-                                    <th style="text-align:left; padding-left:8px;">Komponente</th>
-                                    <th style="text-align:left; padding-left:8px;">Beschreibung</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-plug" style="color:#82C828;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Nous A5T Tasmota</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Smarte Steckdose zur Energieverbrauchsmessung (IoT-Gerät)</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-bolt" style="color:#feca57;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Energy Live API</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Echtzeit-Energiedatenquelle</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-chart-line" style="color:#4fc3f7;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">EPEX Spot</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Marktpreis-Datenquelle (Strombörse)</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-cogs" style="color:#82C828;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS Lambda</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Serverlose Funktionen für Datenerfassung und -verarbeitung</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-database" style="color:#4fc3f7;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon DynamoDB</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">NoSQL-Datenbank zur Speicherung der Energiedaten</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-network-wired" style="color:#82C828;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon IoT Core</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">IoT-Geräteverwaltung und MQTT-Messaging</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-calendar" style="color:#feca57;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon EventBridge</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Zeitgesteuerte Ereignisauslösung</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-eye" style="color:#4fc3f7;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon CloudWatch</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Logging und Monitoring</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-lock" style="color:#82C828;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS IAM</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Identitäts- und Zugriffsmanagement</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-code" style="color:#feca57;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS CloudFormation</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Infrastructure as Code für IoT-Authentifizierung</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-box-open" style="color:#4fc3f7;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon S3</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Datenspeicherung und Exporte</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-table" style="color:#82C828;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon Athena</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">SQL-Abfragen für Datenanalyse</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-layer-group" style="color:#feca57;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">AWS Glue</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Datenkatalog und ETL-Service</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center; padding-top:10px; padding-bottom:10px;"><i class="fa-solid fa-chart-bar" style="color:#4fc3f7;"></i></td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Amazon QuickSight</td>
-                                    <td style="padding-left:8px; padding-top:10px; padding-bottom:10px;">Business Intelligence und Analytics Dashboard</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div style="margin-top:10px; color:#bbb; font-size:0.98em;">Alle Komponenten sind modular und für akademische Replikation dokumentiert.</div>
-                    </div>
+            <div style="width:100%; max-width:1400px; margin:40px auto 0 auto; display:block;">
+                <img src="media/test_architektur.svg" alt="Systemarchitektur Diagramm" style="width:100%; max-width:1400px; display:block; margin:0 auto;">
+                <div class="callout-box fade-in" style="font-size:1.08em; margin-top:32px; width:100%; max-width:1400px; margin-left:auto; margin-right:auto;">
+                    <b>Architektur-Komponenten (AWS & IoT):</b>
+                    <table style="width:100%; border-collapse:collapse; margin-top:14px;">
+                        <thead>
+                            <tr style="color:#bbb; font-size:0.98em;">
+                                <th style="text-align:center; width:44px;"></th>
+                                <th style="text-align:left; padding-left:8px;">Komponente</th>
+                                <th style="text-align:left; padding-left:8px;">Beschreibung</th>
+                                <th style="text-align:left; padding-left:8px;">Bereich</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-microchip" style="color:#82C828;"></i></td>
+                                <td>Smart Meter</td>
+                                <td>Erfasst Energieverbrauchsdaten</td>
+                                <td>IoT / Edge</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-plug" style="color:#82C828;"></i></td>
+                                <td>Nous A5T Tasmota</td>
+                                <td>Smarte Steckdose zur Energieverbrauchsmessung (IoT-Gerät)</td>
+                                <td>IoT / Edge</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-cloud" style="color:#4fc3f7;"></i></td>
+                                <td>Smart Energy Cloud</td>
+                                <td>Zentrale Cloud für Energie- und Preisdaten</td>
+                                <td>Cloud / API</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-bolt" style="color:#feca57;"></i></td>
+                                <td>Energy Live API</td>
+                                <td>Echtzeit-Energiedatenquelle</td>
+                                <td>Cloud / API</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-chart-line" style="color:#4fc3f7;"></i></td>
+                                <td>EPEX Spot</td>
+                                <td>Marktpreis-Datenquelle (Strombörse)</td>
+                                <td>Cloud / API</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-network-wired" style="color:#82C828;"></i></td>
+                                <td>MQTT</td>
+                                <td>Protokoll für IoT-Kommunikation</td>
+                                <td>IoT / Edge</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-cogs" style="color:#82C828;"></i></td>
+                                <td>AWS Lambda</td>
+                                <td>Serverlose Funktionen für Datenerfassung und -verarbeitung</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-database" style="color:#4fc3f7;"></i></td>
+                                <td>Amazon DynamoDB</td>
+                                <td>NoSQL-Datenbank zur Speicherung der Energiedaten</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-network-wired" style="color:#82C828;"></i></td>
+                                <td>Amazon IoT Core</td>
+                                <td>IoT-Geräteverwaltung und MQTT-Messaging</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-calendar" style="color:#feca57;"></i></td>
+                                <td>Amazon EventBridge</td>
+                                <td>Zeitgesteuerte Ereignisauslösung</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-eye" style="color:#4fc3f7;"></i></td>
+                                <td>Amazon CloudWatch</td>
+                                <td>Logging und Monitoring</td>
+                                <td>AWS IAM / Monitoring / IaC</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-lock" style="color:#82C828;"></i></td>
+                                <td>AWS IAM</td>
+                                <td>Identitäts- und Zugriffsmanagement</td>
+                                <td>AWS IAM / Monitoring / IaC</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-code" style="color:#feca57;"></i></td>
+                                <td>AWS CloudFormation</td>
+                                <td>Infrastructure as Code für IoT-Authentifizierung</td>
+                                <td>AWS IAM / Monitoring / IaC</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-box-open" style="color:#4fc3f7;"></i></td>
+                                <td>Amazon S3</td>
+                                <td>Datenspeicherung und Exporte</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-table" style="color:#82C828;"></i></td>
+                                <td>Amazon Athena</td>
+                                <td>SQL-Abfragen für Datenanalyse</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-layer-group" style="color:#feca57;"></i></td>
+                                <td>AWS Glue</td>
+                                <td>Datenkatalog und ETL-Service</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-chart-bar" style="color:#4fc3f7;"></i></td>
+                                <td>Amazon QuickSight</td>
+                                <td>Business Intelligence und Analytics Dashboard</td>
+                                <td>AWS Serverless / Dashboard</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top:10px; color:#bbb; font-size:0.98em;">Alle Komponenten sind modular, kategorisiert und für akademische Replikation dokumentiert.</div>
                 </div>
             </div>
             <div class="footer">
