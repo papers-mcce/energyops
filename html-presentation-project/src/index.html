@@ -120,7 +120,7 @@
             max-width: 700px;
             box-shadow: 0 1px 6px #0002;
             position: sticky;
-            top: 0;
+            top: 10px;
             z-index: 100;
             transition: all 0.3s ease;
             backdrop-filter: blur(6px);
@@ -361,24 +361,23 @@
     </style>
 </head>
 <body>
+    <!-- Signpost Bar -->
+    <div class="signpost-bar" id="signpostBar">
+        <span class="signpost-icon active" title="Agenda"><i class="fa-solid fa-list"></i></span>
+        <span class="signpost-icon" title="Einführung"><i class="fa-solid fa-bolt"></i></span>
+        <span class="signpost-icon" title="Stand der Forschung"><i class="fa-solid fa-book"></i></span>
+        <span class="signpost-icon" title="Use Case"><i class="fa-solid fa-layer-group"></i></span>
+        <span class="signpost-icon" title="Implementierung"><i class="fa-solid fa-plug"></i></span>
+        <span class="signpost-icon" title="energyLIVE"><i class="fa-solid fa-broadcast-tower"></i></span>
+        <span class="signpost-icon" title="APIs"><i class="fa-solid fa-link"></i></span>
+        <span class="signpost-icon" title="Hindernisse"><i class="fa-solid fa-road-barrier"></i></span>
+        <span class="signpost-icon" title="Messszenarien"><i class="fa-solid fa-vial"></i></span>
+        <span class="signpost-icon" title="Demo"><i class="fa-solid fa-power-off"></i></span>
+        <span class="signpost-icon" title="Architektur"><i class="fa-solid fa-diagram-project"></i></span>
+        <span class="signpost-icon" title="Fazit"><i class="fa-solid fa-flag-checkered"></i></span>
+    </div>
+
     <div class="slideshow-container">
-
-        <!-- Signpost Bar -->
-        <div class="signpost-bar" id="signpostBar">
-            <span class="signpost-icon active" title="Agenda"><i class="fa-solid fa-list"></i></span>
-            <span class="signpost-icon" title="Einführung"><i class="fa-solid fa-bolt"></i></span>
-            <span class="signpost-icon" title="Stand der Forschung"><i class="fa-solid fa-book"></i></span>
-            <span class="signpost-icon" title="Use Case"><i class="fa-solid fa-layer-group"></i></span>
-            <span class="signpost-icon" title="Implementierung"><i class="fa-solid fa-plug"></i></span>
-            <span class="signpost-icon" title="energyLIVE"><i class="fa-solid fa-broadcast-tower"></i></span>
-            <span class="signpost-icon" title="APIs"><i class="fa-solid fa-link"></i></span>
-            <span class="signpost-icon" title="Hindernisse"><i class="fa-solid fa-road-barrier"></i></span>
-            <span class="signpost-icon" title="Messszenarien"><i class="fa-solid fa-vial"></i></span>
-            <span class="signpost-icon" title="Demo"><i class="fa-solid fa-power-off"></i></span>
-            <span class="signpost-icon" title="Architektur"><i class="fa-solid fa-diagram-project"></i></span>
-            <span class="signpost-icon" title="Fazit"><i class="fa-solid fa-flag-checkered"></i></span>
-        </div>
-
         <!-- Slide 0: Agenda -->
         <div class="slide active" id="slide-0">
             <div class="header">
@@ -814,21 +813,14 @@
                         <p style="font-size: 1.0em;">Auf dem <b>HPE ProLiant DL380 Gen9</b> Server wird <b>Proxmox VE</b> als Hypervisor eingesetzt, um die Tests in isolierten VMs durchzuführen.</p>
                     </div>
                     
-                    <div style="position: relative; text-align: center; margin-top: 20px; min-height: 150px;">
+                    <div style="position: relative; text-align: center; margin-top: 20px; min-height: 200px;">
                         <!-- Animated server icon -->
-                        <span class="fa-stack fa-5x" style="color: #ccc;">
+                        <span class="fa-stack fa-6x" style="color: #ccc;">
                             <i class="fa-solid fa-smog smoke-icon" style="top: -20px; left: 0px; animation-delay: 0s; color: #777; opacity: 0;"></i>
                             <i class="fa-solid fa-smog smoke-icon" style="top: -25px; left: 20px; animation-delay: 0.7s; color: #888; opacity: 0;"></i>
                             <i class="fa-solid fa-smog smoke-icon" style="top: -15px; left: -10px; animation-delay: 1.2s; color: #666; opacity: 0;"></i>
                             <i class="fa-solid fa-server fa-stack-1x" style="z-index: 5;"></i>
                         </span>
-                        <!-- Vertically charging battery -->
-                        <div style="position: absolute; right: 40px; top: 20px;">
-                             <div class="battery-charging-container">
-                                <i class="fa-solid fa-battery-three-quarters"></i>
-                                <div class="battery-charge-level"></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -924,6 +916,18 @@
                                 <td>IoT / Edge</td>
                             </tr>
                             <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-server" style="color:#82C828;"></i></td>
+                                <td>HPE ProLiant Server</td>
+                                <td>On-Premises-Server für rechenintensive Aufgaben</td>
+                                <td>IoT / Edge</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><i class="fa-solid fa-broadcast-tower" style="color:#82C828;"></i></td>
+                                <td>energyLIVE Device</td>
+                                <td>Monitoring-Tool zur Erfassung von Smart-Meter-Daten</td>
+                                <td>IoT / Edge</td>
+                            </tr>
+                            <tr>
                                 <td style="text-align:center;"><i class="fa-solid fa-cloud" style="color:#4fc3f7;"></i></td>
                                 <td>Smart Energy Cloud</td>
                                 <td>Zentrale Cloud für Energie- und Preisdaten</td>
@@ -940,12 +944,6 @@
                                 <td>EPEX Spot</td>
                                 <td>Marktpreis-Datenquelle (Strombörse)</td>
                                 <td>Cloud / API</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;"><i class="fa-solid fa-network-wired" style="color:#82C828;"></i></td>
-                                <td>MQTT</td>
-                                <td>Protokoll für IoT-Kommunikation</td>
-                                <td>IoT / Edge</td>
                             </tr>
                             <tr>
                                 <td style="text-align:center;"><i class="fa-solid fa-cogs" style="color:#82C828;"></i></td>

@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSlide = idx;
         console.log('Switched to slide', idx);
         
+        // Scroll to top when slide changes
+        window.scrollTo(0, 0);
+
         // Update progress bar
         updateProgressBar(idx);
     }
