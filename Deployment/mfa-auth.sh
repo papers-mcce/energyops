@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 # MFA Authentication Script for AWS
 # This script gets temporary credentials using MFA and outputs them for sourcing
