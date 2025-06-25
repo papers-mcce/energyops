@@ -28,13 +28,13 @@ API responses are returned in JSON format, consisting of an array of measurement
 
 \subsection{Example Request and Response}
 A typical request to the API using \texttt{curl} is as follows:
-\begin{verbatim}
+\begin{lstlisting}
 curl -X GET -H "X-API-KEY: <your_api_key>" \
 "https://backend.energylive.e-steiermark.com/api/v1/devices/I-10082023-01658401/measurements/latest"
-\end{verbatim}
+\end{lstlisting}
 
 The response is a JSON array, for example:
-\begin{verbatim}
+\begin{lstlisting}
 [
   {
     "measurement": "0100010700",
@@ -48,7 +48,7 @@ The response is a JSON array, for example:
   }
   // ...
 ]
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Use Cases}
 The energyLIVE API is suitable for a variety of applications, including the integration of smart meter data into home automation platforms, the development of custom energy monitoring dashboards, and the implementation of dynamic energy management strategies based on real-time consumption and pricing data.
@@ -86,12 +86,12 @@ The API returns data in JSON format, with the following structure:
 
 \subsection{Example Request and Response}
 A typical request to the API is as follows:
-\begin{verbatim}
+\begin{lstlisting}
 GET https://apis.smartenergy.at/market/v1/price
-\end{verbatim}
+\end{lstlisting}
 
 The response is a JSON object, for example:
-\begin{verbatim}
+\begin{lstlisting}
 {
   "tariff": "EPEXSPOTAT",
   "unit": "ct/kWh",
@@ -104,9 +104,70 @@ The response is a JSON object, for example:
     ...
   ]
 }
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Use Cases}
 The Strompreis API is particularly useful for automating energy consumption in response to real-time price signals, enabling the development of energy management systems that optimize usage patterns according to periods of low electricity prices. It also supports detailed energy monitoring and cost analysis by providing granular, up-to-date market price data.
 
 For further details and best practice examples, refer to the official documentation and user community resources provided by Energie Steiermark\footnote{\url{https://www.smartenergy.at/api-schnittstellen}}.
+
+\newpage
+\section{Tasmota Configuration for NOUS A5T Power Strip}
+\label{appendix:tasmota-config}
+
+This appendix details the custom Tasmota configuration used for the NOUS A5T power strip, enabling secure integration with AWS IoT and advanced energy monitoring capabilities. The configuration is designed to facilitate reproducibility and ease of deployment for research and practical applications in energy-aware server management.
+
+\subsection{Hardware Overview}
+The NOUS A5T power strip features four individually controllable AC outlets, three USB ports, and integrated energy monitoring for voltage, current, and power. The device is based on the ESP8285 microcontroller, which provides 1MB of flash memory and supports custom firmware such as Tasmota.
+
+\subsection{Configuration Purpose and Features}
+The custom configuration enables the following key features:
+\begin{itemize}
+    \item Secure AWS IoT integration with TLS/SSL support
+    \item MQTT communication for real-time telemetry
+    \item Energy monitoring (voltage, current, power)
+    \item Custom device naming and topic structure
+    \item Web interface and HTTP API for local management
+    \item Rules engine for automation
+\end{itemize}
+
+\subsection{Device Template}
+The following Tasmota template is used to define the hardware configuration for the NOUS A5T:
+\begin{lstlisting}
+{
+  "NAME": "NOUS A5T",
+  "GPIO": [0, 3072, 544, 3104, 0, 259, 0, 0, 225, 226, 224, 0, 35, 4704],
+  "FLAG": 1,
+  "BASE": 18
+}
+\end{lstlisting}
+
+\subsection{Custom Firmware Build and Flashing}
+To deploy the custom configuration, the following steps should be followed:
+\begin{enumerate}
+    \item Copy the provided \texttt{user\_config\_override.h} file to the Tasmota source directory:
+    \begin{lstlisting}
+    copy tasmota-config\user_config_override.h tasmota\tasmota\user_config_override.h
+    \end{lstlisting}
+    \item Build the custom firmware using PlatformIO:
+    \begin{lstlisting}
+    cd tasmota
+    pio run -e tasmota
+    \end{lstlisting}
+    \item Flash the firmware to the NOUS A5T device. The built binary is located at \lstinline|tasmota/build_output/firmware/tasmota.bin|. Flashing can be performed via the Tasmota web UI or a serial connection.
+\end{enumerate}
+
+\subsection{AWS IoT and MQTT Setup}
+After flashing, configure the device for AWS IoT integration using the following Tasmota console command (replace placeholders with your actual AWS IoT endpoint and credentials):
+\begin{lstlisting}
+BackLog SetOption3 1; SetOption103 1; MqttHost your-endpoint.iot.region.amazonaws.com; MqttPort 443; MqttUser tasmota?x-amz-customauthorizer-name=TasmotaAuth; MqttPassword your-password
+\end{lstlisting}
+
+\subsection{Device Information}
+\begin{itemize}
+    \item \textbf{Name}: Server PowerMeter
+    \item \textbf{Topic}: serverpowermeter
+    \item \textbf{Firmware}: Custom Tasmota v14.6.0 with AWS IoT support
+\end{itemize}
+
+For further details, refer to the configuration file \texttt{user\_config\_override.h} and the project README. This setup enables secure, scalable, and reproducible energy monitoring for research and operational deployments.
