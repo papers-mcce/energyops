@@ -6,29 +6,29 @@
 
 %Englisch
 \section{Methodological Approach}
+This section outlines the methodological approach taken to design, implement, and evaluate an energy-aware server management solution for small and medium-sized enterprises (SMEs).
+It describes the overall use case, the technical architecture of the prototype, and the integration of real-time energy consumption and electricity price data.
 
 \subsection{Use Case Description}
-This research focuses on optimizing energy consumption for SMEs with on-premise server infrastructure
-through real-time monitoring and dynamic pricing integration. The use case addresses the growing
-challenge of rising energy costs that significantly impact operational expenses for small and medium
-businesses. In today's volatile energy markets, SMEs face particular difficulties in understanding
-and optimizing their server infrastructure's energy usage, especially in relation to fluctuating
-electricity prices.
+This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises (SMEs) with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications. The SME faces the challenge of rising energy costs and seeks to optimize server operations in response to real-time electricity prices.
 
-The primary objective of this use case is to create a comprehensive energy monitoring system that
-collects real-time consumption data from both a smart meter and connected server equipment while
-simultaneously integrating dynamic pricing information from energy markets such as EPEX Spot.
-By combining these data streams, the system aims to provide SME operators with actionable insights
-through intuitive dashboards that enable informed decision-making regarding server workload
-scheduling and energy usage patterns.
+The main actors in this use case are:
+\begin{itemize}
+    \item \textbf{SME IT Administrator}: Manages the server infrastructure and monitors energy consumption.
+    \item \textbf{Smart Meter}: Measures the total energy consumption of the SME's server room in real time.
+    \item \textbf{IoT-Enabled Power Monitoring Devices}: Collect detailed consumption data from individual servers or server racks.
+    \item \textbf{Energy Market Data Provider}: Supplies real-time electricity price information (e.g., from EPEX Spot).
+    \item \textbf{Energy Management Dashboard}: Aggregates and visualizes consumption and price data, providing actionable insights.    
+\end{itemize}
 
-This approach allows for the exploration of how IoT devices, cloud computing and data analytics can
-be combined to create a responsive energy management solution specifically tailored for SME server
-environments. The use case examines how businesses can benefit from having access to both their
-server consumption patterns and market conditions in a unified interface. By making this
-information accessible and understandable, SMEs can potentially shift energy-intensive computational
-tasks to periods of lower pricing, resulting in cost savings without compromising operational
-requirements. \cite{tropgen2024years}
+The process begins with the smart meter and IoT devices continuously collecting energy consumption data from the server infrastructure. Simultaneously, the system retrieves real-time electricity prices from the market data provider. The dashboard integrates these data streams, enabling the IT administrator to monitor current consumption, identify high-usage periods, and receive recommendations for optimal workload scheduling. When electricity prices are low, the administrator can schedule energy-intensive tasks (such as backups or batch processing) to minimize costs. Conversely, during peak price periods, non-essential workloads can be deferred. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig/high_level_use_case.png}
+    \caption{Overall Use Case of server admin using the energy management dashboard}
+    \label{fig:highleveluse}
+\end{figure}
+Figure \ref{fig:highleveluse} illustrates the high-level use case, showing the actors and the flow of information. This approach enables SMEs to leverage real-time data and market signals to make informed decisions about server operations, ultimately reducing energy expenses and supporting sustainability goals.
 
 \subsection{Prototype}
 The prototype implements a serverless cloud architecture on Amazon Web Services (AWS) to collect,
@@ -79,9 +79,9 @@ within the VPC. This design ensures that sensitive consumption data remains prot
 allowing for the necessary external integrations, addressing the security concerns that are
 particularly important for SMEs handling sensitive business data.
 
-\subsection{Measurement}
+\subsection{Evaluation Approach}
 To evaluate the effectiveness of our approach, we will implement a comprehensive
-measurement framework that addresses technical performance, server energy
+evaluation approach that addresses technical performance, server energy
 consumption patterns, and economic impacts. This multi-faceted evaluation will
 provide insights into both the system's technical capabilities and its practical
 utility for SME operators.
@@ -89,50 +89,52 @@ utility for SME operators.
 Server energy consumption analysis forms the core of our measurement approach.
 Using the NOUS A5T PowerCable device, we will conduct detailed measurements of a
 single server under various operational scenarios to establish energy consumption
-profiles. Specifically, we will examine the following use cases:
+profiles. Specifically, we will examine the following workloads (WL):
 
-\begin{enumerate}
-    \item \textbf{Maximum computational load:} We will simulate 100\% CPU utilization across all
+\begin{enumerate}[label=WL\arabic*]
+    \item \textbf{Maximum computational load:} Simulation of 100\% CPU utilization across all
     cores using the stress-ng tool on a Linux virtual machine. The stress-ng
     command will be configured to spawn CPU-intensive worker processes equal to
     the number of available virtual CPUs, ensuring maximum load across all cores.
     This scenario represents peak computational demand typical of batch processing
     or intensive data analysis tasks. \cite{stressng2020}
 
-    \item \textbf{I/O stress testing:} Additionally, we will conduct I/O stress testing to evaluate
+    \item \textbf{I/O stress testing:} This WL conduct I/O stress testing to evaluate
     power consumption during intensive disk operations. Using fio (Flexible I/O Tester),
-    we will simulate maximum SSD utilization with sequential and random read/write
+    we will simulate maximum Solid State Drive (SSD) utilization with sequential and random read/write
     patterns. This I/O-intensive scenario represents workloads common in database operations,
     log processing, and large file transfers, providing insights into storage
     subsystem energy requirements under heavy load.
 
-    \item \textbf{System reboot cycle:} We will measure the complete power consumption profile
+    \item \textbf{System reboot cycle:} Measurement of the overall power consumption profile
     during a full reboot sequence of the host machine, capturing the energy
     requirements during shutdown, boot, and system initialization phases. This
     provides insights into the energy costs associated with maintenance operations
     and system updates.
 
-    \item \textbf{Maintenance operations:} We will monitor energy consumption during typical
+    \item \textbf{Maintenance operations:} Monitoring of energy consumption during typical
     maintenance activities, specifically the patching process of a Linux virtual
     machine. This scenario represents regular administrative tasks that SMEs must
     perform to maintain security and system integrity.
 
-    \item \textbf{Idle state:} We will establish baseline energy consumption when the server is
+    \item \textbf{Idle state:} Establishing the baseline energy consumption when the server is
     in an idle state with minimal active processes. This measurement is crucial
     for understanding the fixed energy costs of maintaining server availability
     even during periods of low utilization. \cite{moran2024dissecting,agilewatts2022}
 \end{enumerate}
 
-For each scenario, we will track total energy usage in kilowatt-hours and power
+For each WL, the total energy usage consumption will be measured in kilowatt-hours (kWh) and power
 consumption patterns over time, establishing detailed energy profiles that can be
 correlated with specific operational states. These measurements will reveal the
 energy intensity of different server activities and identify potential
 optimization opportunities, such as scheduling high-consumption tasks during
 periods of lower electricity pricing or implementing more efficient idle-state
-management. To ensure reliable and representative measurements, each test scenario will be
-conducted with specific time windows:
+management.
+\newpage
+To ensure reliable and representative measurements, each test scenario will be
+conducted with specific time windows (TW):
 
-\begin{itemize}
+\begin{enumerate}[label=TW\arabic*]
     \item For maximum computational load and I/O stress testing scenarios, each
     test window will span 30 minutes to capture steady-state behavior and account
     for any thermal effects or performance throttling that may occur during
@@ -150,7 +152,7 @@ conducted with specific time windows:
     \item Idle state measurements will be conducted over longer 60-minute windows
     during off-peak hours to establish accurate baseline consumption patterns and
     capture any periodic background system activities.
-\end{itemize}
+\end{enumerate}
 
 Each scenario will be repeated three times to ensure statistical validity and
 account for any variations in system behavior or environmental conditions. A

@@ -5,31 +5,30 @@
 
 % Englisch
 \section{Related Work}
-Recent advancements in energy-efficient computing span multiple domains relevant to our proposed
-integration of per-process energy attribution with real-time electricity pricing for SMEs.
+In this section, we present related work in the fields of (1) Process-Level Energy Measurement, (2) Data Center Management Approaches, (3) IoT and Building Management Systems, and (4) Policy Context and Foundations.
+Furthermore, we discuss the delta between related work and the proposed approach in this paper and point out the key contributions.
 
-\paragraph{Process-Level Energy Measurement}
+\paragraph{\textbf{Process-Level Energy Measurement:}}
 Qiao et al. (2023) introduced Wattmeter, a Linux-level tool that attributes energy consumption to
-individual processes and guides CPU scheduling.While valuable for OS research, Wattmeter lacks
+individual processes and guides Central Processing Unit (CPU) scheduling. While valuable for Operating System (OS) research, their proposed solution does not consider
 integration with electricity pricing and visualization—limitations our work addresses.
 Zhang et al. (2022) developed a similar approach for containerized environments, providing energy
 profiles for microservices but without market price integration. Khan and Varghese (2021) proposed
 energy-aware scheduling algorithms that prioritize processes based on power consumption patterns,
-though without real-time pricing considerations.
-\cite{qiao2023wattmeter,zhang2022container,khan2021energy}
+though without real-time pricing considerations \cite{qiao2023wattmeter,zhang2022container,khan2021energy}.
 
-\paragraph{Data Center Management Approaches}
+\newpage
+\paragraph{\textbf{Data Center Management Approaches:}}
 Research on data center energy optimization has produced several complementary approaches.
 Chen et al. (2022) developed machine learning models for cost-aware demand-response, demonstrating
 significant peak-shaving in large cloud environments.Cheung et al. (2021) proposed simpler linear
 models correlating CPU utilization with power consumption. Smith et al. (2023) analyzed trade-offs
 between cost and carbon emissions.Mahmoud et al. (2020) introduced a hybrid optimization approach
-combining workload prediction with renewable energy availability forecasts.
-Wang et al. (2023) explored the application of reinforcement learning to dynamically adjust
-computational resources based on energy price signals.
-\cite{chen2022datacentermodel,cheung2021utilizationmodel,smith2023warofefficiencies,mahmoud2020cost,wang2023reinforcement}
+combining workload prediction with renewable energy availability forecasts. Wang et al. (2023) explored the application of reinforcement learning to dynamically adjust
+computational resources based on energy price signals \cite{chen2022datacentermodel,cheung2021utilizationmodel,smith2023warofefficiencies,mahmoud2020cost,wang2023reinforcement}.
 
-\paragraph{IoT and Building Management Systems}
+
+\paragraph{\textbf{IoT and Building Management Systems:}}
 The broader context of energy management provides valuable frameworks.
 Gholami et al. (2020) surveyed smart building energy management systems, covering IoT architectures
 and analytics approaches.Ristić et al. (2021) designed an IoT platform specifically for SMEs.
@@ -37,21 +36,20 @@ Complementary work by Palacios-Garcia et al. (2022) focused on edge computing ap
 real-time energy management in distributed environments.Kumar et al. (2021) demonstrated
 blockchain-based systems for secure energy data sharing across organizational boundaries,
 while Lopez-Garcia et al. (2023) proposed standardized APIs for energy management system
-interoperability.
-\cite{gholami2020energymanagement,ristic2021iotenergymanagement,palacios2022edge,lopez2023standardized}
+interoperability \cite{gholami2020energymanagement,ristic2021iotenergymanagement,palacios2022edge,lopez2023standardized}.
 
-\paragraph{Policy Context and Foundations}
+\paragraph{\textbf{Policy Context and Foundations:}}
 The International Energy Agency (2023) offers high-level policy guidance for data centers, while
 the European Commission (2022) compiled SME energy-efficiency case studies.Siano (2014) established
 foundational concepts for demand-response programs. Ahmad et al. (2021) analyzed regulatory
 frameworks affecting energy management for SMEs across different jurisdictions. The Green Grid
 Association (2021) published metrics for assessing data center sustainability beyond traditional
 PUE measures.Koomey and Masanet (2021) provided updated global estimates of data center energy
-consumption trends, contextualizing the importance of server-level optimizations.
-\cite{iea2023datacenters,ec2022energyefficiencysmes,siano2014demandresponse,ahmad2021regulatory,greengrid2021beyond,koomey2021does}
+consumption trends, contextualizing the importance of server-level optimizations \cite{iea2023datacenters,ec2022energyefficiencysmes,siano2014demandresponse,ahmad2021regulatory,greengrid2021beyond,koomey2021does}.
 
-\paragraph{Gap Analysis}
-Despite advances across these domains, no existing solution simultaneously delivers:
+
+\paragraph{\textbf{Gap Analysis:}}
+Despite advances across these domains, (to the best of our knowledge) none of the identified papers provides a holistic solution that includes:
 
 \begin{itemize}
 	\item per-process energy attribution in SME Servers
@@ -61,5 +59,5 @@ Despite advances across these domains, no existing solution simultaneously deliv
 \end{itemize}
 
 Our position paper addresses ths gap by proposing an AWS-based architecture that unifies
-kernel-level process-metering,smart-meter feeds, and market-price polling into a comprehensive
+kernel-level process-metering, smart-meter feeds, and market-price polling into a comprehensive
 visualization platform.
