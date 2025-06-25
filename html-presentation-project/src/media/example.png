@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Multimedia Presentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #181a1b;
+            color: #f1f1f1;
+            font-size: 14px;
+        }
+        .slideshow-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: #232526;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            overflow: hidden;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: fadein 0.5s;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 28px;
+            text-align: center;
+            border-radius: 0 0 18px 18px;
+        }
+        .section-title {
+            font-size: 1.4em;
+            text-align: center;
+            margin: 25px 0;
+        }
+        .footer {
+            background: #232526;
+            color: #fff;
+            padding: 22px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+        .nav-btn {
+            background: #feca57;
+            color: #181a1b;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .nav-btn:hover {
+            background: #ff9ff3;
+        }
+        img, svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+
+        <!-- Slide 1: Introduction -->
+        <div class="slide active" id="slide-0">
+            <div class="header">
+                <h1>📊 Multimedia Presentation</h1>
+                <div class="subtitle">Incorporating Various Media Types</div>
+            </div>
+            <h2 class="section-title">Welcome to the Presentation</h2>
+            <p>This presentation showcases how to include various media types such as images, SVGs, and more.</p>
+            <img src="path/to/your/image.png" alt="Example Image">
+            <div class="footer">
+                <span>📊 Slide 1 - Introduction</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: SVG Example -->
+        <div class="slide" id="slide-1">
+            <div class="header">
+                <h1>📊 SVG Example</h1>
+            </div>
+            <h2 class="section-title">Scalable Vector Graphics</h2>
+            <p>Here is an example of an SVG graphic:</p>
+            <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="#4ecdc4" />
+                <text x="100" y="105" font-size="20" text-anchor="middle" fill="#fff">SVG</text>
+            </svg>
+            <div class="footer">
+                <span>📊 Slide 2 - SVG Example</span>
+            </div>
+        </div>
+
+        <!-- Slide 3: Video Example -->
+        <div class="slide" id="slide-2">
+            <div class="header">
+                <h1>📊 Video Example</h1>
+            </div>
+            <h2 class="section-title">Embedding Video</h2>
+            <p>Watch this video example:</p>
+            <video width="320" height="240" controls>
+                <source src="path/to/your/video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="footer">
+                <span>📊 Slide 3 - Video Example</span>
+            </div>
+        </div>
+
+        <!-- Slide 4: Conclusion -->
+        <div class="slide" id="slide-3">
+            <div class="header">
+                <h1>📊 Conclusion</h1>
+            </div>
+            <h2 class="section-title">Thank You!</h2>
+            <p>Thank you for attending this multimedia presentation!</p>
+            <div class="footer">
+                <span>📊 Slide 4 - Conclusion</span>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin: 30px 0;">
+            <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+            <button class="nav-btn" id="nextBtn">Weiter <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Slide navigation logic
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === idx);
+            });
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === slides.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
