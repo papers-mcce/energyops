@@ -31,53 +31,22 @@ The process begins with the smart meter and IoT devices continuously collecting 
 Figure \ref{fig:highleveluse} illustrates the high-level use case, showing the actors and the flow of information. This approach enables SMEs to leverage real-time data and market signals to make informed decisions about server operations, ultimately reducing energy expenses and supporting sustainability goals.
 
 \subsection{Prototype}
-The prototype implements a serverless cloud architecture on Amazon Web Services (AWS) to collect,
-process, and visualize energy data from multiple sources. Figure 1 illustrates the system
-architecture and data flow of our proposedsolution.
+The prototype implements a cloud-native architecture that integrates on-premise energy monitoring devices with a suite of scalable AWS services, enabling comprehensive data collection, processing, and visualization tailored for SME server environments. Figure~\ref{fig:architecture} illustrates the system architecture and the flow of information between the various components, serving as the main reference for the following description.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\textwidth]{fig/architecture2.png}
+    \includegraphics[width=1.2\textwidth]{fig/architektur_new_2.png}
     \caption{System Architecture of the AWS implementation}
     \label{fig:architecture}
 \end{figure}
 
-The prototype consists of three main components that work together to deliver a comprehensive
-energy monitoring solution for SME server environments. The data collection layer interfaces with
-external devices and services to gather the necessary information. The data from the Sagemcom Smart
-Meter is collectedvia the Energylive API, providing facility-level energy consumption data at
-ten second intervals. This data includes overall electricity usage for the entire server room or IT
-infrastructure. The NOUS A5T PowerCable device serves as an IoT sensor that measures power consumption
-of individual servers and critical IT equipment, offering granular insights into which systems
-contribute most significantly to the overall energy footprint. Additionally, the system integrates
-with the EPEX Spot API to retrieve real-time and forecasted electricity market prices, which
-are essential for cost optimization strategies.
+At the edge of the system, a Smart Meter equipped with a P1 interface and the Nous A5T smart plug are deployed within the SME's local network. The Smart Meter provides aggregate facility-level energy consumption data, while the Nous A5T device delivers granular, device-specific power usage information. The Smart Meter transmits its data to the energyLive Monitoring platform, which acts as an intermediary for facility-level consumption, whereas the Nous A5T communicates via MQTT over the local WLAN, ensuring real-time reporting of server power usage. These data streams are ingested into the cloud using a combination of polling and message-based mechanisms, reflecting the hybrid nature of the data sources.
 
-The processing layer leverages AWS Lambda functions to handle the incoming data streams
-efficiently. An API Gateway serves as the entry point for REST API requests from the Energy Live API,
-ensuring secure and scalable communication. IoT Core manages MQTT connections from the NOUS A5T
-PowerCable device, providing a reliable communication channel for this IoT sensor.
-Three specialized Lambda functions handle different aspects of data processing: one dedicated to
-REST API data collection from the Energy Live API, another processing MQTT messages from the IoT device
-and a third specifically handling EPEX market data. This separation of concerns allows for
-independent scaling and maintenance of each data processing pipeline while minimizing operational
-overhead for SMEs with limited IT resources.
+The energyLive Cloud platform exposes APIs for both real-time facility consumption (as detailed in Appendix~\ref{appendix:energylive-api}) and electricity market prices (See Appendix~\ref{appendix:strompreis-api} for the electricity price API specification), the latter being sourced from the Strompreis API (EPEX Spot interface). AWS Lambda functions, triggered either by scheduled polling or by incoming MQTT messages, serve as the primary data processing units. This design ensures that both periodic and event-driven data are efficiently captured and processed. The AWS IoT Core service manages secure MQTT communication from the Nous A5T device, while API Gateway and Lambda functions handle RESTful interactions with the energyLive and Strompreis APIs, providing a unified entry point for all external data sources.
 
-The storage and visualization layer ensures that data is both persistently stored and meaningfully
-presented to SME operators. DynamoDB serves as the primary database, storing structured energy
-consumption and pricing data in a format optimized for quick retrieval and analysis. S3 provides
-backup storage and handles larger datasets that might be needed for long-term trend analysis. The
-QuickSight service delivers interactive dashboards to end users, allowing them to explore their
-server energy usage patterns, correlate consumption with pricing data, and identify optimization
-opportunities through intuitive visualizations and reports that don't require specialized data
-science expertise.
+All collected data is persistently stored in AWS DynamoDB, which offers a highly available and low-latency database for structured energy and pricing information. To facilitate advanced analytics and reporting, AWS Glue Crawlers and the Glue Catalog automate the extraction, transformation, and cataloging of raw data, making it readily accessible for further analysis. AWS Athena enables ad hoc querying of the curated datasets, while AWS S3 serves as a repository for larger or historical data files, supporting long-term storage and backup requirements. The results of these analyses are presented to users through interactive dashboards built with AWS QuickSight, allowing IT administrators to explore consumption trends, correlate usage with market prices, and identify optimization opportunities in an intuitive manner.
 
-The architecture follows security best practices by implementing a Virtual Private Cloud (VPC) with
-public and private subnets. External communications occur through secure protocols
-(HTTPS for API traffic and MQTT over TLS for IoT devices), while internal data flows are restricted
-within the VPC. This design ensures that sensitive consumption data remains protected while still
-allowing for the necessary external integrations, addressing the security concerns that are
-particularly important for SMEs handling sensitive business data.
+The entire cloud infrastructure is provisioned and managed using AWS CloudFormation, ensuring reproducibility, scalability, and compliance with best practices. Security and operational monitoring are enforced through AWS IAM for access control, CloudWatch for real-time monitoring, and custom authorization mechanisms that safeguard sensitive data flows. This architecture not only provides a robust and scalable foundation for energy-aware server management but also ensures that SMEs can leverage real-time insights and advanced analytics without the need for extensive in-house IT resources. The integration of these components, as depicted in Figure~\ref{fig:architecture}, demonstrates a holistic approach to energy management that is both practical and adaptable to the evolving needs of small and medium-sized enterprises.
 
 \subsection{Evaluation Approach}
 To evaluate the effectiveness of our approach, we will implement a comprehensive

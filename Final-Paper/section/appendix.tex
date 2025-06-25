@@ -1,0 +1,112 @@
+\newpage
+\section{energyLIVE API Specification}
+\label{appendix:energylive-api}
+
+The energyLIVE API, provided by Energie Steiermark, enables the integration of real-time smart meter data into third-party systems, thereby supporting advanced energy management and automation solutions. This interface is designed to facilitate the retrieval of consumption data and system status from smart meters, and can be combined with the smartENERGY electricity price API for dynamic tariff applications such as smartCONTROL.
+
+\subsection{Authentication and Access}
+Access to the energyLIVE API requires authentication via an HTTPS header, specifically the \texttt{X-API-KEY}, which must contain a valid key obtained from the customer portal. All requests must be made over secure HTTPS connections to ensure data privacy and integrity.
+
+\subsection{Base URL and Endpoints}
+The base URL for the API is:
+\begin{quote}
+    \url{https://backend.energylive.e-steiermark.com/api/v1/}
+\end{quote}
+To retrieve the latest measurements from a specific smart meter interface, the following endpoint is used:
+\begin{quote}
+    \texttt{devices/I-XXXXXXXX-XXXXXXXX/measurements/latest}
+\end{quote}
+where the interface UID is provided by the customer portal.
+
+\subsection{Data Format and Response Structure}
+API responses are returned in JSON format, consisting of an array of measurement objects. Each object contains the following fields:
+\begin{itemize}
+    \item \textbf{measurement}: Specifies the type of value, typically indicated by an OBIS code for electrical quantities.
+    \item \textbf{timestamp}: The time at which the measurement was recorded in the energyLIVE database, represented as a 13-digit Unix timestamp (milliseconds).
+    \item \textbf{value}: The measured value, with units such as watt-hours (Wh) for meter readings and watts (W) for instantaneous power.
+\end{itemize}
+
+\subsection{Example Request and Response}
+A typical request to the API using \texttt{curl} is as follows:
+\begin{verbatim}
+curl -X GET -H "X-API-KEY: <your_api_key>" \
+"https://backend.energylive.e-steiermark.com/api/v1/devices/I-10082023-01658401/measurements/latest"
+\end{verbatim}
+
+The response is a JSON array, for example:
+\begin{verbatim}
+[
+  {
+    "measurement": "0100010700",
+    "timestamp": 1726559995000,
+    "value": 138.0
+  },
+  {
+    "measurement": "0100010800",
+    "timestamp": 1726559995000,
+    "value": 9577201.0
+  }
+  // ...
+]
+\end{verbatim}
+
+\subsection{Use Cases}
+The energyLIVE API is suitable for a variety of applications, including the integration of smart meter data into home automation platforms, the development of custom energy monitoring dashboards, and the implementation of dynamic energy management strategies based on real-time consumption and pricing data.
+
+For further details and best practice examples, refer to the official documentation and user community resources provided by Energie Steiermark\footnote{\url{https://www.smartenergy.at/api-schnittstelle-energylive}}.
+
+\newpage
+\section{smartENERGY Strompreis API Specification}
+\label{appendix:strompreis-api}
+
+The smartENERGY Strompreis API, provided by Energie Steiermark, enables customers to access quarter-hourly electricity price data in real time, facilitating the integration of dynamic pricing information into custom systems and applications. This API supports the automation of energy consumption and the optimization of energy management strategies by providing timely and accurate market price data from the EPEX Spot AT electricity exchange.
+
+\subsection{Authentication and Access}
+The Strompreis API is publicly accessible and does not require authentication or special parameters for basic price retrieval. All requests are made via HTTPS to ensure secure data transmission.
+
+\subsection{Base URL and Endpoint}
+The base URL for the API is:
+\begin{quote}
+    \url{https://apis.smartenergy.at/market/v1/price}
+\end{quote}
+A simple GET request to this endpoint returns the latest available electricity price data.
+
+\subsection{Data Format and Response Structure}
+The API returns data in JSON format, with the following structure:
+\begin{itemize}
+    \item \textbf{tariff}: The tariff identifier, typically set to \texttt{EPEXSPOTAT}.
+    \item \textbf{unit}: The unit of the price value, e.g., \texttt{ct/kWh}.
+    \item \textbf{interval}: The validity interval of each price entry in minutes (usually 15).
+    \item \textbf{data}: An array of objects, each containing:
+    \begin{itemize}
+        \item \textbf{date}: The local date and time from which the price is valid.
+        \item \textbf{value}: The price including 20\% VAT, in decimal format.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Example Request and Response}
+A typical request to the API is as follows:
+\begin{verbatim}
+GET https://apis.smartenergy.at/market/v1/price
+\end{verbatim}
+
+The response is a JSON object, for example:
+\begin{verbatim}
+{
+  "tariff": "EPEXSPOTAT",
+  "unit": "ct/kWh",
+  "interval": 15,
+  "data": [
+    {
+      "date": "2023-06-23T00:00:00+02:00",
+      "value": 12.592
+    },
+    ...
+  ]
+}
+\end{verbatim}
+
+\subsection{Use Cases}
+The Strompreis API is particularly useful for automating energy consumption in response to real-time price signals, enabling the development of energy management systems that optimize usage patterns according to periods of low electricity prices. It also supports detailed energy monitoring and cost analysis by providing granular, up-to-date market price data.
+
+For further details and best practice examples, refer to the official documentation and user community resources provided by Energie Steiermark\footnote{\url{https://www.smartenergy.at/api-schnittstellen}}.
