@@ -13,6 +13,9 @@ def lambda_handler(event, context):
     """
     Process Tasmota MQTT messages containing energy data
     Expected message structure from tele/+/SENSOR topic
+    
+    Ensures all timestamps are stored in microsecond format (YYYY-MM-DDTHH:MM:SS.ffffff)
+    for SQL query compatibility.
     """
     print(f"Received event: {json.dumps(event, default=str)}")
     
@@ -23,15 +26,10 @@ def lambda_handler(event, context):
         
         # Get timestamps
         device_time = event.get('Time', '')
-        aws_timestamp = event.get('aws_timestamp', datetime.now().isoformat())
+        aws_timestamp_raw = event.get('aws_timestamp', datetime.now())
         
-        # Convert aws_timestamp to string if it's a number (from IoT timestamp() function)
-        if isinstance(aws_timestamp, (int, float)):
-            # Convert Unix timestamp to ISO string
-            aws_timestamp = datetime.fromtimestamp(aws_timestamp / 1000).isoformat()
-        elif not isinstance(aws_timestamp, str):
-            # Fallback to current time as ISO string
-            aws_timestamp = datetime.now().isoformat()
+        # Ensure timestamp always has microseconds format for SQL compatibility
+        aws_timestamp = ensure_microsecond_timestamp(aws_timestamp_raw)
         
         # Extract energy data if present
         energy_data = event.get('ENERGY', {})
@@ -46,7 +44,7 @@ def lambda_handler(event, context):
         # Convert float values to Decimal for DynamoDB
         item = {
             'device_id': device_name,
-            'timestamp': str(aws_timestamp),  # Ensure timestamp is always a string
+            'timestamp': aws_timestamp,  # Timestamp with microseconds format: YYYY-MM-DDTHH:MM:SS.ffffff
             'device_time': device_time,
             'total_energy': convert_to_decimal(energy_data.get('Total', 0)),
             'today_energy': convert_to_decimal(energy_data.get('Today', 0)),
@@ -100,6 +98,35 @@ def extract_device_name(topic):
         return 'unknown_device'
     except:
         return 'unknown_device'
+
+def ensure_microsecond_timestamp(timestamp_input):
+    """
+    Ensure timestamp is in microsecond format: YYYY-MM-DDTHH:MM:SS.ffffff
+    Accepts various input formats and normalizes them
+    """
+    try:
+        if isinstance(timestamp_input, (int, float)):
+            # Unix timestamp (milliseconds)
+            dt = datetime.fromtimestamp(timestamp_input / 1000)
+        elif isinstance(timestamp_input, str):
+            # ISO string - try to parse it
+            try:
+                dt = datetime.fromisoformat(timestamp_input.replace('Z', '+00:00'))
+            except:
+                # If parsing fails, use current time
+                dt = datetime.now()
+        elif isinstance(timestamp_input, datetime):
+            # Already a datetime object
+            dt = timestamp_input
+        else:
+            # Fallback to current time
+            dt = datetime.now()
+        
+        # Return formatted string with microseconds
+        return dt.strftime('%Y-%m-%dT%H:%M:%S.%f')
+    except:
+        # Ultimate fallback
+        return datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
 
 def convert_to_decimal(value):
     """
