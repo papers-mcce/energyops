@@ -105,8 +105,8 @@ conducted with specific time windows (TW):
 
 \begin{enumerate}[label=TW\arabic*]
     \item For maximum computational load and I/O stress testing scenarios, each
-    test window will span 30 minutes to capture steady-state behavior and account
-    for any thermal effects or performance throttling that may occur during
+    test window will span 15 minutes of load and 15 minutes of idle to capture steady-state 
+    behavior and account for any thermal effects or performance throttling that may occur during
     sustained high-load operations.
 
     \item System reboot cycle measurements will be conducted over multiple
@@ -115,7 +115,7 @@ conducted with specific time windows (TW):
     account for variations in boot times.
 
     \item Maintenance operation measurements will cover the entire duration of
-    typical update processes, estimated at 15-20 minutes per session, including
+    typical update processes, estimated at 5-10 minutes per session, including
     download, installation, and post-update system stabilization periods.
 
     \item Idle state measurements will be conducted over longer 60-minute windows
@@ -127,4 +127,86 @@ Each scenario will be repeated three times to ensure statistical validity and
 account for any variations in system behavior or environmental conditions. A
 minimum cool-down period of 10 minutes will be observed between test iterations
 to ensure thermal conditions return to baseline.
+
+\subsection{Test Infrastructure Setup}
+To conduct the I/O stress testing scenarios described in WL2, a dedicated test infrastructure in format
+of a Ubuntu 24.04.2 LTS virtual machine was established within the Proxmox virtualization environment. 
+The test setup addresses the storage space limitations of the primary system disk and ensures 
+isolated, reproducible testing conditions.
+
+\subsubsection{Storage Configuration}
+The original virtual machine configuration included a 40GB system disk with only 8GB of available
+free space, insufficient for intensive I/O testing that requires substantial temporary file creation.
+To address this limitation, a dedicated 50GB virtual disk was provisioned and attached to the test
+virtual machine as a secondary storage device (\texttt{/dev/sdb}).
+
+The additional disk was formatted with the ext4 filesystem and mounted at \texttt{/mnt/fio-test},
+providing 50GB of available space exclusively for I/O testing operations. This configuration
+ensures that:
+
+\begin{itemize}
+    \item I/O testing operations do not interfere with system operations on the primary disk
+    \item Sufficient space is available for creating large test files (up to 32GB total)
+    \item Test data can be isolated and cleaned up after each measurement cycle
+    \item Storage performance characteristics can be measured independently
+\end{itemize}
+
+The disk was configured with I/O threading enabled in the Proxmox hypervisor to maximize I/O
+performance and ensure realistic energy consumption measurements under high-load conditions.
+
+\subsubsection{Automated Test Scheduling}
+To ensure precise timing alignment with the 15-minute measurement intervals of the energy
+monitoring system, automated test scheduling scripts were developed using the \texttt{at}
+command scheduler. The FIO stress testing script (\texttt{schedule\_fio\_stress.sh}) implements
+the following features:
+
+\begin{itemize}
+    \item \textbf{Configurable test cycles:} Support for multiple 15-minute I/O stress periods
+    followed by 15-minute idle periods
+    \item \textbf{Maximum I/O load generation:} Utilizes 4 parallel FIO jobs with 32-depth I/O queues,
+    mixed random read/write patterns (70\% read, 30\% write), and variable block sizes (4KB to 1MB)
+    \item \textbf{Direct I/O operations:} Bypasses operating system caches to ensure actual disk I/O
+    and realistic power consumption
+    \item \textbf{Automatic cleanup:} Removes test files after each cycle to prevent disk space
+    exhaustion
+    \item \textbf{Comprehensive logging:} Records detailed performance metrics and timestamps
+    for correlation with energy measurements
+\end{itemize}
+
+This automated approach ensures that I/O stress testing can be precisely 
+synchronized with energy measurement intervals, enabling accurate correlation 
+between storage workload intensity and power consumption patterns.
+
+\subsubsection{CPU Stress Testing Configuration}
+For maximum computational load testing (WL1), a dedicated stress-ng scheduling 
+script was developed to generate sustained CPU load across all available cores. 
+The stress-ng tool was selected for its ability to create reproducible, 
+high-intensity computational workloads suitable for energy consumption analysis.
+
+The CPU stress testing implementation includes the following characteristics:
+\begin{itemize}
+    \item \textbf{Full CPU utilization:} Spawns worker processes equal to the 
+    number of available virtual CPUs (56 logical processors)
+    \item \textbf{Sustained load patterns:} Maintains 100\% CPU utilization 
+    for the entire 15-minute test duration
+    \item \textbf{Thermal consideration:} Includes cooling periods between test 
+    cycles to prevent thermal throttling effects
+    \item \textbf{Automated scheduling:} Uses the \texttt{at} command for 
+    precise timing synchronization with energy measurement intervals
+    \item \textbf{Comprehensive logging:} Records CPU utilization metrics and 
+    timestamps for correlation with power consumption data
+\end{itemize}
+
+The stress-ng configuration utilizes the command 
+\texttt{stress-ng --cpu 56 --timeout 900s} to ensure maximum computational 
+load across all processor cores. This approach simulates intensive batch 
+processing workloads typical in SME environments, such as data analysis, 
+compilation tasks, or scientific computing operations.
+
+Similar to the I/O stress testing, the CPU stress script supports configurable 
+test cycles with alternating 15-minute stress periods and 15-minute idle 
+periods, enabling direct comparison of energy consumption between high-load 
+and baseline states. The automated cleanup and logging mechanisms ensure 
+consistent test conditions and comprehensive data collection for subsequent 
+analysis.
 
