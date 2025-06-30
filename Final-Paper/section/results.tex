@@ -8,119 +8,103 @@
 %Englisch
 \section{Results}
 \label{results:results}
-This section presents the empirical findings from the evaluation approach described in Section~\ref{methodology:evaluation-approach} of the energy-aware server management dashboard. 
-The analysis encompasses both technical implementation outcomes and quantitative energy consumption characteristics across various server workload scenarios
+This section presents the key findings from our energy-aware server management system evaluation, focusing on system implementation outcomes and quantitative energy consumption analysis.
 
-\subsection{System Implementation Results}
-\label{results:system-implementation-results}
-The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles with Terraform handling the infrastructure setup efficiently. The implementation validated the technical feasibility of integrating on-premise energy monitoring devices with cloud-based analytics platforms for SME environments.
-
-The data collection infrastructure achieved reliable real-time data ingestion from multiple heterogeneous sources including smart plugs and external APIs. The Nous A5T smart plug transmitted power consumption data via MQTT to AWS IoT Core with latency remaining below one second throughout all testing phases. The Lambda-based MQTT processor maintained consistent message timestamp handling with microsecond precision for accurate time-series analysis and data correlation. Scheduled Lambda functions retrieved facility-level consumption data from the energyLive API every 15 minutes while simultaneously collecting electricity price data from the EPEX Spot API at matching intervals. DynamoDB tables were configured with on-demand billing mode which provided automatic scaling for variable data ingestion rates and peak processing demands. The database successfully stored over [X] data points during the evaluation period with query response times remaining consistently below 10ms throughout all testing scenarios.
-
-\subsection{Energy Consumption Analysis Results}
-\label{results:energy-consumption-analysis-results}
-The energy consumption analysis was conducted using the NOUS A5T PowerCable device to 
-measure a single server under the five defined workload scenarios. All measurements were 
-performed with 15-minute intervals to align with typical SME energy monitoring practices.
-
-\subsubsection{Workload Energy Profiles}
-The following sections present the energy consumption results for each tested workload 
-scenario:
-
-\paragraph{WL1: Maximum Computational Load}
-[Results for CPU stress testing will be added here after measurements are completed]
+\subsection{System Implementation}
+\label{results:system-implementation}
+The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles. Key technical achievements include:
 \begin{itemize}
-    \item Average power consumption: [X] W
-    \item Peak power consumption: [X] W  
-    \item Total energy consumption (15 min): [X] kWh
-    \item CPU utilization: 100\% across all cores
+    \item Real-time data ingestion with sub-second latency from NOUS A5T smart plugs via MQTT
+    \item Reliable 15-minute interval data collection from energyLive API and EPEX Spot API
+    \item Scalable DynamoDB storage with consistent sub-10ms query response times
 \end{itemize}
 
-\paragraph{WL2: I/O Stress Testing}
-[Results for FIO I/O stress testing will be added here after measurements are 
-completed]
+\subsection{Energy Consumption Analysis}
+\label{results:energy-analysis}
+Our analysis revealed distinct power consumption patterns across different workload scenarios, summarized in Table~\ref{tab:workload-comparison}.
 
+\begin{table}[h]
+\caption{Workload Power Consumption Comparison}
+\label{tab:workload-comparison}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Workload} & \textbf{Avg Power (W)} & \textbf{Peak (W)} & \textbf{Variation (W)} & \textbf{Energy (kWh)} \\
+\hline
+CPU Stress & 662.25 & 684.0 & ±3.94 & 0.662 \\
+I/O Stress & 317.86 & 403.0 & ±52.15 & 0.159 \\
+System Reboot & 294.27 & 424.0 & ±71.68 & 0.025 \\
+Maintenance & 205.37 & 293.0 & ±42.59 & 0.017 \\
+Idle State & 172.20 & 266.0 & ±6.82 & 0.172 \\
+\hline
+\end{tabular}
+\end{table}
+
+Key observations from the workload analysis:
 \begin{itemize}
-    \item Average power consumption during I/O stress: [X] W
-    \item Peak power consumption: [X] W
-    \item Total energy consumption (15 min): [X] kWh
-    \item I/O performance metrics: [X] IOPS, [X] MB/s throughput
-    \item Storage utilization: Up to 32GB test files on dedicated 50GB disk
+    \item CPU-intensive operations showed the highest power increase (284.6\% above baseline)
+    \item I/O operations demonstrated moderate power increase (84.6\% above baseline)
+    \item System operations exhibited high variability but lower average consumption
+    \item Idle state maintained stable power consumption with minimal variation
 \end{itemize}
 
-\paragraph{WL3: System Reboot Cycle}
-[Results for reboot cycle measurements will be added here]
-\begin{itemize}
-    \item Average power during shutdown: [X] W
-    \item Average power during boot: [X] W
-    \item Total energy per reboot cycle: [X] kWh
-    \item Average reboot time: [X] minutes
-\end{itemize}
-
-\paragraph{WL4: Maintenance Operations}
-[Results for maintenance operation measurements will be added here]
-\begin{itemize}
-    \item Average power during system updates: [X] W
-    \item Total energy for typical update cycle: [X] kWh
-    \item Update duration: [X] minutes
-\end{itemize}
-
-\paragraph{WL5: Idle State}
-[Results for idle state measurements will be added here]
-\begin{itemize}
-    \item Baseline power consumption: [X] W
-    \item Total energy consumption (60 min idle): [X] kWh
-    \item Power consumption stability: ±[X] W variation
-\end{itemize}
-
-\subsection{Economic Impact Analysis}
-\label{results:economic-impact-analysis}
-[This section will present the economic analysis based on the energy measurements and 
-electricity price data]
-
-\subsubsection{Cost Optimization Potential}
-Based on the energy consumption profiles and real-time electricity pricing data, the 
-following cost optimization opportunities were identified:
-\begin{itemize}
-    \item Potential savings from scheduling high-consumption tasks during low-price 
-    periods: [X]\% of total energy costs
-    \item Average electricity price variation during measurement period: [X] EUR/MWh to 
-    [X] EUR/MWh
-    \item Estimated annual savings for typical SME server infrastructure: [X] EUR
-\end{itemize}
-
-\subsection{Technical Performance Validation}
-\label{results:technical-performance-validation}
-The system successfully demonstrated the technical feasibility of real-time energy 
-monitoring and price-aware workload optimization for SME environments:
+\subsection{Cost Optimization Potential}
+\label{results:optimization}
+Analysis of EPEX spot prices during the test period revealed significant cost optimization opportunities:
 
 \begin{itemize}
-    \item \textbf{Measurement Accuracy:} Power measurements showed consistency within 
-    ±[X]\% across repeated test cycles
-    \item \textbf{Data Synchronization:} Energy measurements and electricity price data 
-    were successfully correlated with timestamp precision
-    \item \textbf{System Reliability:} The monitoring infrastructure maintained 99.9\% 
-    uptime during the evaluation period
-    \item \textbf{Response Time:} Dashboard updates reflected new energy data within [X] 
-    seconds of measurement
+    \item \textbf{Price Variation:} Daily electricity prices ranged from -1.685 to 14.168 cent/kWh
+    \item \textbf{Scheduling Impact:} Optimal workload scheduling could achieve up to 54.6\% cost reduction
+    \item \textbf{Annual Savings:} Projected savings for a single server:
+    \begin{itemize}
+        \item CPU-intensive workloads: 543.85 EUR/year
+        \item Maintenance operations: 6.23 EUR/year
+        \item Total optimization potential: 550.08 EUR/year
+    \end{itemize}
 \end{itemize}
 
-\subsection{Limitations and Considerations}
-\label{results:limitations-and-considerations}
-Several limitations were identified during the evaluation:
+\begin{table}[h]
+\caption{Cost Comparison Across Scheduling Scenarios}
+\label{tab:cost-comparison}
+\begin{tabular}{lllll}
+\hline
+\textbf{Workload} & \textbf{Energy (kWh)} & \textbf{Best Case (¢)} & \textbf{Worst Case (¢)} & \textbf{Savings (\%)} \\
+\hline
+CPU Stress & 0.662 & 4.10 & 9.04 & 54.6\% \\
+I/O Stress & 0.159 & 0.98 & 2.17 & 54.6\% \\
+Maintenance & 0.017 & 0.11 & 0.23 & 54.6\% \\
+Idle (1h) & 0.172 & 1.07 & 2.35 & 54.6\% \\
+\hline
+\multicolumn{5}{l}{\small Best Case: 6.198 cent/kWh, Worst Case: 13.648 cent/kWh} \\
+\end{tabular}
+\end{table}
+
+These results demonstrate that intelligent workload scheduling based on real-time electricity pricing can lead to substantial cost savings for SMEs operating on-premise server infrastructure. The combination of comprehensive energy monitoring and price-aware scheduling provides a practical approach to optimizing operational costs while maintaining service quality.
+
+\subsection{Implementation Considerations and Limitations}
+\label{results:limitations}
+The analysis revealed several key considerations for implementing energy-aware server management:
 
 \begin{itemize}
-    \item \textbf{Single Server Scope:} Measurements were conducted on a single virtual 
-    machine; results may vary for different hardware configurations
-    \item \textbf{Virtualization Overhead:} Energy measurements include hypervisor 
-    overhead, which may differ from bare-metal deployments
-    \item \textbf{Geographic Specificity:} Electricity pricing data is specific to the 
-    Austrian market; results may not be directly applicable to other regions
-    \item \textbf{Measurement Duration:} The evaluation period was limited to [X] days; 
-    longer-term patterns may reveal additional insights
+    \item \textbf{Workload Constraints:}
+    \begin{itemize}
+        \item Critical operations cannot always be scheduled optimally
+        \item Some workloads require immediate execution regardless of energy costs
+        \item Batch processing jobs offer the most flexibility for optimization
+    \end{itemize}
+    
+    \item \textbf{Economic Factors:}
+    \begin{itemize}
+        \item Price volatility (230.6\% daily variation) enables significant optimization
+        \item Benefits scale linearly with server count in SME deployments
+        \item Austrian market prices may not reflect other regional patterns
+    \end{itemize}
+    
+    \item \textbf{Technical Limitations:}
+    \begin{itemize}
+        \item Single server measurements may not represent diverse hardware configurations
+        \item Virtualization overhead affects absolute power measurements
+        \item Limited test duration (24 hours) may miss longer-term patterns
+    \end{itemize}
 \end{itemize}
 
-These results demonstrate that the proposed energy-aware server management approach 
-provides tangible benefits for SME environments, with clear potential for cost savings 
-and improved operational efficiency through intelligent workload scheduling based on 
-real-time energy and pricing data. 
+These results demonstrate that intelligent workload scheduling based on real-time energy pricing can provide substantial cost savings for SME server operations, with potential annual savings of 550.08 EUR per server under optimal conditions. The approach is particularly valuable for organizations with flexible workload scheduling and multiple servers, where benefits can be multiplied across the infrastructure. 

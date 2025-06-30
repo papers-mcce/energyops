@@ -11,6 +11,7 @@ This section outlines the methodological approach taken to design, implement, an
 It describes the overall use case, the technical architecture of the prototype, and the integration of real-time energy consumption and electricity price data.
 
 \subsection{Use Case Description}
+\label{methodology:use-case-description}
 The use case centers on an SME operating on-premise server infrastructure, seeking to optimize energy consumption and costs amid rising electricity prices. Key stakeholders include the SME IT administrator, who manages server operations and energy monitoring, and external data providers such as smart meters and electricity market APIs. The system aims to enable the administrator to schedule energy-intensive tasks during periods of lower electricity prices, thereby minimizing costs and supporting sustainability goals.
 \begin{figure}[htbp]
 \centering
@@ -20,6 +21,7 @@ The use case centers on an SME operating on-premise server infrastructure, seeki
 \end{figure}
 As illustrated in Figure~\ref{fig:highleveluse}, energy consumption data is continuously collected from both facility-level smart meters and device-level IoT power monitors. Simultaneously, real-time electricity prices are retrieved from market data providers (e.g., EPEX Spot). These data streams are integrated and visualized via a cloud-based dashboard, providing actionable insights and recommendations for workload scheduling.
 \subsection{Prototype}
+\label{methodology:prototype}
 The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture.
 \begin{figure}[htbp]
 \centering
@@ -118,6 +120,7 @@ The test setup addresses the storage space limitations of the primary system dis
 isolated, reproducible testing conditions.
 
 \subsubsection{Storage Configuration}
+\label{methodology:storage-configuration}
 The original virtual machine configuration included a 40GB system disk with only 8GB of available
 free space, insufficient for intensive I/O testing that requires substantial temporary file creation.
 To address this limitation, a dedicated 50GB virtual disk was provisioned and attached to the test
@@ -138,6 +141,7 @@ The disk was configured with I/O threading enabled in the Proxmox hypervisor to 
 performance and ensure realistic energy consumption measurements under high-load conditions.
 
 \subsubsection{Automated Test Scheduling}
+\label{methodology:automated-test-scheduling}
 To ensure precise timing alignment with the 15-minute measurement intervals of the energy
 monitoring system, automated test scheduling scripts were developed using the \texttt{at}
 command scheduler. The FIO stress testing script (\texttt{schedule\_fio\_stress.sh}) implements
@@ -161,6 +165,7 @@ synchronized with energy measurement intervals, enabling accurate correlation
 between storage workload intensity and power consumption patterns.
 
 \subsubsection{CPU Stress Testing Configuration}
+\label{methodology:cpu-stress-testing-configuration}
 For maximum computational load testing (WL1), a dedicated stress-ng scheduling 
 script was developed to generate sustained CPU load across all available cores. 
 The stress-ng tool was selected for its ability to create reproducible, 
