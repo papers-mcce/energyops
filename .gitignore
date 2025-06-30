@@ -295,6 +295,9 @@ Thumbs.db
 #pdf
 *.pdf
 
+# Exception: Allow specific PDF files
+!Final-Paper/Final-Paper.pdf
+
 # trunk
 .trunk/
 
