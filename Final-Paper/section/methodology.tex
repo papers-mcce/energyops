@@ -6,30 +6,24 @@
 
 %Englisch
 \section{Methodological Approach}
+\label{methodology:methodological-approach}
 This section outlines the methodological approach taken to design, implement, and evaluate an energy-aware server management solution for small and medium-sized enterprises (SMEs).
 It describes the overall use case, the technical architecture of the prototype, and the integration of real-time energy consumption and electricity price data.
 
 \subsection{Use Case Description}
-This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises (SMEs) with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications. The SME faces the challenge of rising energy costs and seeks to optimize server operations in response to real-time electricity prices.
+\label{methodology:use-case-description}
+This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications while facing the challenge of rising energy costs. The SME seeks to optimize server operations in response to real-time electricity prices through intelligent workload scheduling.
 
-The main actors in this use case are:
-\begin{itemize}
-    \item \textbf{SME IT Administrator}: Manages the server infrastructure and monitors energy consumption.
-    \item \textbf{Smart Meter}: Measures the total energy consumption of the SME's server room in real time.
-    \item \textbf{IoT-Enabled Power Monitoring Devices}: Collect detailed consumption data from individual servers or server racks.
-    \item \textbf{Energy Market Data Provider}: Supplies real-time electricity price information (e.g., from EPEX Spot).
-    \item \textbf{Energy Management Dashboard}: Aggregates and visualizes consumption and price data, providing actionable insights.    
-\end{itemize}
+The main actors in this use case include the SME IT Administrator who manages the server infrastructure and monitors energy consumption patterns. The Smart Meter measures the total energy consumption of the SME's server room in real time and provides facility-level data. IoT-enabled power monitoring devices collect detailed consumption data from individual servers or server racks to enable granular analysis. The Energy Market Data Provider supplies real-time electricity price information from sources such as EPEX Spot. The Energy Management Dashboard aggregates and visualizes consumption and price data, providing actionable insights for decision-making
 
-The process begins with the smart meter and IoT devices continuously collecting energy consumption data from the server infrastructure. Simultaneously, the system retrieves real-time electricity prices from the market data provider. The dashboard integrates these data streams, enabling the IT administrator to monitor current consumption, identify high-usage periods, and receive recommendations for optimal workload scheduling. When electricity prices are low, the administrator can schedule energy-intensive tasks (such as backups or batch processing) to minimize costs. Conversely, during peak price periods, non-essential workloads can be deferred. 
+The process begins with the smart meter and IoT devices continuously collecting energy consumption data from the server infrastructure. Simultaneously, the system retrieves real-time electricity prices from the market data provider to establish cost context. The dashboard integrates these data streams, enabling the IT administrator to monitor current consumption, identify high-usage periods, and receive recommendations for optimal workload scheduling. When electricity prices are low, the administrator can schedule energy-intensive tasks such as backups or batch processing to minimize operational costs. Conversely, during peak price periods, non-essential workloads can be deferred to reduce energy expenses.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{fig/high_level_use_case.png}
     \caption{Overall Use Case of server admin using the energy management dashboard}
     \label{fig:highleveluse}
 \end{figure}
-Figure \ref{fig:highleveluse} illustrates the high-level use case, showing the actors and the flow of information. This approach enables SMEs to leverage real-time data and market signals to make informed decisions about server operations, ultimately reducing energy expenses and supporting sustainability goals.
-
+This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications while facing the challenge of rising energy costs. The SME seeks to optimize server operations in response to real-time electricity prices through intelligent workload scheduling.
 \subsection{Prototype}
 The prototype implements a cloud-native architecture that integrates on-premise energy monitoring devices with a suite of scalable AWS services, enabling comprehensive data collection, processing, and visualization tailored for SME server environments. Figure~\ref{fig:architecture} illustrates the system architecture and the flow of information between the various components, serving as the main reference for the following description.
 
@@ -49,6 +43,7 @@ All collected data is persistently stored in AWS DynamoDB, which offers a highly
 The entire cloud infrastructure is provisioned and managed using AWS CloudFormation, ensuring reproducibility, scalability, and compliance with best practices. Security and operational monitoring are enforced through AWS IAM for access control, CloudWatch for real-time monitoring, and custom authorization mechanisms that safeguard sensitive data flows. This architecture not only provides a robust and scalable foundation for energy-aware server management but also ensures that SMEs can leverage real-time insights and advanced analytics without the need for extensive in-house IT resources. The integration of these components, as depicted in Figure~\ref{fig:architecture}, demonstrates a holistic approach to energy management that is both practical and adaptable to the evolving needs of small and medium-sized enterprises.
 
 \subsection{Evaluation Approach}
+\label{methodology:evaluation-approach}
 To evaluate the effectiveness of our approach, we will implement a comprehensive
 evaluation approach that addresses technical performance, server energy
 consumption patterns, and economic impacts. This multi-faceted evaluation will
@@ -129,6 +124,7 @@ minimum cool-down period of 10 minutes will be observed between test iterations
 to ensure thermal conditions return to baseline.
 
 \subsection{Test Infrastructure Setup}
+\label{methodology:test-infrastructure-setup}
 To conduct the I/O stress testing scenarios described in WL2, a dedicated test infrastructure in format
 of a Ubuntu 24.04.2 LTS virtual machine was established within the Proxmox virtualization environment. 
 The test setup addresses the storage space limitations of the primary system disk and ensures 

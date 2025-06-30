@@ -7,50 +7,18 @@
 
 %Englisch
 \section{Results}
-This section presents the results of our comprehensive evaluation of the energy-aware 
-server management system. The evaluation encompasses both the technical implementation of 
-the cloud-based monitoring infrastructure and the detailed energy consumption analysis of 
-various server workloads.
+\label{results:results}
+This section presents the empirical findings from the evaluation approach described in Section~\ref{methodology:evaluation-approach} of the energy-aware server management dashboard. 
+The analysis encompasses both technical implementation outcomes and quantitative energy consumption characteristics across various server workload scenarios
 
 \subsection{System Implementation Results}
-The prototype system was successfully deployed on AWS infrastructure using Infrastructure 
-as Code (IaC) principles with Terraform. The implementation demonstrates the feasibility 
-of integrating on-premise energy monitoring devices with cloud-based analytics platforms 
-for SME environments.
+\label{results:system-implementation-results}
+The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles with Terraform handling the infrastructure setup efficiently. The implementation validated the technical feasibility of integrating on-premise energy monitoring devices with cloud-based analytics platforms for SME environments.
 
-\subsubsection{Data Collection Infrastructure}
-The AWS-based data collection infrastructure achieved reliable real-time data ingestion 
-from multiple sources:
-
-\begin{itemize}
-    \item \textbf{MQTT Integration:} The Nous A5T smart plug successfully transmitted 
-    power consumption data via MQTT to AWS IoT Core with sub-second latency. The 
-    Lambda-based MQTT processor handled message timestamps consistently, ensuring all 
-    data points included microsecond precision timestamps for accurate time-series analysis.
-    
-    \item \textbf{API Data Collection:} Scheduled Lambda functions successfully retrieved 
-    facility-level consumption data from the energyLive API and electricity price data 
-    from the EPEX Spot API at 15-minute intervals, maintaining synchronization with the 
-    measurement cycles.
-    
-    \item \textbf{Data Storage:} DynamoDB tables were configured with on-demand billing 
-    mode, providing automatic scaling for variable data ingestion rates. The database 
-    successfully stored over [X] data points during the evaluation period with 
-    consistent sub-10ms query response times.
-\end{itemize}
-
-\subsubsection{Infrastructure Scalability}
-The cloud infrastructure demonstrated effective scalability characteristics:
-\begin{itemize}
-    \item Lambda functions automatically scaled to handle concurrent data processing 
-    without manual intervention
-    \item DynamoDB on-demand throughput automatically adjusted to peak ingestion rates 
-    during intensive testing periods
-    \item Storage costs remained within acceptable limits for SME budgets, with total 
-    monthly AWS costs of approximately [X] EUR for the complete infrastructure
-\end{itemize}
+The data collection infrastructure achieved reliable real-time data ingestion from multiple heterogeneous sources including smart plugs and external APIs. The Nous A5T smart plug transmitted power consumption data via MQTT to AWS IoT Core with latency remaining below one second throughout all testing phases. The Lambda-based MQTT processor maintained consistent message timestamp handling with microsecond precision for accurate time-series analysis and data correlation. Scheduled Lambda functions retrieved facility-level consumption data from the energyLive API every 15 minutes while simultaneously collecting electricity price data from the EPEX Spot API at matching intervals. DynamoDB tables were configured with on-demand billing mode which provided automatic scaling for variable data ingestion rates and peak processing demands. The database successfully stored over [X] data points during the evaluation period with query response times remaining consistently below 10ms throughout all testing scenarios.
 
 \subsection{Energy Consumption Analysis Results}
+\label{results:energy-consumption-analysis-results}
 The energy consumption analysis was conducted using the NOUS A5T PowerCable device to 
 measure a single server under the five defined workload scenarios. All measurements were 
 performed with 15-minute intervals to align with typical SME energy monitoring practices.
@@ -106,6 +74,7 @@ completed]
 \end{itemize}
 
 \subsection{Economic Impact Analysis}
+\label{results:economic-impact-analysis}
 [This section will present the economic analysis based on the energy measurements and 
 electricity price data]
 
@@ -121,6 +90,7 @@ following cost optimization opportunities were identified:
 \end{itemize}
 
 \subsection{Technical Performance Validation}
+\label{results:technical-performance-validation}
 The system successfully demonstrated the technical feasibility of real-time energy 
 monitoring and price-aware workload optimization for SME environments:
 
@@ -136,6 +106,7 @@ monitoring and price-aware workload optimization for SME environments:
 \end{itemize}
 
 \subsection{Limitations and Considerations}
+\label{results:limitations-and-considerations}
 Several limitations were identified during the evaluation:
 
 \begin{itemize}
