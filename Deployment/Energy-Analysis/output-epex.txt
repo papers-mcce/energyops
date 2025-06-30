@@ -1,0 +1,113 @@
+🔍 Starting EPEX Spot Price Analysis
+📅 Test Date: 2025-06-29
+🏷️  DynamoDB Table: EPEXSpotPrices
+💰 Tariff: EPEXSPOTAT
+Available tariffs: ['EPEXSPOTAT']
+
+🔍 Sample EPEX data structure:
+  Sample 1:
+    unit: ct/kWh (type: <class 'str'>)
+    tariff: EPEXSPOTAT (type: <class 'str'>)
+    interval_minutes: 15 (type: <class 'decimal.Decimal'>)
+    iso_timestamp: 2025-06-08T00:00:00+02:00 (type: <class 'str'>)
+    timestamp: 1749333600000 (type: <class 'decimal.Decimal'>)
+    date_local: 2025-06-08T00:00:00+02:00 (type: <class 'str'>)
+    ttl: 1780947242 (type: <class 'decimal.Decimal'>)
+    collection_time: 2025-06-08T19:34:02.790889 (type: <class 'str'>)
+    price: 11.39 (type: <class 'decimal.Decimal'>)
+
+  Sample 2:
+    unit: ct/kWh (type: <class 'str'>)
+    tariff: EPEXSPOTAT (type: <class 'str'>)
+    interval_minutes: 15 (type: <class 'decimal.Decimal'>)
+    iso_timestamp: 2025-06-08T00:15:00+02:00 (type: <class 'str'>)
+    timestamp: 1749334500000 (type: <class 'decimal.Decimal'>)
+    date_local: 2025-06-08T00:15:00+02:00 (type: <class 'str'>)
+    ttl: 1780947242 (type: <class 'decimal.Decimal'>)
+    collection_time: 2025-06-08T19:34:02.905016 (type: <class 'str'>)
+    price: 11.39 (type: <class 'decimal.Decimal'>)
+
+  Sample 3:
+    unit: ct/kWh (type: <class 'str'>)
+    tariff: EPEXSPOTAT (type: <class 'str'>)
+    interval_minutes: 15 (type: <class 'decimal.Decimal'>)
+    iso_timestamp: 2025-06-08T00:30:00+02:00 (type: <class 'str'>)
+    timestamp: 1749335400000 (type: <class 'decimal.Decimal'>)
+    date_local: 2025-06-08T00:30:00+02:00 (type: <class 'str'>)
+    ttl: 1780947242 (type: <class 'decimal.Decimal'>)
+    collection_time: 2025-06-08T19:34:02.930197 (type: <class 'str'>)
+    price: 11.39 (type: <class 'decimal.Decimal'>)
+
+🔍 Querying EPEX prices for 2025-06-29
+   Tariff: EPEXSPOTAT
+   Timestamp range: 1751148000000 - 1751234399000
+   ✅ Found 96 price data points
+
+📊 Analyzing overall price data...
+export_epex_data.py:154: DeprecationWarning: an integer is required (got type decimal.Decimal).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  dt_utc = datetime.fromtimestamp(timestamp_ms / 1000, tz=timezone.utc)
+
+📋 Analyzing prices for test periods...
+
+📊 Analyzing prices for CPU Stress Test
+   Local time: 16:45 - 18:45
+   ✅ Found 9 price points
+      Avg: 6.198 cent/kWh (61.98 EUR/MWh)
+
+📊 Analyzing prices for I/O Stress Test
+   Local time: 18:45 - 19:45
+   ✅ Found 5 price points
+      Avg: 11.841 cent/kWh (118.41 EUR/MWh)
+
+📊 Analyzing prices for System Reboot
+   Local time: 20:35 - 20:40
+   ⚠️  No price data found for this period
+
+📊 Analyzing prices for Maintenance Operations
+   Local time: 22:30 - 22:35
+   ✅ Found 1 price points
+      Avg: 13.648 cent/kWh (136.48 EUR/MWh)
+
+📊 Analyzing prices for Idle State
+   Local time: 22:50 - 23:50
+   ✅ Found 4 price points
+      Avg: 12.12 cent/kWh (121.2 EUR/MWh)
+
+💾 Exporting results...
+
+📁 EPEX price data exported to:
+   - epex_price_analysis.json (complete data)
+   - epex_prices_15min.csv (15-minute interval prices)
+   - epex_prices_test_periods.csv (test period summary)
+   - epex_price_analysis_latex.txt (LaTeX values)
+
+============================================================
+💰 EPEX SPOT PRICE ANALYSIS SUMMARY
+============================================================
+
+📊 Overall Statistics for 2025-06-29:
+   Data Points: 96 (15-minute intervals)
+   Average Price: 6.874 cent/kWh (68.74 EUR/MWh)
+   Price Range: -1.685 - 14.168 cent/kWh
+   Price Variation: 15.853 cent/kWh (158.53 EUR/MWh)
+
+⚡ Test Period Prices:
+   ✅ CPU Stress Test (16:45 - 18:45): 6.198 cent/kWh (61.98 EUR/MWh)
+   ✅ I/O Stress Test (18:45 - 19:45): 11.841 cent/kWh (118.41 EUR/MWh)
+   ❌ System Reboot: No price data found for this period
+   ✅ Maintenance Operations (22:30 - 22:35): 13.648 cent/kWh (136.48 EUR/MWh)
+   ✅ Idle State (22:50 - 23:50): 12.12 cent/kWh (121.2 EUR/MWh)
+
+💡 Cost Optimization Potential:
+   Price Range: 6.198 - 13.648 cent/kWh (61.98 - 136.48 EUR/MWh)
+   Potential Savings: 7.450 cent/kWh (74.50 EUR/MWh)
+   Savings Percentage: 54.6%
+
+============================================================
+
+🎉 EPEX price analysis completed successfully!
+📁 Check the generated files for detailed results:
+   - epex_price_analysis.json
+   - epex_prices_15min.csv
+   - epex_prices_test_periods.csv
+   - epex_price_analysis_latex.txt
