@@ -1,0 +1,6 @@
+Workload,Period_Key,Duration_Minutes,Data_Points,Average_Power_W,Peak_Power_W,Min_Power_W,Std_Dev_W,Total_Energy_kWh,Power_Stability_CV%
+Maximum Computational Load,WL1_CPU_Stress,120,720,233.71,424.0,165.0,70.99,0.467414,30.38
+I/O Stress Testing,WL2_IO_Stress,60,360,171.57,182.0,166.0,2.71,0.171572,1.58
+System Reboot Cycle,WL3_Reboot,5,30,178.73,195.0,170.0,6.51,0.014894,3.64
+Maintenance Operations,WL4_Maintenance,5,30,166.17,177.0,162.0,3.76,0.013847,2.26
+Idle State,WL5_Idle,60,360,165.78,193.0,155.0,3.67,0.165781,2.21

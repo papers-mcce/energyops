@@ -1,0 +1,106 @@
+python3 evaluate_energy_data.py
+🔍 Starting Energy Consumption Analysis
+📅 Test Date: 2025-06-29
+🏷️  DynamoDB Table: SensorData
+Discovered device ID: serverpowermeter
+🔌 Device ID: serverpowermeter
+
+📊 Analyzing Maximum Computational Load (WL1_CPU_Stress)
+   Period: 2025-06-29T16:45:00 - 2025-06-29T18:45:00
+   ✅ Found 720 power measurements
+   📈 Average Power: 233.7 W
+   ⚡ Peak Power: 424.0 W
+   🔋 Energy Consumption: 0.467414 kWh
+
+📊 Analyzing I/O Stress Testing (WL2_IO_Stress)
+   Period: 2025-06-29T18:45:00 - 2025-06-29T19:45:00
+   ✅ Found 360 power measurements
+   📈 Average Power: 171.6 W
+   ⚡ Peak Power: 182.0 W
+   🔋 Energy Consumption: 0.171572 kWh
+
+📊 Analyzing System Reboot Cycle (WL3_Reboot)
+   Period: 2025-06-29T20:35:00 - 2025-06-29T20:40:00
+   ✅ Found 30 power measurements
+   📈 Average Power: 178.7 W
+   ⚡ Peak Power: 195.0 W
+   🔋 Energy Consumption: 0.014894 kWh
+
+📊 Analyzing Maintenance Operations (WL4_Maintenance)
+   Period: 2025-06-29T22:30:00 - 2025-06-29T22:35:00
+   ✅ Found 30 power measurements
+   📈 Average Power: 166.2 W
+   ⚡ Peak Power: 177.0 W
+   🔋 Energy Consumption: 0.013847 kWh
+
+📊 Analyzing Idle State (WL5_Idle)
+   Period: 2025-06-29T22:50:00 - 2025-06-29T23:50:00
+   ✅ Found 360 power measurements
+   📈 Average Power: 165.8 W
+   ⚡ Peak Power: 193.0 W
+   🔋 Energy Consumption: 0.165781 kWh
+
+🔄 Generating comparison analysis...
+
+💾 Exporting results...
+
+📁 Results exported to:
+   - energy_analysis_results.json (detailed data)
+   - energy_analysis_latex.txt (LaTeX values)
+   - energy_analysis_summary.csv (spreadsheet data)
+
+============================================================
+📊 ENERGY CONSUMPTION ANALYSIS SUMMARY
+============================================================
+
+✅ Maximum Computational Load (WL1_CPU_Stress)
+   Duration: 120 minutes
+   Average Power: 233.71 W
+   Peak Power: 424.0 W
+   Total Energy: 0.467414 kWh
+   Data Points: 720
+
+✅ I/O Stress Testing (WL2_IO_Stress)
+   Duration: 60 minutes
+   Average Power: 171.57 W
+   Peak Power: 182.0 W
+   Total Energy: 0.171572 kWh
+   Data Points: 360
+
+✅ System Reboot Cycle (WL3_Reboot)
+   Duration: 5 minutes
+   Average Power: 178.73 W
+   Peak Power: 195.0 W
+   Total Energy: 0.014894 kWh
+   Data Points: 30
+
+✅ Maintenance Operations (WL4_Maintenance)
+   Duration: 5 minutes
+   Average Power: 166.17 W
+   Peak Power: 177.0 W
+   Total Energy: 0.013847 kWh
+   Data Points: 30
+
+✅ Idle State (WL5_Idle)
+   Duration: 60 minutes
+   Average Power: 165.78 W
+   Peak Power: 193.0 W
+   Total Energy: 0.165781 kWh
+   Data Points: 360
+
+🔋 Baseline Power (Idle): 165.8 W
+
+📈 Power Increase vs Baseline:
+   WL1_CPU_Stress: +41.0% (67.93 W)
+   WL2_IO_Stress: +3.5% (5.79 W)
+   WL3_Reboot: +7.8% (12.95 W)
+   WL4_Maintenance: +0.2% (0.39 W)
+   WL5_Idle: +0.0% (0.0 W)
+
+============================================================
+
+🎉 Analysis completed successfully!
+📁 Check the generated files for detailed results:
+   - energy_analysis_results.json
+   - energy_analysis_latex.txt
+   - energy_analysis_summary.csv

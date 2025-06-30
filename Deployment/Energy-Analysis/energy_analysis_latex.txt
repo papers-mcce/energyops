@@ -1,0 +1,48 @@
+
+% Energy Consumption Analysis Results
+% Generated automatically from DynamoDB data analysis
+% Date: 2025-06-30 09:23:55
+
+% WL1: Maximum Computational Load (CPU Stress)
+
+% Maximum Computational Load (WL1_CPU_Stress)
+% Average power consumption: 233.71 W
+% Peak power consumption: 424.0 W  
+% Total energy consumption: 0.467414 kWh
+% Duration: 2.0 hours
+% Power stability: ±70.99 W variation
+
+% I/O Stress Testing (WL2_IO_Stress)
+% Average power consumption: 171.57 W
+% Peak power consumption: 182.0 W  
+% Total energy consumption: 0.171572 kWh
+% Duration: 1.0 hours
+% Power stability: ±2.71 W variation
+
+% System Reboot Cycle (WL3_Reboot)
+% Average power consumption: 178.73 W
+% Peak power consumption: 195.0 W  
+% Total energy consumption: 0.014894 kWh
+% Duration: 0.08 hours
+% Power stability: ±6.51 W variation
+
+% Maintenance Operations (WL4_Maintenance)
+% Average power consumption: 166.17 W
+% Peak power consumption: 177.0 W  
+% Total energy consumption: 0.013847 kWh
+% Duration: 0.08 hours
+% Power stability: ±3.76 W variation
+
+% Idle State (WL5_Idle)
+% Average power consumption: 165.78 W
+% Peak power consumption: 193.0 W  
+% Total energy consumption: 0.165781 kWh
+% Duration: 1.0 hours
+% Power stability: ±3.67 W variation
+
+% Workload Comparison Analysis
+% WL1_CPU_Stress: 41.0% increase over baseline
+% WL2_IO_Stress: 3.5% increase over baseline
+% WL3_Reboot: 7.8% increase over baseline
+% WL4_Maintenance: 0.2% increase over baseline
+% WL5_Idle: 0.0% increase over baseline
