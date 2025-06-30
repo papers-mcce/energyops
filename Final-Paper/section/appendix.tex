@@ -365,6 +365,90 @@ else:
 \end{lstlisting}
 
 \newpage
+\section{AWS QuickSight Dashboard Configuration}
+\label{appendix:quicksight-dashboard}
+
+This appendix documents the configuration of the AWS QuickSight dashboards used for energy consumption and price analysis. The dashboards visualize data from smart meters, server sensors, and the EPEX Spot electricity market, enabling comprehensive monitoring and analysis.
+
+\subsection{QuickSight Data Preparation}
+The following custom SQL queries were used in Amazon Athena to prepare the data for visualization:
+
+\paragraph{Energy Consumption (energyLIVE)}
+\begin{lstlisting}[language=SQL]
+SELECT
+    value AS W_Complete,
+    timestamp,
+    unit,
+    from_unixtime(round(timestamp/1000/900)*900) AS interval_15min
+FROM "Athena-esoxvek5"."default"."energylivedata"
+WHERE unit = 'W'
+  AND value IS NOT NULL
+  AND value > 0
+\end{lstlisting}
+
+\paragraph{Sensor Data (sensordata)}
+\begin{lstlisting}[language=SQL]
+SELECT
+    *,
+    date_trunc('minute', date_parse(device_time, '%Y-%m-%dT%H:%i:%s')) as interval_15min
+FROM "Athena-esoxvek5"."default"."sensordata"
+\end{lstlisting}
+
+\subsection{Dashboard Visualizations}
+The following figures show the main QuickSight dashboards used in this project:
+
+% Energy Consumption Dashboard
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/aggregated_Energyconsumption Dashboard.png}
+    \caption{Aggregated Energy Consumption Dashboard}
+\end{figure}
+
+% Energy Live Data Preparation
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/energylive_Data Prep.png}
+    \caption{QuickSight Data Preparation for energyLIVE}
+\end{figure}
+
+% EPEX Price Dashboard
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/epex_Energyconsumption Dashboard.png}
+    \caption{EPEX Price Dashboard}
+\end{figure}
+
+% Full Dashboard
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/fulldashboardnergyconsumption Dashboard.png}
+    \caption{Full Energy Consumption Dashboard}
+\end{figure}
+
+% Sensor Data Preparation
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/sensordata_Data Prep.png}
+    \caption{QuickSight Data Preparation for Sensor Data}
+\end{figure}
+
+% Server Data Dashboard
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/server_data_Energyconsumption Dashboard.png}
+    \caption{Server Data Energy Consumption Dashboard}
+\end{figure}
+
+% Smart Meter Consumption Dashboard
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig/smart_meterconsumptionEnergyconsumption Dashboard.png}
+    \caption{Smart Meter Consumption Dashboard}
+\end{figure}
+
+For further details on the QuickSight configuration and interactive dashboards, see the project presentation and the HTML presentation project documentation (Section~\ref{appendix:github-docs}).
+
+\newpage
 \section{GitHub Repository and Documentation}
 \label{appendix:github-docs}
 
