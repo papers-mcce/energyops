@@ -13,7 +13,7 @@ This section presents the key findings from our energy-aware server management s
 \subsection{System Implementation}
 \label{results:system-implementation}
 The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles, with all configuration files and deployment scripts available in the repository (see Appendix~\ref{appendix:github-docs}). Key technical achievements include:
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
     \item Real-time data ingestion with sub-second latency from NOUS A5T smart plugs via MQTT
     \item Reliable 15-minute interval data collection from energyLive API (see Appendix~\ref{appendix:energylive-api}) and EPEX Spot API (see Appendix~\ref{appendix:strompreis-api})
     \item Scalable DynamoDB storage with consistent sub-10ms query response times
@@ -21,60 +21,110 @@ The prototype system was successfully deployed on AWS infrastructure using Infra
 
 \subsection{Energy Consumption Analysis}
 \label{results:energy-analysis}
-Our analysis revealed distinct power consumption patterns across different workload scenarios, summarized in Table~\ref{tab:workload-comparison}.
+Our analysis revealed distinct power consumption patterns across different workload scenarios, as illustrated in Figure~\ref{fig:workload-analysis}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=1.05\textwidth,
+    height=7cm,
+    xlabel={Workload Type},
+    ylabel={Power Consumption (W)},
+    symbolic x coords={CPU Stress,I/O Stress,System Reboot,Maintenance,Idle},
+    xtick=data,
+    xticklabel style={rotate=45,anchor=east},
+    ybar=5pt,
+    bar width=15pt,
+    ymin=0,
+    ymax=750,
+    nodes near coords style={anchor=west, xshift=8pt},
+    legend pos=north east,
+    legend style={font=\small},
+    ymajorgrids=true,
+    grid style=dashed,
+    clip=false,
+    enlarge x limits=0.15
+]
+
+% Average power consumption bars with values on the right
+\addplot[xblue,fill=xblue!30,
+    nodes near coords,
+    nodes near coords align={horizontal}
+] coordinates {
+    (CPU Stress,662.25)
+    (I/O Stress,317.86)
+    (System Reboot,294.27)
+    (Maintenance,205.37)
+    (Idle,172.20)
+};
+
+% Peak power dots with values on the right
+\addplot[xred,only marks,mark=*,mark size=3pt,
+    nodes near coords,
+    nodes near coords align={horizontal},
+    nodes near coords style={anchor=west, xshift=8pt}
+] coordinates {
+    (CPU Stress,684.0)
+    (I/O Stress,403.0)
+    (System Reboot,424.0)
+    (Maintenance,293.0)
+    (Idle,266.0)
+};
+
+\legend{Average Power,Peak Power}
+
+% Add percentage increase annotations on the left side
+\node[anchor=east, xshift=-2pt] at (axis cs:CPU Stress,684.0) {\small +284.6\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:I/O Stress,403.0) {\small +84.6\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:System Reboot,424.0) {\small +70.9\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:Maintenance,293.0) {\small +19.3\%};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Comprehensive workload power analysis showing average consumption (bars), peak values (red dots), and percentage increase over idle baseline. The baseline idle power of 172.2W demonstrates significant power variation across different operational states.}
+\label{fig:workload-analysis}
+\end{figure}
 
 \begin{table}[h]
-\caption{Workload Power Consumption Comparison}
+\caption{Workload Power Consumption Details}
 \label{tab:workload-comparison}
-\begin{tabular}{lcccc}
+\begin{tabular}{@{}lcccc@{}}
 \hline
-\textbf{Workload} & \textbf{Avg Power (W)} & \textbf{Peak (W)} & \textbf{Variation (W)} & \textbf{Energy (kWh)} \\
+\textbf{Workload} & \textbf{Avg (W)} & \textbf{Peak (W)} & \textbf{Var (W)} & \textbf{kWh} \\
 \hline
 CPU Stress & 662.25 & 684.0 & ±3.94 & 0.662 \\
 I/O Stress & 317.86 & 403.0 & ±52.15 & 0.159 \\
-System Reboot & 294.27 & 424.0 & ±71.68 & 0.025 \\
+Sys Reboot & 294.27 & 424.0 & ±71.68 & 0.025 \\
 Maintenance & 205.37 & 293.0 & ±42.59 & 0.017 \\
 Idle State & 172.20 & 266.0 & ±6.82 & 0.172 \\
 \hline
 \end{tabular}
 \end{table}
 
-Key observations from the workload analysis:
-\begin{itemize}
-    \item CPU-intensive operations showed the highest power increase (284.6\% above baseline)
-    \item I/O operations demonstrated moderate power increase (84.6\% above baseline)
-    \item System operations exhibited high variability but lower average consumption
-    \item Idle state maintained stable power consumption with minimal variation
-\end{itemize}
-
 \subsection{Cost Optimization Potential}
 \label{results:optimization}
-Analysis of EPEX spot prices during the test period revealed significant cost optimization opportunities:
+Analysis of EPEX spot prices during the test period revealed significant optimization opportunities:
 
-\begin{itemize}
-    \item \textbf{Price Variation:} Daily electricity prices ranged from -1.685 to 14.168 cent/kWh
-    \item \textbf{Scheduling Impact:} Optimal workload scheduling could achieve up to 54.6\% cost reduction
-    \item \textbf{Annual Savings:} Projected savings for a single server:
-    \begin{itemize}
-        \item CPU-intensive workloads: 543.85 EUR/year
-        \item Maintenance operations: 6.23 EUR/year
-        \item Total optimization potential: 550.08 EUR/year
-    \end{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item Price variation range: -1.685 to 14.168 cent/kWh (230.6\% daily variation)
+    \item Optimal scheduling potential: 54.6\% cost reduction
+    \item Projected annual savings per server: 550.08 EUR
 \end{itemize}
 
 \begin{table}[h]
 \caption{Cost Comparison Across Scheduling Scenarios}
 \label{tab:cost-comparison}
-\begin{tabular}{lllll}
+\begin{tabular}{@{}lcccc@{}}
 \hline
-\textbf{Workload} & \textbf{Energy (kWh)} & \textbf{Best Case (¢)} & \textbf{Worst Case (¢)} & \textbf{Savings (\%)} \\
+\textbf{WL} & \textbf{kWh} & \textbf{Best (¢)} & \textbf{Worst (¢)} & \textbf{Savings} \\
 \hline
-CPU Stress & 0.662 & 4.10 & 9.04 & 54.6\% \\
-I/O Stress & 0.159 & 0.98 & 2.17 & 54.6\% \\
-Maintenance & 0.017 & 0.11 & 0.23 & 54.6\% \\
-Idle (1h) & 0.172 & 1.07 & 2.35 & 54.6\% \\
+CPU & 0.662 & 4.10 & 9.04 & 54.6\% \\
+I/O & 0.159 & 0.98 & 2.17 & 54.6\% \\
+Maint & 0.017 & 0.11 & 0.23 & 54.6\% \\
+Idle & 0.172 & 1.07 & 2.35 & 54.6\% \\
 \hline
-\multicolumn{5}{l}{\small Best Case: 6.198 cent/kWh, Worst Case: 13.648 cent/kWh} \\
+\multicolumn{5}{@{}l@{}}{\small Best: 6.198¢/kWh, Worst: 13.648¢/kWh} \\
 \end{tabular}
 \end{table}
 
@@ -84,23 +134,23 @@ These results demonstrate that intelligent workload scheduling based on real-tim
 \label{results:limitations}
 The analysis revealed several key considerations for implementing energy-aware server management:
 
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
     \item \textbf{Workload Constraints:}
-    \begin{itemize}
+    \begin{itemize}[noitemsep]
         \item Critical operations cannot always be scheduled optimally
         \item Some workloads require immediate execution regardless of energy costs
         \item Batch processing jobs offer the most flexibility for optimization
     \end{itemize}
     
     \item \textbf{Economic Factors:}
-    \begin{itemize}
+    \begin{itemize}[noitemsep]
         \item Price volatility (230.6\% daily variation) enables significant optimization
         \item Benefits scale linearly with server count in SME deployments
         \item Austrian market prices may not reflect other regional patterns
     \end{itemize}
     
     \item \textbf{Technical Limitations:}
-    \begin{itemize}
+    \begin{itemize}[noitemsep]
         \item Single server measurements may not represent diverse hardware configurations
         \item Virtualization overhead affects absolute power measurements
         \item Limited test duration (24 hours) may miss longer-term patterns
