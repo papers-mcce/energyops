@@ -1,0 +1,49 @@
+
+% EPEX Spot Price Analysis Results
+% Generated automatically from DynamoDB data analysis
+% Date: 2025-06-30 09:54:07
+% Test Date: 2025-06-29
+% Tariff: EPEXSPOTAT
+
+% Overall Price Statistics for 2025-06-29
+% Data points: 96 (15-minute intervals)
+% Average price: 6.874 cent/kWh (68.74 EUR/MWh)
+% Minimum price: -1.685 cent/kWh (-16.85 EUR/MWh)
+% Maximum price: 14.168 cent/kWh (141.68 EUR/MWh)
+% Price variation: 15.853 cent/kWh (158.53 EUR/MWh)
+% Price variation percentage: 230.6%
+
+% Test Period Price Analysis
+
+% CPU Stress Test (16:45 - 18:45 local time)
+% Average electricity price: 6.198 cent/kWh (61.98 EUR/MWh)
+% Price range: 0.0 - 10.178 cent/kWh (0.0 - 101.78 EUR/MWh)
+% Data points: 9 (15-minute intervals)
+
+% I/O Stress Test (18:45 - 19:45 local time)
+% Average electricity price: 11.841 cent/kWh (118.41 EUR/MWh)
+% Price range: 10.178 - 12.257 cent/kWh (101.78 - 122.57 EUR/MWh)
+% Data points: 5 (15-minute intervals)
+
+% Maintenance Operations (22:30 - 22:35 local time)
+% Average electricity price: 13.648 cent/kWh (136.48 EUR/MWh)
+% Price range: 13.648 - 13.648 cent/kWh (136.48 - 136.48 EUR/MWh)
+% Data points: 1 (15-minute intervals)
+
+% Idle State (22:50 - 23:50 local time)
+% Average electricity price: 12.12 cent/kWh (121.2 EUR/MWh)
+% Price range: 12.12 - 12.12 cent/kWh (121.2 - 121.2 EUR/MWh)
+% Data points: 4 (15-minute intervals)
+
+% Cost Optimization Potential
+% Lowest price period: CPU Stress Test at 6.198 cent/kWh (61.98 EUR/MWh)
+% Highest price period: Maintenance Operations at 13.648 cent/kWh (136.48 EUR/MWh)
+% Potential savings: 7.45 cent/kWh (74.5 EUR/MWh)
+% Savings percentage: 54.6%
+
+% LaTeX Integration Guide:
+% =======================
+% Use these values in your results.tex file for:
+% - Economic Impact Analysis section
+% - Cost Optimization Potential subsection
+% - Replace [X] placeholders with the values above
