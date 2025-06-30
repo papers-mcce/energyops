@@ -2,21 +2,23 @@
 
 \section{Introduction}
 \label{introduction:introduction}
-The rapid escalation of energy prices has emerged as a significant operational challenge for small and medium-sized enterprises (SMEs), particularly those maintaining on-premise server infrastructures. As electricity costs become an increasingly substantial component of IT expenditures, optimizing energy efficiency and cost management is critical for ensuring business sustainability and competitiveness \cite{gennitsaris2023sme,ec2022energyefficiencysmes}. Server operations, which are indispensable for business continuity, exhibit highly variable energy consumption depending on workload intensity, maintenance activities, and system states.
+The rapid escalation of energy prices has emerged as a significant operational challenge for small and medium-sized enterprises (SMEs), particularly those maintaining on-premise server infrastructures. As electricity costs become an increasingly substantial component of IT expenditures, optimizing energy efficiency and cost management is critical for ensuring business sustainability and competitiveness \cite{gennitsaris2023sme} \cite{ec2022energyefficiencysmes}. Server operations, which are indispensable for business continuity, exhibit highly variable energy consumption depending on workload intensity, maintenance activities, and system states.
 
 Despite the importance of energy-aware management, most SMEs lack transparency regarding the power consumption profiles of their server activities. Routine tasks such as reboots, backups, software updates, and maintenance can each have distinct energy footprints, yet their impact on overall operational costs often remains opaque. This lack of actionable insight hinders the ability of SMEs to strategically schedule energy-intensive operations, especially in the context of dynamic electricity pricing \cite{ristic2021iotenergymanagement}.
 
 A parallel can be drawn to the management of photovoltaic (PV) systems, where owners are advised to operate high-consumption appliances during periods of peak solar generation. Similarly, SMEs could benefit from aligning server workloads with periods of lower electricity prices or increased renewable energy availability, thereby reducing costs and supporting sustainability objectives.
 
-Existing monitoring tools typically provide only aggregate energy usage data and do not offer the granularity or integration required for real-time, task-specific optimization in response to market conditions \cite{ristic2021iotenergymanagement}. This paper addresses this gap by proposing a comprehensive, serverless architecture that integrates smart meter data, Internet of Things (IoT)-based server power monitoring, and real-time electricity market pricing into a unified, cloud-based dashboard.
+The detailed system architecture and methodological approach are described in Section~\ref{methodology:methodological-approach}. Empirical results and analysis are presented in Section~\ref{results:results}.
 
-The primary objectives of this research are to:
+This gap is addressed by proposing a comprehensive, serverless architecture that integrates smart meter data, Internet of Things (IoT)-based server power monitoring, and real-time electricity market pricing into a unified, cloud-based dashboard.
+
+The primary objectives of this research are as follows:
 \begin{itemize}
-\item Develop a scalable system for collecting and analyzing detailed energy consumption data from SME server infrastructures
-\item Enable real-time correlation of server activities with electricity market prices to inform cost-effective workload scheduling
-\item Demonstrate the practical benefits of the proposed approach through empirical evaluation across diverse operational scenarios
+\item To develop a scalable system for collecting and analyzing detailed energy consumption data from SME server infrastructures
+\item To enable real-time correlation of server activities with electricity market prices to inform cost-effective workload scheduling
+\item To demonstrate the practical benefits of the proposed approach through empirical evaluation across diverse operational scenarios
 \end{itemize}
 
-To achieve these aims, our system leverages Amazon Web Services (AWS) serverless technologies, including API Gateway, IoT Core, Lambda, and DynamoDB, to collect and process data from Sagemcom smart meters and NOUS A5T PowerCable devices. Visualization and analysis are facilitated through Amazon QuickSight, while real-time electricity prices from the European Power Exchange (EPEX) Spot market are integrated via the smartENERGY API (see Appendix~\ref{appendix:strompreis-api}). The complete implementation, including source code and deployment instructions, is available in our public repository (see Appendix~\ref{appendix:github-docs}).
+To achieve these aims, Amazon Web Services (AWS) serverless technologies, including API Gateway, IoT Core, Lambda, and DynamoDB, are leveraged to collect and process data from Sagemcom smart meters and NOUS A5T PowerCable devices. Visualization and analysis are facilitated through Amazon QuickSight, while real-time electricity prices from the European Power Exchange (EPEX) Spot market are integrated via the smartENERGY API (see Appendix~\ref{appendix:strompreis-api}). The complete implementation, including source code and deployment instructions, is made available in a public repository (see Appendix~\ref{appendix:github-docs}).
 
 The remainder of this paper is organized as follows: Section~\ref{related_work:related-work} reviews related work in energy management and optimization, Section~\ref{methodology:methodological-approach} details the system architecture and methodology, Section~\ref{results:results} presents our experimental findings and cost analysis, Section~\ref{conclusion:conclusion} concludes with future research directions, and Section~\ref{references:references} provides references. Detailed API specifications and implementation guides are provided in the appendices.

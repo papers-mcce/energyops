@@ -31,6 +31,8 @@ A reproducible research repository for the paper:
 
 This repository contains all code, configuration, and documentation required to replicate the experiments and infrastructure described in our paper. The system collects energy data from smart devices (e.g., NOUS A5T power strip running Tasmota), processes it serverlessly on AWS, and stores it for analysis.
 
+All necessary scripts, infrastructure definitions, and setup guides are included to ensure full reproducibility of the research results.
+
 ## 2. Project Structure
 
 - [`/Deployment`](./Deployment): All AWS infrastructure as code (Terraform), Lambda functions, scripts, and IAM policies
@@ -137,6 +139,8 @@ The [`/html-presentation-project`](./html-presentation-project) provides an inte
 - Deployment instructions in the directory's README
 
 ## 7. Replication Checklist
+
+The following checklist summarizes the steps required to fully replicate the system and experiments described in the paper. All required materials and instructions are provided within this repository.
 
 - [ ] Deploy AWS infrastructure with Terraform
 - [ ] Build and flash custom Tasmota firmware

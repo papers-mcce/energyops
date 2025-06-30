@@ -22,7 +22,7 @@ The use case centers on an SME operating on-premise server infrastructure, seeki
 As illustrated in Figure~\ref{fig:highleveluse}, energy consumption data is continuously collected from both facility-level smart meters and device-level IoT power monitors. Simultaneously, real-time electricity prices are retrieved from market data providers (e.g., EPEX Spot). These data streams are integrated and visualized via a cloud-based dashboard, providing actionable insights and recommendations for workload scheduling.
 \subsection{Prototype}
 \label{methodology:prototype}
-The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture. The complete implementation details, including infrastructure as code and configuration files, are available in our public repository (see Appendix~\ref{appendix:github-docs}).
+The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture. The complete implementation details, including infrastructure as code and configuration files, are available in the project materials and are further described in Appendix~\ref{appendix:github-docs}.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1.1\textwidth]{fig/architektur_new_2.png}
@@ -33,16 +33,9 @@ At the edge, a smart meter with a P1 interface and a NOUS A5T smart plug\footnot
 AWS Lambda functions, triggered by scheduled polling or MQTT messages, process incoming data. AWS IoT Core manages secure MQTT communication, while API Gateway and Lambda handle RESTful interactions with external APIs. All data is stored in AWS DynamoDB for low-latency access. AWS Glue and Athena enable automated data cataloging and ad hoc querying, respectively. Visualization is provided through AWS QuickSight dashboards, allowing administrators to correlate energy usage with market prices and identify optimization opportunities. Infrastructure is provisioned using AWS CloudFormation for reproducibility, and security is enforced via AWS IAM and CloudWatch.
 \subsection{Evaluation Approach}
 \label{methodology:evaluation-approach}
-To evaluate the effectiveness of our approach, we will implement a comprehensive
-evaluation approach that addresses technical performance, server energy
-consumption patterns, and economic impacts. This multi-faceted evaluation will
-provide insights into both the system's technical capabilities and its practical
-utility for SME operators.
+To evaluate the effectiveness of the approach, a comprehensive evaluation strategy is implemented that addresses technical performance, server energy consumption patterns, and economic impacts. This multi-faceted evaluation provides insights into both the system's technical capabilities and its practical utility for SME operators. The results of these experiments are presented in Section~\ref{results:results}.
 
-Server energy consumption analysis forms the core of our measurement approach.
-Using the NOUS A5T PowerCable device, we will conduct detailed measurements of a
-single server under various operational scenarios to establish energy consumption
-profiles. Specifically, we will examine the following workloads (WL):
+Server energy consumption analysis forms the core of the measurement approach. Using the NOUS A5T PowerCable device, detailed measurements of a single server under various operational scenarios are conducted to establish energy consumption profiles. Specifically, the following workloads (WL) are examined:
 
 \begin{enumerate}[label=WL\arabic*]
     \item \textbf{Maximum computational load:} Simulation of 100\% CPU utilization across all
@@ -76,14 +69,8 @@ profiles. Specifically, we will examine the following workloads (WL):
     even during periods of low utilization. \cite{moran2024dissecting,agilewatts2022}
 \end{enumerate}
 
-For each WL, the total energy usage consumption will be measured in kilowatt-hours (kWh) and power
-consumption patterns over time, establishing detailed energy profiles that can be
-correlated with specific operational states. These measurements will reveal the
-energy intensity of different server activities and identify potential
-optimization opportunities, such as scheduling high-consumption tasks during
-periods of lower electricity pricing or implementing more efficient idle-state
-management.
-\newpage
+For each WL, the total energy usage consumption is measured in kilowatt-hours (kWh) and power consumption patterns over time, establishing detailed energy profiles that can be correlated with specific operational states. These measurements reveal the energy intensity of different server activities and identify potential optimization opportunities, such as scheduling high-consumption tasks during periods of lower electricity pricing or implementing more efficient idle-state management.
+
 To ensure reliable and representative measurements, each test scenario will be
 conducted with specific time windows (TW):
 
@@ -107,10 +94,7 @@ conducted with specific time windows (TW):
     capture any periodic background system activities.
 \end{enumerate}
 
-Each scenario will be repeated three times to ensure statistical validity and
-account for any variations in system behavior or environmental conditions. A
-minimum cool-down period of 10 minutes will be observed between test iterations
-to ensure thermal conditions return to baseline.
+Each scenario is repeated three times to ensure statistical validity and account for any variations in system behavior or environmental conditions. A minimum cool-down period of 10 minutes is observed between test iterations to ensure thermal conditions return to baseline.
 
 \subsection{Test Infrastructure Setup}
 \label{methodology:test-infrastructure-setup}
