@@ -8,22 +8,32 @@
 %Englisch
 \section{Results}
 \label{results:results}
-This section presents the key findings from our energy-aware server management system evaluation, focusing on system implementation outcomes and quantitative energy consumption analysis. The complete analysis scripts and raw data are available in our public repository (see Appendix~\ref{appendix:github-docs}).
+This section presents the key findings from our energy-aware server management system evaluation, 
+focusing on system implementation outcomes and quantitative energy consumption analysis. 
+The complete analysis scripts and raw data are available in our public repository 
+(see Appendix~\ref{appendix:github-docs}).
 
-The methodology used to obtain these results is described in Section~\ref{methodology:methodological-approach}. These findings support the conclusions drawn in Section~\ref{conclusion:conclusion}.
+The methodology used to obtain these results is described in Section ~\ref{methodology:methodological-approach}.
+These findings support the conclusions drawn in Section~\ref{conclusion:conclusion}.
 
 \subsection{System Implementation}
 \label{results:system-implementation}
-The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles, with all configuration files and deployment scripts available in the repository (see Appendix~\ref{appendix:github-docs}). Key technical achievements include:
+The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code 
+principles, with all configuration files and deployment scripts available in the repository 
+(see Appendix~\ref{appendix:github-docs}). Key technical achievements include:
+
 \begin{itemize}[noitemsep,topsep=0pt]
     \item Real-time data ingestion with sub-second latency from NOUS A5T smart plugs via MQTT
-    \item Reliable 15-minute interval data collection from energyLive API (see Appendix~\ref{appendix:energylive-api}) and EPEX Spot API (see Appendix~\ref{appendix:strompreis-api})
+    \item Reliable 1-minute interval data collection from energyLive API (see Appendix~\ref{appendix:energylive-api}) 
+    \item Reliable 15-minute interval data collection from EPEX Spot API (see Appendix~\ref{appendix:strompreis-api})
+
     \item Scalable DynamoDB storage with consistent sub-10ms query response times
 \end{itemize}
 
 \subsection{Energy Consumption Analysis}
 \label{results:energy-analysis}
-Our analysis revealed distinct power consumption patterns across different workload scenarios, as illustrated in Figure~\ref{fig:workload-analysis}.
+Our analysis revealed distinct power consumption patterns across different workload scenarios, 
+as illustrated in Figure~\ref{fig:workload-analysis}.
 
 \begin{figure}[ht]
 \centering
@@ -109,9 +119,8 @@ Idle State & 172.20 & 266.0 & ±6.82 & 0.172 \\
 Analysis of EPEX spot prices during the test period revealed significant optimization opportunities:
 
 \begin{itemize}[noitemsep,topsep=0pt]
-    \item Price variation range: -1.685 to 14.168 cent/kWh (230.6\% daily variation)
+    \item Price variation range: -1.685 to 14.168 cent/kWh (230.6\% daily variation from reference price)
     \item Optimal scheduling potential: 54.6\% cost reduction
-    \item Projected annual savings per server: 550.08 EUR
 \end{itemize}
 
 \begin{table}[h]
@@ -121,10 +130,9 @@ Analysis of EPEX spot prices during the test period revealed significant optimiz
 \hline
 \textbf{WL} & \textbf{kWh} & \textbf{Best (¢)} & \textbf{Worst (¢)} & \textbf{Savings} \\
 \hline
-CPU & 0.662 & 4.10 & 9.04 & 54.6\% \\
-I/O & 0.159 & 0.98 & 2.17 & 54.6\% \\
-Maint & 0.017 & 0.11 & 0.23 & 54.6\% \\
-Idle & 0.172 & 1.07 & 2.35 & 54.6\% \\
+CPU & 0.662 & 4.10 & 9.04 & 45.3\% \\
+I/O & 0.159 & 0.98 & 2.17 & 45.1\% \\
+Maint & 0.017 & 0.11 & 0.23 & 47.8\% \\
 \hline
 \multicolumn{5}{@{}l@{}}{\small Best: 6.198¢/kWh, Worst: 13.648¢/kWh} \\
 \end{tabular}
@@ -146,7 +154,7 @@ The analysis revealed several key considerations for implementing energy-aware s
     
     \item \textbf{Economic Factors:}
     \begin{itemize}[noitemsep]
-        \item Price volatility (230.6\% daily variation) enables significant optimization
+        \item Price volatility (230.6\%  daily variation from reference price) enables significant optimization
         \item Benefits scale linearly with server count in SME deployments
         \item Austrian market prices may not reflect other regional patterns
     \end{itemize}
@@ -159,4 +167,4 @@ The analysis revealed several key considerations for implementing energy-aware s
     \end{itemize}
 \end{itemize}
 
-These results demonstrate that intelligent workload scheduling based on real-time energy pricing can provide substantial cost savings for SME server operations, with potential annual savings of 550.08 EUR per server under optimal conditions. The approach is particularly valuable for organizations with flexible workload scheduling and multiple servers, where benefits can be multiplied across the infrastructure. 
+These results demonstrate that intelligent workload scheduling based on real-time energy pricing can provide substantial cost savings for SME server operations. The approach is particularly valuable for organizations with flexible workload scheduling and multiple servers, where benefits can be multiplied across the infrastructure. 

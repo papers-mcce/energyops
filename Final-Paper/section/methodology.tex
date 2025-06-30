@@ -83,8 +83,7 @@ conducted with specific time windows (TW):
 
     \item System reboot cycle measurements will be conducted over multiple
     iterations, with each complete cycle (shutdown to fully operational)
-    typically lasting 5-10 minutes, repeated 5 times to ensure consistency and
-    account for variations in boot times.
+    typically lasting 5-10 minutes.
 
     \item Maintenance operation measurements will cover the entire duration of
     typical update processes, estimated at 5-10 minutes per session, including
@@ -95,68 +94,26 @@ conducted with specific time windows (TW):
     capture any periodic background system activities.
 \end{enumerate}
 
-Each scenario is repeated three times to ensure statistical validity and account for any variations in system behavior or environmental conditions. A minimum cool-down period of 10 minutes is observed between test iterations to ensure thermal conditions return to baseline.
+A minimum cool-down period of 10 minutes has to be assured between test iterations to 
+ensure thermal conditions return to baseline.
 
 \subsection{Test Infrastructure Setup}
 \label{methodology:test-infrastructure-setup}
-To conduct the I/O stress testing scenarios described in WL2, a dedicated test infrastructure in format
-of a Ubuntu 24.04.2 LTS virtual machine was established within the Proxmox virtualization environment. 
-The test setup addresses the storage space limitations of the primary system disk and ensures 
-isolated, reproducible testing conditions.
 
-\subsubsection{Storage Configuration}
-\label{methodology:storage-configuration}
-The original virtual machine configuration included a 40GB system disk with only 8GB of available
-free space, insufficient for intensive I/O testing that requires substantial temporary file creation.
-To address this limitation, a dedicated 50GB virtual disk was provisioned and attached to the test
-virtual machine as a secondary storage device (\texttt{/dev/sdb}).
-
-The additional disk was formatted with the ext4 filesystem and mounted at \texttt{/mnt/fio-test},
-providing 50GB of available space exclusively for I/O testing operations. This configuration
-ensures that:
-
-\begin{itemize}
-    \item I/O testing operations do not interfere with system operations on the primary disk
-    \item Sufficient space is available for creating large test files (up to 32GB total)
-    \item Test data can be isolated and cleaned up after each measurement cycle
-    \item Storage performance characteristics can be measured independently
-\end{itemize}
-
-The disk was configured with I/O threading enabled in the Proxmox hypervisor to maximize I/O
-performance and ensure realistic energy consumption measurements under high-load conditions.
-
-\subsubsection{Automated Test Scheduling}
-\label{methodology:automated-test-scheduling}
-To ensure precise timing alignment with the 15-minute measurement intervals of the energy
-monitoring system, automated test scheduling scripts were developed using the \texttt{at}
-command scheduler. The FIO stress testing script (\texttt{schedule\_fio\_stress.sh}) implements
-the following features:
-
-\begin{itemize}
-    \item \textbf{Configurable test cycles:} Support for multiple 15-minute I/O stress periods
-    followed by 15-minute idle periods
-    \item \textbf{Maximum I/O load generation:} Utilizes 4 parallel FIO jobs with 32-depth I/O queues,
-    mixed random read/write patterns (70\% read, 30\% write), and variable block sizes (4KB to 1MB)
-    \item \textbf{Direct I/O operations:} Bypasses operating system caches to ensure actual disk I/O
-    and realistic power consumption
-    \item \textbf{Automatic cleanup:} Removes test files after each cycle to prevent disk space
-    exhaustion
-    \item \textbf{Comprehensive logging:} Records detailed performance metrics and timestamps
-    for correlation with energy measurements
-\end{itemize}
-
-This automated approach ensures that I/O stress testing can be precisely 
-synchronized with energy measurement intervals, enabling accurate correlation 
-between storage workload intensity and power consumption patterns.
+To conduct the stress testing scenarios described in WL1 and WL2, a dedicated test infrastructure 
+in the form of a Ubuntu 24.04.2 LTS virtual machine was established within a Proxmox virtualization
+environment.
 
 \subsubsection{CPU Stress Testing Configuration}
 \label{methodology:cpu-stress-testing-configuration}
+
 For maximum computational load testing (WL1), a dedicated stress-ng scheduling 
 script was developed to generate sustained CPU load across all available cores. 
 The stress-ng tool was selected for its ability to create reproducible, 
 high-intensity computational workloads suitable for energy consumption analysis.
 
-The CPU stress testing implementation includes the following characteristics:
+The CPU stress testing implementation (see Appendix~\ref{appendix:github-docs} 
+for implementation details) includes the following characteristics:
 \begin{itemize}
     \item \textbf{Full CPU utilization:} Spawns worker processes equal to the 
     number of available virtual CPUs (56 logical processors)
@@ -183,3 +140,48 @@ and baseline states. The automated cleanup and logging mechanisms ensure
 consistent test conditions and comprehensive data collection for subsequent 
 analysis.
 
+\subsubsection{Storage Configuration}
+\label{methodology:storage-configuration}
+The original virtual machine configuration had insufficient free disk space for intensive
+I/O testing that requires substantial temporary file creation. To address this limitation, a
+dedicated 50GB virtual disk was provisioned and attached to the test virtual machine as a
+secondary storage device.
+
+The additional disk was formatted with the ext4 filesystem providing 50GB of available space
+exclusively for I/O testing operations. The disk was configured with I/O threading enabled in 
+the Proxmox hypervisor to maximize I/O performance and ensure realistic energy consumption
+measurements under high-load conditions.
+This configuration ensures that:
+
+\begin{itemize}
+    \item I/O testing operations do not interfere with system operations on the primary disk
+    \item Sufficient space is available for creating large test files (up to 32GB total)
+    \item Test data can be isolated and cleaned up after each measurement cycle
+    \item Storage performance characteristics can be measured independently
+\end{itemize}
+
+
+\subsubsection{Automated Test Scheduling}
+\label{methodology:automated-test-scheduling}
+To ensure precise timing alignment with the 15-minute measurement intervals of the energy
+monitoring system, automated test scheduling scripts were developed using the \texttt{at}
+command scheduler. The FIO stress testing implementation (see Appendix~\ref{appendix:github-docs} 
+for implementation details) includes the following characteristics:
+
+
+\begin{itemize}
+    \item \textbf{Configurable test cycles:} Support for multiple 15-minute I/O stress periods
+    followed by 15-minute idle periods
+    \item \textbf{Maximum I/O load generation:} Utilizes 4 parallel FIO jobs with 32-depth I/O queues,
+    mixed random read/write patterns (70\% read, 30\% write), and variable block sizes (4KB to 1MB)
+    \item \textbf{Direct I/O operations:} Bypasses operating system caches to ensure actual disk I/O
+    and realistic power consumption
+    \item \textbf{Automatic cleanup:} Removes test files after each cycle to prevent disk space
+    exhaustion
+    \item \textbf{Comprehensive logging:} Records detailed performance metrics and timestamps
+    for correlation with energy measurements
+\end{itemize}
+
+This automated approach ensures that I/O stress testing can be precisely 
+synchronized with energy measurement intervals, enabling accurate correlation 
+between storage workload intensity and power consumption patterns.
