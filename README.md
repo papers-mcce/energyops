@@ -13,12 +13,17 @@ A reproducible research repository for the paper:
     - [Lambda Functions](#lambda-functions)
     - [Helper Scripts](#helper-scripts)
     - [IAM Policies](#iam-policies)
+    - [Energy Analysis](#energy-analysis)
 5. [Tasmota Firmware & Configuration](#tasmota-firmware--configuration)
     - [Custom Firmware Build](#custom-firmware-build)
     - [Flashing Guide](#flashing-guide)
     - [Device Setup](#device-setup)
-6. [Replication Checklist](#replication-checklist)
-7. [References](#references)
+6. [Documentation & Presentations](#documentation--presentations)
+    - [Final Paper](#final-paper)
+    - [Position Paper](#position-paper)
+    - [HTML Presentation](#html-presentation)
+7. [Replication Checklist](#replication-checklist)
+8. [References](#references)
 
 ---
 
@@ -28,9 +33,19 @@ This repository contains all code, configuration, and documentation required to 
 
 ## 2. Project Structure
 
-- [`/Deployment`](./Deployment): All AWS infrastructure as code (Terraform), Lambda functions, scripts, and IAM policies.
-- [`/tasmota-config`](./tasmota-config): Custom Tasmota firmware configuration for AWS IoT integration.
-- [`/tasmota`](./tasmota): (Submodule or source) for Tasmota firmware (see [Tasmota Firmware & Configuration](#tasmota-firmware--configuration)).
+- [`/Deployment`](./Deployment): All AWS infrastructure as code (Terraform), Lambda functions, scripts, and IAM policies
+  - [`/Energy-Analysis`](./Deployment/Energy-Analysis): Scripts and tools for energy data analysis
+  - [`/terraform`](./Deployment/terraform): Complete AWS infrastructure as code
+  - [`/Lambda`](./Deployment/Lambda): Serverless functions for data collection and processing
+  - [`/Scripts`](./Deployment/Scripts): Utility scripts for deployment and maintenance
+  - [`/IAM-Custom`](./Deployment/IAM-Custom): Custom IAM policies for security
+- [`/tasmota-config`](./tasmota-config): Custom Tasmota firmware configuration for AWS IoT integration
+- [`/tasmota`](./tasmota): Tasmota firmware source for custom builds
+- [`/Final-Paper`](./Final-Paper): LaTeX source for the final research paper
+- [`/Position-Paper`](./Position-Paper): LaTeX source for the position paper
+- [`/html-presentation-project`](./html-presentation-project): Interactive HTML presentation of research findings
+- [`/drawio`](./drawio): System architecture and use case diagrams
+- [`/PlantUML_Diagramms`](./PlantUML_Diagramms): UML diagrams for system documentation
 
 ## 3. Quick Start
 
@@ -71,6 +86,14 @@ This repository contains all code, configuration, and documentation required to 
     - `requireMFA.json`: Enforces MFA.
     - `restricttoFrankfurt.json`: Restricts AWS actions to Frankfurt region.
 
+### Energy Analysis
+
+Located in [`Deployment/Energy-Analysis`](./Deployment/Energy-Analysis):
+- Energy consumption data analysis scripts
+- EPEX price analysis tools
+- Data visualization utilities
+- CSV exports for reproducibility
+
 ## 5. Tasmota Firmware & Configuration
 
 ### Custom Firmware Build
@@ -87,20 +110,50 @@ This repository contains all code, configuration, and documentation required to 
 - See [`Deployment/NOUS_A5T_SETUP.md`](./Deployment/NOUS_A5T_SETUP.md) for AWS IoT configuration and device template.
 - Includes BackLog command for MQTT/TLS setup.
 
-## 6. Replication Checklist
+## 6. Documentation & Presentations
+
+### Final Paper
+
+The [`/Final-Paper`](./Final-Paper) directory contains the LaTeX source for our research paper, including:
+- Complete manuscript source
+- Figures and diagrams
+- Bibliography and references
+- Build instructions in the directory's README
+
+### Position Paper
+
+The [`/Position-Paper`](./Position-Paper) directory contains our initial position paper, including:
+- Problem statement
+- Proposed methodology
+- Preliminary results
+- Build instructions in the directory's README
+
+### HTML Presentation
+
+The [`/html-presentation-project`](./html-presentation-project) provides an interactive web-based presentation of our research:
+- Responsive design for multiple devices
+- Interactive diagrams and visualizations
+- Built with modern web technologies
+- Deployment instructions in the directory's README
+
+## 7. Replication Checklist
 
 - [ ] Deploy AWS infrastructure with Terraform
 - [ ] Build and flash custom Tasmota firmware
 - [ ] Configure device with AWS IoT credentials
 - [ ] Verify data flow from device to AWS
+- [ ] Run energy analysis scripts
 - [ ] Analyze data in DynamoDB
 - [ ] Establish AWS Glue Crawler
 - [ ] Build AWS Athena for SQL Querying 
 - [ ] Build AWS Quicksight with custom queries and Dashboard
+- [ ] Deploy HTML presentation (optional)
 
-## 7. References
+## 8. References
 
-- All scripts, configuration, and guides are referenced in the above sections.
-- For further details, see the in-folder `README.md` and markdown guides.
+- All scripts, configuration, and guides are referenced in the above sections
+- For further details, see the in-folder `README.md` and markdown guides
+- Architecture diagrams available in the [`/drawio`](./drawio) directory
+- UML documentation in [`/PlantUML_Diagramms`](./PlantUML_Diagramms)
 
 ---
