@@ -11,37 +11,24 @@ This section outlines the methodological approach taken to design, implement, an
 It describes the overall use case, the technical architecture of the prototype, and the integration of real-time energy consumption and electricity price data.
 
 \subsection{Use Case Description}
-\label{methodology:use-case-description}
-This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications while facing the challenge of rising energy costs. The SME seeks to optimize server operations in response to real-time electricity prices through intelligent workload scheduling.
-
-The main actors in this use case include the SME IT Administrator who manages the server infrastructure and monitors energy consumption patterns. The Smart Meter measures the total energy consumption of the SME's server room in real time and provides facility-level data. IoT-enabled power monitoring devices collect detailed consumption data from individual servers or server racks to enable granular analysis. The Energy Market Data Provider supplies real-time electricity price information from sources such as EPEX Spot. The Energy Management Dashboard aggregates and visualizes consumption and price data, providing actionable insights for decision-making
-
-The process begins with the smart meter and IoT devices continuously collecting energy consumption data from the server infrastructure. Simultaneously, the system retrieves real-time electricity prices from the market data provider to establish cost context. The dashboard integrates these data streams, enabling the IT administrator to monitor current consumption, identify high-usage periods, and receive recommendations for optimal workload scheduling. When electricity prices are low, the administrator can schedule energy-intensive tasks such as backups or batch processing to minimize operational costs. Conversely, during peak price periods, non-essential workloads can be deferred to reduce energy expenses.
+The use case centers on an SME operating on-premise server infrastructure, seeking to optimize energy consumption and costs amid rising electricity prices. Key stakeholders include the SME IT administrator, who manages server operations and energy monitoring, and external data providers such as smart meters and electricity market APIs. The system aims to enable the administrator to schedule energy-intensive tasks during periods of lower electricity prices, thereby minimizing costs and supporting sustainability goals.
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{fig/high_level_use_case.png}
-    \caption{Overall Use Case of server admin using the energy management dashboard}
-    \label{fig:highleveluse}
+\centering
+\includegraphics[width=0.8\textwidth]{fig/high_level_use_case.png}
+\caption{Overall use case of server administrator utilizing the energy management dashboard.}
+\label{fig:highleveluse}
 \end{figure}
-This section describes the high-level use case for energy-aware server management in small and medium-sized enterprises with on-premise infrastructure. In this scenario, an SME operates a server infrastructure that supports various business applications while facing the challenge of rising energy costs. The SME seeks to optimize server operations in response to real-time electricity prices through intelligent workload scheduling.
+As illustrated in Figure~\ref{fig:highleveluse}, energy consumption data is continuously collected from both facility-level smart meters and device-level IoT power monitors. Simultaneously, real-time electricity prices are retrieved from market data providers (e.g., EPEX Spot). These data streams are integrated and visualized via a cloud-based dashboard, providing actionable insights and recommendations for workload scheduling.
 \subsection{Prototype}
-The prototype implements a cloud-native architecture that integrates on-premise energy monitoring devices with a suite of scalable AWS services, enabling comprehensive data collection, processing, and visualization tailored for SME server environments. Figure~\ref{fig:architecture} illustrates the system architecture and the flow of information between the various components, serving as the main reference for the following description.
-
+The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture.
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1.2\textwidth]{fig/architektur_new_2.png}
-    \caption{System Architecture of the AWS implementation}
-    \label{fig:architecture}
+\centering
+\includegraphics[width=1.1\textwidth]{fig/architektur_new_2.png}
+\caption{System Architecture of the AWS implementation.}
+\label{fig:architecture}
 \end{figure}
-
-At the edge of the system, a Smart Meter equipped with a P1 interface and the Nous A5T smart plug\footnote{See Appendix~\ref{appendix:tasmota-config} for configuration details and required steps to enable AWS IoT Core integration.} are deployed within the SME's local network. The Smart Meter provides aggregate facility-level energy consumption data, while the Nous A5T device delivers granular, device-specific power usage information. The Smart Meter transmits its data to the energyLive Monitoring platform, which acts as an intermediary for facility-level consumption, whereas the Nous A5T communicates via MQTT over the local WLAN, ensuring real-time reporting of server power usage. These data streams are ingested into the cloud using a combination of polling and message-based mechanisms, reflecting the hybrid nature of the data sources.
-
-The energyLive Cloud platform exposes APIs for both real-time facility consumption (as detailed in Appendix~\ref{appendix:energylive-api}) and electricity market prices (See Appendix~\ref{appendix:strompreis-api} for the electricity price API specification), the latter being sourced from the Strompreis API (EPEX Spot interface). AWS Lambda functions, triggered either by scheduled polling or by incoming MQTT messages, serve as the primary data processing units. This design ensures that both periodic and event-driven data are efficiently captured and processed. The AWS IoT Core service manages secure MQTT communication from the Nous A5T device, while API Gateway and Lambda functions handle RESTful interactions with the energyLive and Strompreis APIs, providing a unified entry point for all external data sources.
-
-All collected data is persistently stored in AWS DynamoDB, which offers a highly available and low-latency database for structured energy and pricing information. To facilitate advanced analytics and reporting, AWS Glue Crawlers and the Glue Catalog automate the extraction, transformation, and cataloging of raw data, making it readily accessible for further analysis. AWS Athena enables ad hoc querying of the curated datasets, while AWS S3 serves as a repository for larger or historical data files, supporting long-term storage and backup requirements. The results of these analyses are presented to users through interactive dashboards built with AWS QuickSight, allowing IT administrators to explore consumption trends, correlate usage with market prices, and identify optimization opportunities in an intuitive manner.
-
-The entire cloud infrastructure is provisioned and managed using AWS CloudFormation, ensuring reproducibility, scalability, and compliance with best practices. Security and operational monitoring are enforced through AWS IAM for access control, CloudWatch for real-time monitoring, and custom authorization mechanisms that safeguard sensitive data flows. This architecture not only provides a robust and scalable foundation for energy-aware server management but also ensures that SMEs can leverage real-time insights and advanced analytics without the need for extensive in-house IT resources. The integration of these components, as depicted in Figure~\ref{fig:architecture}, demonstrates a holistic approach to energy management that is both practical and adaptable to the evolving needs of small and medium-sized enterprises.
-
+At the edge, a smart meter with a P1 interface and a NOUS A5T smart plug\footnote{See Appendix~\ref{appendix:tasmota-config} for configuration details.} are deployed within the SME’s local network. The smart meter provides aggregate facility-level data, while the NOUS A5T delivers device-specific power usage via MQTT. Data is ingested into the cloud using a hybrid of polling (for smart meter and market prices) and message-based (for IoT devices) mechanisms.
+AWS Lambda functions, triggered by scheduled polling or MQTT messages, process incoming data. AWS IoT Core manages secure MQTT communication, while API Gateway and Lambda handle RESTful interactions with external APIs. All data is stored in AWS DynamoDB for low-latency access. AWS Glue and Athena enable automated data cataloging and ad hoc querying, respectively. Visualization is provided through AWS QuickSight dashboards, allowing administrators to correlate energy usage with market prices and identify optimization opportunities. Infrastructure is provisioned using AWS CloudFormation for reproducibility, and security is enforced via AWS IAM and CloudWatch.
 \subsection{Evaluation Approach}
 \label{methodology:evaluation-approach}
 To evaluate the effectiveness of our approach, we will implement a comprehensive
