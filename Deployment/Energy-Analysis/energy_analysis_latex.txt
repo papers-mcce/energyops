@@ -1,48 +1,87 @@
 
 % Energy Consumption Analysis Results
-% Generated automatically from DynamoDB data analysis
-% Date: 2025-06-30 09:23:55
-
-% WL1: Maximum Computational Load (CPU Stress)
+% Generated automatically from DynamoDB data analysis  
+% Date: 2025-06-30 09:42:09
+% Test Date: 2025-06-29
 
 % Maximum Computational Load (WL1_CPU_Stress)
-% Average power consumption: 233.71 W
-% Peak power consumption: 424.0 W  
-% Total energy consumption: 0.467414 kWh
-% Duration: 2.0 hours
-% Power stability: ±70.99 W variation
+% Pattern: cyclic
+% Average power consumption: 662.25 W
+% Peak power consumption: 684.0 W
+% Total energy consumption (4 cycles): 0.662247 kWh
+% Energy consumption per 15-min cycle: 0.165562 kWh
+% Active duration: 60 minutes (4 × 15min cycles)
+% Total test duration: 120 minutes
+% Cycle breakdown:
+%   Cycle 1: 661.8W avg, 679.0W peak
+%   Cycle 2: 661.6W avg, 677.0W peak
+%   Cycle 3: 662.5W avg, 684.0W peak
+%   Cycle 4: 663.1W avg, 684.0W peak
+% Power stability: ±3.94 W variation
+% Data points: 360
 
 % I/O Stress Testing (WL2_IO_Stress)
-% Average power consumption: 171.57 W
-% Peak power consumption: 182.0 W  
-% Total energy consumption: 0.171572 kWh
-% Duration: 1.0 hours
-% Power stability: ±2.71 W variation
+% Pattern: cyclic
+% Average power consumption: 317.86 W
+% Peak power consumption: 403.0 W
+% Total energy consumption (2 cycles): 0.158931 kWh
+% Energy consumption per 15-min cycle: 0.079465 kWh
+% Active duration: 30 minutes (2 × 15min cycles)
+% Total test duration: 60 minutes
+% Cycle breakdown:
+%   Cycle 1: 327.1W avg, 402.0W peak
+%   Cycle 2: 308.6W avg, 403.0W peak
+% Power stability: ±52.15 W variation
+% Data points: 180
 
 % System Reboot Cycle (WL3_Reboot)
-% Average power consumption: 178.73 W
-% Peak power consumption: 195.0 W  
-% Total energy consumption: 0.014894 kWh
+% Pattern: single
+% Average power consumption: 294.27 W
+% Peak power consumption: 424.0 W
+% Total energy consumption: 0.024522 kWh
 % Duration: 0.08 hours
-% Power stability: ±6.51 W variation
+% Power stability: ±71.68 W variation
+% Data points: 30
 
 % Maintenance Operations (WL4_Maintenance)
-% Average power consumption: 166.17 W
-% Peak power consumption: 177.0 W  
-% Total energy consumption: 0.013847 kWh
+% Pattern: single
+% Average power consumption: 205.37 W
+% Peak power consumption: 293.0 W
+% Total energy consumption: 0.017114 kWh
 % Duration: 0.08 hours
-% Power stability: ±3.76 W variation
+% Power stability: ±42.59 W variation
+% Data points: 30
 
 % Idle State (WL5_Idle)
-% Average power consumption: 165.78 W
-% Peak power consumption: 193.0 W  
-% Total energy consumption: 0.165781 kWh
+% Pattern: continuous
+% Average power consumption: 172.2 W
+% Peak power consumption: 266.0 W
+% Total energy consumption: 0.172203 kWh
 % Duration: 1.0 hours
-% Power stability: ±3.67 W variation
+% Power stability: ±6.82 W variation
+% Data points: 360
 
 % Workload Comparison Analysis
-% WL1_CPU_Stress: 41.0% increase over baseline
-% WL2_IO_Stress: 3.5% increase over baseline
-% WL3_Reboot: 7.8% increase over baseline
-% WL4_Maintenance: 0.2% increase over baseline
-% WL5_Idle: 0.0% increase over baseline
+% Baseline (Idle): 172.2 W
+% WL1_CPU_Stress: 284.6% increase over baseline (+490.05 W)
+% WL2_IO_Stress: 84.6% increase over baseline (+145.66 W)
+% WL3_Reboot: 70.9% increase over baseline (+122.07 W)
+% WL4_Maintenance: 19.3% increase over baseline (+33.17 W)
+% WL5_Idle: 0.0% increase over baseline (+0.0 W)
+
+% LaTeX Replacement Guide for results.tex:
+% ==========================================
+% Replace [X] placeholders with the values above.
+% 
+% For cyclic workloads (WL1, WL2):
+%   - Use "Energy consumption per 15-min cycle" for individual cycle energy
+%   - Use "Total energy consumption" for entire test period
+%   - Mention the cyclic nature in descriptions
+%
+% For single events (WL3, WL4):
+%   - Use total energy consumption directly
+%   - Duration is typically 5 minutes
+%
+% For idle state (WL5):
+%   - Use as baseline for comparisons
+%   - Shows minimum power consumption
