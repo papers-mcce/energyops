@@ -120,25 +120,35 @@ Analysis of EPEX spot prices during the test period revealed significant optimiz
 
 \begin{itemize}[noitemsep,topsep=0pt]
     \item Price variation range: -1.685 to 14.168 cent/kWh (230.6\% daily variation from reference price)
-    \item Optimal scheduling potential: 54.6\% cost reduction
+    \item Average reference price: 6.874 cent/kWh
+    \item Data points for EPEX spot price: 96 (15-minute intervals)
 \end{itemize}
 
+Table~\ref{tab:cost-comparison} shows, for each workload, the hypothetical cost if all energy 
+had been purchased at the minimum, average, or maximum EPEX spot price observed during the test day. 
+The "cost difference" column quantifies the absolute cost reduction possible for each workload 
+by shifting all consumption from the most expensive to the cheapest period. Negative costs at the 
+minimum price reflect periods of negative electricity pricing, not considering energy grid fees.
+\newpage
 \begin{table}[h]
-\caption{Cost Comparison Across Scheduling Scenarios}
-\label{tab:cost-comparison}
-\begin{tabular}{@{}lcccc@{}}
-\hline
-\textbf{WL} & \textbf{kWh} & \textbf{Best (¢)} & \textbf{Worst (¢)} & \textbf{Savings} \\
-\hline
-CPU & 0.662 & 4.10 & 9.04 & 45.3\% \\
-I/O & 0.159 & 0.98 & 2.17 & 45.1\% \\
-Maint & 0.017 & 0.11 & 0.23 & 47.8\% \\
-\hline
-\multicolumn{5}{@{}l@{}}{\small Best: 6.198¢/kWh, Worst: 13.648¢/kWh} \\
-\end{tabular}
-\end{table}
+    \caption{Workload Cost at Minimum, Average, and Maximum EPEX Spot Price}
+    \label{tab:cost-comparison}
+    \begin{tabular}{@{}lccccc@{}}
+    \hline
+    \textbf{Workload} & \textbf{kWh} & \textbf{Min Cost (¢)} & \textbf{Avg Cost (¢)} & \textbf{Max Cost (¢)} & \textbf{Cost Difference (¢)} \\
+    \hline
+    CPU Stress Test        & 0.662 & -1.12 & 4.55 & 9.38 & 10.50 \\
+    I/O Stress Test        & 0.159 & -0.27 & 1.09 & 2.25 & 2.52 \\
+    System Reboot          & 0.025 & -0.04 & 0.17 & 0.35 & 0.39 \\
+    Maintenance Operations & 0.017 & -0.03 & 0.12 & 0.24 & 0.27 \\
+    \hline
+    \end{tabular}
+    \end{table}
 
-These results demonstrate that intelligent workload scheduling based on real-time electricity pricing can lead to substantial cost savings for SMEs operating on-premise server infrastructure. The combination of comprehensive energy monitoring and price-aware scheduling provides a practical approach to optimizing operational costs while maintaining service quality.
+These results demonstrate that intelligent workload scheduling based on real-time electricity 
+pricing can lead to substantial cost savings for SMEs operating on-premise server infrastructure. 
+The combination of comprehensive energy monitoring and price-aware scheduling provides a practical 
+approach to optimizing operational costs while maintaining service quality.
 
 \subsection{Implementation Considerations and Limitations}
 \label{results:limitations}
@@ -166,5 +176,3 @@ The analysis revealed several key considerations for implementing energy-aware s
         \item Limited test duration (24 hours) may miss longer-term patterns
     \end{itemize}
 \end{itemize}
-
-These results demonstrate that intelligent workload scheduling based on real-time energy pricing can provide substantial cost savings for SME server operations. The approach is particularly valuable for organizations with flexible workload scheduling and multiple servers, where benefits can be multiplied across the infrastructure. 

@@ -11,12 +11,14 @@ This paper addressed the critical challenge of energy management for SMEs operat
 
 The key contributions of this work include:
 \begin{itemize}
-    \item A scalable, serverless architecture combining IoT monitoring and real-time pricing data, as demonstrated in Section~\ref{methodology:prototype}
-    \item Empirical evidence from Section~\ref{results:energy-analysis} demonstrating potential cost savings of up to 54.6\% through intelligent workload scheduling
+    \item A scalable, serverless architecture combining IoT monitoring and real-time pricing data,
+    as demonstrated in Section~\ref{methodology:prototype}
+    \item Empirical evidence from Section~\ref{results:energy-analysis} demonstrating 
+    potential cost savings of up to 10.5 cent per kWh for peak loads (CPU stress test) through intelligent workload scheduling
     \item A practical framework for SMEs to optimize server operations based on energy costs, with implementation details provided in Appendix~\ref{appendix:github-docs}
 \end{itemize}
 
-A summary of the experimental results can be found in Section~\ref{results:results}. Technical implementation details are provided in Appendix~\ref{appendix:github-docs}.
+A summary of the experimental results can be found in Section~\ref{results:results}.
 
 While the evaluation demonstrated significant potential for cost optimization (see Section~\ref{results:optimization}), several limitations should be noted:
 \begin{itemize}
@@ -31,7 +33,6 @@ Future work should explore:
     \item Machine learning for automated workload scheduling, building on the energy analysis framework (Section~\ref{results:energy-analysis})
     \item Multi-server environment support, extending beyond the current setup (Section~\ref{methodology:test-infrastructure-setup})
     \item Integration with renewable energy sources, complementing the price-based optimization (Section~\ref{results:optimization})
-    \item Blockchain-based peer-to-peer energy trading
 \end{itemize}
 
 The results establish that energy-aware server management can provide substantial benefits for SMEs, creating a foundation for both cost reduction and environmental responsibility. As energy prices continue to rise, such integrated approaches will become increasingly critical for SME competitiveness. The complete implementation and analysis tools are available in the public repository (Appendix~\ref{appendix:github-docs}), enabling further research and practical applications in this domain.
