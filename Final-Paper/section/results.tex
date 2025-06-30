@@ -8,14 +8,14 @@
 %Englisch
 \section{Results}
 \label{results:results}
-This section presents the key findings from our energy-aware server management system evaluation, focusing on system implementation outcomes and quantitative energy consumption analysis.
+This section presents the key findings from our energy-aware server management system evaluation, focusing on system implementation outcomes and quantitative energy consumption analysis. The complete analysis scripts and raw data are available in our public repository (see Appendix~\ref{appendix:github-docs}).
 
 \subsection{System Implementation}
 \label{results:system-implementation}
-The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles. Key technical achievements include:
+The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code principles, with all configuration files and deployment scripts available in the repository (see Appendix~\ref{appendix:github-docs}). Key technical achievements include:
 \begin{itemize}
     \item Real-time data ingestion with sub-second latency from NOUS A5T smart plugs via MQTT
-    \item Reliable 15-minute interval data collection from energyLive API and EPEX Spot API
+    \item Reliable 15-minute interval data collection from energyLive API (see Appendix~\ref{appendix:energylive-api}) and EPEX Spot API (see Appendix~\ref{appendix:strompreis-api})
     \item Scalable DynamoDB storage with consistent sub-10ms query response times
 \end{itemize}
 

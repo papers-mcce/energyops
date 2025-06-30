@@ -363,3 +363,82 @@ if count_without_microseconds > 0:
 else:
     print("No items found without microseconds")
 \end{lstlisting}
+
+\newpage
+\section{GitHub Repository and Documentation}
+\label{appendix:github-docs}
+
+This appendix provides permanent references to the project's GitHub repository and its core documentation. The repository contains all source code, configuration files, and documentation required to replicate the research and implementation described in this paper.
+
+\subsection{Repository Information}
+\begin{itemize}
+    \item \textbf{Repository URL}: \url{https://github.com/MCCE2024/G1-S2-INENI}
+    \item \textbf{Main Branch}: \texttt{main}
+    \item \textbf{Documentation Branch}: \texttt{final-paper}
+\end{itemize}
+
+\subsection{Core Documentation Structure}
+The repository's documentation is organized hierarchically, with the main README.md serving as the entry point. Key documentation components include:
+
+\subsubsection{Main Project Documentation}
+The primary README.md (\url{https://github.com/MCCE2024/G1-S2-INENI/blob/main/README.md}) provides:
+\begin{itemize}
+    \item Project overview and objectives
+    \item Complete directory structure
+    \item Deployment instructions
+    \item Configuration guides
+    \item Replication procedures
+\end{itemize}
+
+\subsubsection{Component-Specific Documentation}
+\begin{enumerate}
+    \item \textbf{Terraform Infrastructure} \\
+    \url{https://github.com/MCCE2024/G1-S2-INENI/blob/main/Deployment/terraform/README.md}
+    \begin{itemize}
+        \item AWS resource specifications
+        \item Deployment procedures
+        \item Security configurations
+        \item Infrastructure diagrams
+    \end{itemize}
+
+    \item \textbf{Energy Analysis Tools} \\
+    \url{https://github.com/MCCE2024/G1-S2-INENI/blob/main/Deployment/Energy-Analysis/README_energy_analysis.md}
+    \begin{itemize}
+        \item Data collection scripts
+        \item Analysis methodologies
+        \item Visualization tools
+        \item Result interpretation guides
+    \end{itemize}
+
+    \item \textbf{Tasmota Configuration} \\
+    \url{https://github.com/MCCE2024/G1-S2-INENI/blob/main/tasmota-config/README.md}
+    \begin{itemize}
+        \item Device setup instructions
+        \item Custom firmware configuration
+        \item AWS IoT integration steps
+        \item Troubleshooting guides
+    \end{itemize}
+
+    \item \textbf{HTML Presentation} \\
+    \url{https://github.com/MCCE2024/G1-S2-INENI/G1-S2-INENI/blob/main/html-presentation-project/README.md}
+    \begin{itemize}
+        \item Interactive visualization setup
+        \item Deployment instructions
+        \item Customization options
+        \item Browser compatibility notes
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Cross-References and Dependencies}
+The documentation maintains internal cross-references using LaTeX labels. Key references include:
+\begin{itemize}
+    \item Energy Analysis (Section~\ref{appendix:energylive-api})
+    \item Price API Documentation (Section~\ref{appendix:strompreis-api})
+    \item Device Configuration (Section~\ref{appendix:tasmota-config})
+    \item Database Management (Section~\ref{appendix:delete-timestamps})
+\end{itemize}
+
+\subsection{Version Control and Updates}
+The documentation is maintained under version control, with updates tracked through Git commits and pull requests. Major changes are documented in the repository's release notes and change logs.
+
+For the most current version of any documentation component, refer to the repository URLs provided above. All links are permanent and reference specific commits to ensure reproducibility of the research implementation.

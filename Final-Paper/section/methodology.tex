@@ -22,14 +22,14 @@ The use case centers on an SME operating on-premise server infrastructure, seeki
 As illustrated in Figure~\ref{fig:highleveluse}, energy consumption data is continuously collected from both facility-level smart meters and device-level IoT power monitors. Simultaneously, real-time electricity prices are retrieved from market data providers (e.g., EPEX Spot). These data streams are integrated and visualized via a cloud-based dashboard, providing actionable insights and recommendations for workload scheduling.
 \subsection{Prototype}
 \label{methodology:prototype}
-The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture.
+The prototype implements a cloud-native architecture leveraging Amazon Web Services (AWS) to ensure scalability, reliability, and cost-effectiveness—key considerations for SMEs with limited IT resources. Figure~\ref{fig:architecture} illustrates the system architecture. The complete implementation details, including infrastructure as code and configuration files, are available in our public repository (see Appendix~\ref{appendix:github-docs}).
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1.1\textwidth]{fig/architektur_new_2.png}
 \caption{System Architecture of the AWS implementation.}
 \label{fig:architecture}
 \end{figure}
-At the edge, a smart meter with a P1 interface and a NOUS A5T smart plug\footnote{See Appendix~\ref{appendix:tasmota-config} for configuration details.} are deployed within the SME’s local network. The smart meter provides aggregate facility-level data, while the NOUS A5T delivers device-specific power usage via MQTT. Data is ingested into the cloud using a hybrid of polling (for smart meter and market prices) and message-based (for IoT devices) mechanisms.
+At the edge, a smart meter with a P1 interface and a NOUS A5T smart plug\footnote{See Appendix~\ref{appendix:tasmota-config} for configuration details.} are deployed within the SME's local network. The smart meter provides aggregate facility-level data, while the NOUS A5T delivers device-specific power usage via MQTT. Data is ingested into the cloud using a hybrid of polling (for smart meter and market prices) and message-based (for IoT devices) mechanisms.
 AWS Lambda functions, triggered by scheduled polling or MQTT messages, process incoming data. AWS IoT Core manages secure MQTT communication, while API Gateway and Lambda handle RESTful interactions with external APIs. All data is stored in AWS DynamoDB for low-latency access. AWS Glue and Athena enable automated data cataloging and ad hoc querying, respectively. Visualization is provided through AWS QuickSight dashboards, allowing administrators to correlate energy usage with market prices and identify optimization opportunities. Infrastructure is provisioned using AWS CloudFormation for reproducibility, and security is enforced via AWS IAM and CloudWatch.
 \subsection{Evaluation Approach}
 \label{methodology:evaluation-approach}
