@@ -1,0 +1,5 @@
+Test_Period,Local_Time_Range,Data_Points,Avg_Price_Cent_kWh,Min_Price_Cent_kWh,Max_Price_Cent_kWh,Avg_Price_EUR_MWh,Min_Price_EUR_MWh,Max_Price_EUR_MWh
+CPU Stress Test,16:45 - 18:45,9,6.198,0.0,10.178,61.98,0.0,101.78
+I/O Stress Test,18:45 - 19:45,5,11.841,10.178,12.257,118.41,101.78,122.57
+Maintenance Operations,22:30 - 22:35,1,13.648,13.648,13.648,136.48,136.48,136.48
+Idle State,22:50 - 23:50,4,12.12,12.12,12.12,121.2,121.2,121.2

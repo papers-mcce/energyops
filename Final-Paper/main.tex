@@ -21,6 +21,19 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible
+}
+
+% TikZ and plotting packages
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{patterns,arrows.meta}
 
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 %Definition of Colors - Start
@@ -46,8 +59,12 @@
 \input{section/introduction}
 \input{section/related_work}
 \input{section/methodology}
+\input{section/results}
 \input{section/conclusion}
 \input{section/references}
+
+\appendix
+\input{section/appendix.tex}
 
 \end{document}
 \endinput

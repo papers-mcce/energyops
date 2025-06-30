@@ -1,0 +1,168 @@
+🔍 Starting Energy Consumption Analysis
+📅 Test Date: 2025-06-29
+🏷️  DynamoDB Table: SensorData
+Discovered device ID: serverpowermeter
+
+🔍 Sample data from DynamoDB:
+  Sample 1:
+    timestamp: 2025-06-08T18:09:32.549000 (type: <class 'str'>)
+    device_time: 2025-06-08T20:09:32
+    current_power: 0
+
+  Sample 2:
+    timestamp: 2025-06-08T18:09:42.567000 (type: <class 'str'>)
+    device_time: 2025-06-08T20:09:42
+    current_power: 0
+
+  Sample 3:
+    timestamp: 2025-06-08T18:09:52.517000 (type: <class 'str'>)
+    device_time: 2025-06-08T20:09:52
+    current_power: 0
+
+🔌 Device ID: serverpowermeter
+
+🔍 Checking available data around test date 2025-06-29...
+✅ Found 10 sample items on 2025-06-29
+Sample timestamps and power values:
+  1. 2025-06-29T00:00:05.799000 -> 0W
+  2. 2025-06-29T00:00:15.697000 -> 0W
+  3. 2025-06-29T00:00:25.715000 -> 0W
+  4. 2025-06-29T00:00:35.765000 -> 0W
+  5. 2025-06-29T00:00:45.682000 -> 0W
+
+📊 Analyzing Maximum Computational Load (WL1_CPU_Stress)
+   Period: 2025-06-29T14:45:00 - 2025-06-29T16:45:00
+   Pattern: cyclic
+   📈 Analyzing active period 1: 2025-06-29T14:45:00 - 2025-06-29T15:00:00
+🔍 Querying range: 2025-06-29T14:45:00 to 2025-06-29T15:00:00
+📊 Found 90 items in range
+First item timestamp: 2025-06-29T14:45:06.002000
+Last item timestamp: 2025-06-29T14:59:56.171000
+First item power: 664
+Last item power: 661
+Power range in this period: 655.0W - 679.0W
+     ✅ Active period 1: 90 points, avg 661.8W
+   📈 Analyzing active period 2: 2025-06-29T15:15:00 - 2025-06-29T15:30:00
+     ✅ Active period 2: 90 points, avg 661.6W
+   📈 Analyzing active period 3: 2025-06-29T15:45:00 - 2025-06-29T16:00:00
+     ✅ Active period 3: 90 points, avg 662.5W
+   📈 Analyzing active period 4: 2025-06-29T16:15:00 - 2025-06-29T16:30:00
+     ✅ Active period 4: 90 points, avg 663.1W
+   ✅ Found 360 power measurements across 4 active periods
+   📈 Average Power (active periods): 662.2 W
+   ⚡ Peak Power: 684.0 W
+   🔋 Energy Consumption (active only): 0.662247 kWh
+   ⏱️  Active Duration: 60 minutes (4 × 15min)
+
+📊 Analyzing I/O Stress Testing (WL2_IO_Stress)
+   Period: 2025-06-29T16:45:00 - 2025-06-29T17:45:00
+   Pattern: cyclic
+   📈 Analyzing active period 1: 2025-06-29T16:45:00 - 2025-06-29T17:00:00
+🔍 Querying range: 2025-06-29T16:45:00 to 2025-06-29T17:00:00
+📊 Found 90 items in range
+First item timestamp: 2025-06-29T16:45:06.068000
+Last item timestamp: 2025-06-29T16:59:56.108000
+First item power: 402
+Last item power: 351
+Power range in this period: 214.0W - 402.0W
+     ✅ Active period 1: 90 points, avg 327.1W
+   📈 Analyzing active period 2: 2025-06-29T17:15:00 - 2025-06-29T17:30:00
+     ✅ Active period 2: 90 points, avg 308.6W
+   ✅ Found 180 power measurements across 2 active periods
+   📈 Average Power (active periods): 317.9 W
+   ⚡ Peak Power: 403.0 W
+   🔋 Energy Consumption (active only): 0.158931 kWh
+   ⏱️  Active Duration: 30 minutes (2 × 15min)
+
+📊 Analyzing System Reboot Cycle (WL3_Reboot)
+   Period: 2025-06-29T18:35:00 - 2025-06-29T18:40:00
+   Pattern: single
+   ✅ Found 30 power measurements
+   📈 Average Power: 294.3 W
+   ⚡ Peak Power: 424.0 W
+   🔋 Energy Consumption: 0.024522 kWh
+
+📊 Analyzing Maintenance Operations (WL4_Maintenance)
+   Period: 2025-06-29T20:30:00 - 2025-06-29T20:35:00
+   Pattern: single
+   ✅ Found 30 power measurements
+   📈 Average Power: 205.4 W
+   ⚡ Peak Power: 293.0 W
+   🔋 Energy Consumption: 0.017114 kWh
+
+📊 Analyzing Idle State (WL5_Idle)
+   Period: 2025-06-29T20:50:00 - 2025-06-29T21:50:00
+   Pattern: continuous
+   ✅ Found 360 power measurements
+   📈 Average Power: 172.2 W
+   ⚡ Peak Power: 266.0 W
+   🔋 Energy Consumption: 0.172203 kWh
+
+🔄 Generating comparison analysis...
+
+💾 Exporting results...
+
+📁 Results exported to:
+   - energy_analysis_results.json (detailed data)
+   - energy_analysis_latex.txt (LaTeX values)
+   - energy_analysis_summary.csv (spreadsheet data)
+
+============================================================
+📊 ENERGY CONSUMPTION ANALYSIS SUMMARY
+============================================================
+
+✅ Maximum Computational Load (WL1_CPU_Stress) - Cyclic
+   Total Duration: 120 minutes
+   Active Duration: 60 minutes (4 × 15min cycles)
+   Average Power (active): 662.25 W
+   Peak Power: 684.0 W
+   Total Energy (active): 0.662247 kWh
+   Energy per 15-min cycle: 0.165562 kWh
+   Data Points: 360 (across 4 cycles)
+
+✅ I/O Stress Testing (WL2_IO_Stress) - Cyclic
+   Total Duration: 60 minutes
+   Active Duration: 30 minutes (2 × 15min cycles)
+   Average Power (active): 317.86 W
+   Peak Power: 403.0 W
+   Total Energy (active): 0.158931 kWh
+   Energy per 15-min cycle: 0.079465 kWh
+   Data Points: 180 (across 2 cycles)
+
+✅ System Reboot Cycle (WL3_Reboot) - Single
+   Duration: 5 minutes
+   Average Power: 294.27 W
+   Peak Power: 424.0 W
+   Total Energy: 0.024522 kWh
+   Data Points: 30
+
+✅ Maintenance Operations (WL4_Maintenance) - Single
+   Duration: 5 minutes
+   Average Power: 205.37 W
+   Peak Power: 293.0 W
+   Total Energy: 0.017114 kWh
+   Data Points: 30
+
+✅ Idle State (WL5_Idle) - Continuous
+   Duration: 60 minutes
+   Average Power: 172.2 W
+   Peak Power: 266.0 W
+   Total Energy: 0.172203 kWh
+   Data Points: 360
+
+🔋 Baseline Power (Idle): 172.2 W
+
+📈 Power Increase vs Baseline:
+   WL1_CPU_Stress: +284.6% (490.05 W)
+   WL2_IO_Stress: +84.6% (145.66 W)
+   WL3_Reboot: +70.9% (122.07 W)
+   WL4_Maintenance: +19.3% (33.17 W)
+   WL5_Idle: +0.0% (0.0 W)
+
+============================================================
+
+🎉 Analysis completed successfully!
+📁 Check the generated files for detailed results:
+   - energy_analysis_results.json
+   - energy_analysis_latex.txt
+   - energy_analysis_summary.csv

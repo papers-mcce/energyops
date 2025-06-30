@@ -1,0 +1,178 @@
+%Je nach dem in welcher Sprache ihr euer Paper schreiben wollt,
+%benutzt bitte entweder den Deutschen-Titel oder den Englischen (einfach aus- bzw. 
+%einkommentieren mittels '%')
+
+%Deutsch
+%\section{Ergebnisse}
+
+%Englisch
+\section{Results}
+\label{results:results}
+This section presents the key findings from our energy-aware server management system evaluation, 
+focusing on system implementation outcomes and quantitative energy consumption analysis. 
+The complete analysis scripts and raw data are available in our public repository 
+(see Appendix~\ref{appendix:github-docs}).
+
+The methodology used to obtain these results is described in Section ~\ref{methodology:methodological-approach}.
+These findings support the conclusions drawn in Section~\ref{conclusion:conclusion}.
+
+\subsection{System Implementation}
+\label{results:system-implementation}
+The prototype system was successfully deployed on AWS infrastructure using Infrastructure as Code 
+principles, with all configuration files and deployment scripts available in the repository 
+(see Appendix~\ref{appendix:github-docs}). Key technical achievements include:
+
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item Real-time data ingestion with sub-second latency from NOUS A5T smart plugs via MQTT
+    \item Reliable 1-minute interval data collection from energyLive API (see Appendix~\ref{appendix:energylive-api}) 
+    \item Reliable 15-minute interval data collection from EPEX Spot API (see Appendix~\ref{appendix:strompreis-api})
+
+    \item Scalable DynamoDB storage with consistent sub-10ms query response times
+\end{itemize}
+
+\subsection{Energy Consumption Analysis}
+\label{results:energy-analysis}
+Our analysis revealed distinct power consumption patterns across different workload scenarios, 
+as illustrated in Figure~\ref{fig:workload-analysis}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=1.05\textwidth,
+    height=7cm,
+    xlabel={Workload Type},
+    ylabel={Power Consumption (W)},
+    symbolic x coords={CPU Stress,I/O Stress,System Reboot,Maintenance,Idle},
+    xtick=data,
+    xticklabel style={rotate=45,anchor=east},
+    ybar=5pt,
+    bar width=15pt,
+    ymin=0,
+    ymax=750,
+    nodes near coords style={anchor=west, xshift=8pt},
+    legend pos=north east,
+    legend style={font=\small},
+    ymajorgrids=true,
+    grid style=dashed,
+    clip=false,
+    enlarge x limits=0.15
+]
+
+% Average power consumption bars with values on the right
+\addplot[xblue,fill=xblue!30,
+    nodes near coords,
+    nodes near coords align={horizontal}
+] coordinates {
+    (CPU Stress,662.25)
+    (I/O Stress,317.86)
+    (System Reboot,294.27)
+    (Maintenance,205.37)
+    (Idle,172.20)
+};
+
+% Peak power dots with values on the right
+\addplot[xred,only marks,mark=*,mark size=3pt,
+    nodes near coords,
+    nodes near coords align={horizontal},
+    nodes near coords style={anchor=west, xshift=8pt}
+] coordinates {
+    (CPU Stress,684.0)
+    (I/O Stress,403.0)
+    (System Reboot,424.0)
+    (Maintenance,293.0)
+    (Idle,266.0)
+};
+
+\legend{Average Power,Peak Power}
+
+% Add percentage increase annotations on the left side
+\node[anchor=east, xshift=-2pt] at (axis cs:CPU Stress,684.0) {\small +284.6\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:I/O Stress,403.0) {\small +84.6\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:System Reboot,424.0) {\small +70.9\%};
+\node[anchor=east, xshift=-2pt] at (axis cs:Maintenance,293.0) {\small +19.3\%};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Comprehensive workload power analysis showing average consumption (bars), peak values (red dots), and percentage increase over idle baseline. The baseline idle power of 172.2W demonstrates significant power variation across different operational states.}
+\label{fig:workload-analysis}
+\end{figure}
+
+\begin{table}[h]
+\caption{Workload Power Consumption Details}
+\label{tab:workload-comparison}
+\begin{tabular}{@{}lcccc@{}}
+\hline
+\textbf{Workload} & \textbf{Avg (W)} & \textbf{Peak (W)} & \textbf{Var (W)} & \textbf{kWh} \\
+\hline
+CPU Stress & 662.25 & 684.0 & ±3.94 & 0.662 \\
+I/O Stress & 317.86 & 403.0 & ±52.15 & 0.159 \\
+Sys Reboot & 294.27 & 424.0 & ±71.68 & 0.025 \\
+Maintenance & 205.37 & 293.0 & ±42.59 & 0.017 \\
+Idle State & 172.20 & 266.0 & ±6.82 & 0.172 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Cost Optimization Potential}
+\label{results:optimization}
+Analysis of EPEX spot prices during the test period revealed significant optimization opportunities:
+
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item Price variation range: -1.685 to 14.168 cent/kWh (230.6\% daily variation from reference price)
+    \item Average reference price: 6.874 cent/kWh
+    \item Data points for EPEX spot price: 96 (15-minute intervals)
+\end{itemize}
+
+Table~\ref{tab:cost-comparison} shows, for each workload, the hypothetical cost if all energy 
+had been purchased at the minimum, average, or maximum EPEX spot price observed during the test day. 
+The "cost difference" column quantifies the absolute cost reduction possible for each workload 
+by shifting all consumption from the most expensive to the cheapest period. Negative costs at the 
+minimum price reflect periods of negative electricity pricing, not considering energy grid fees.
+\newpage
+\begin{table}[h]
+    \caption{Workload Cost at Minimum, Average, and Maximum EPEX Spot Price}
+    \label{tab:cost-comparison}
+    \begin{tabular}{@{}lccccc@{}}
+    \hline
+    \textbf{Workload} & \textbf{kWh} & \textbf{Min Cost (¢)} & \textbf{Avg Cost (¢)} & \textbf{Max Cost (¢)} & \textbf{Cost Difference (¢)} \\
+    \hline
+    CPU Stress Test        & 0.662 & -1.12 & 4.55 & 9.38 & 10.50 \\
+    I/O Stress Test        & 0.159 & -0.27 & 1.09 & 2.25 & 2.52 \\
+    System Reboot          & 0.025 & -0.04 & 0.17 & 0.35 & 0.39 \\
+    Maintenance Operations & 0.017 & -0.03 & 0.12 & 0.24 & 0.27 \\
+    \hline
+    \end{tabular}
+    \end{table}
+
+These results demonstrate that intelligent workload scheduling based on real-time electricity 
+pricing can lead to substantial cost savings for SMEs operating on-premise server infrastructure. 
+The combination of comprehensive energy monitoring and price-aware scheduling provides a practical 
+approach to optimizing operational costs while maintaining service quality.
+
+\subsection{Implementation Considerations and Limitations}
+\label{results:limitations}
+The analysis revealed several key considerations for implementing energy-aware server management:
+
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Workload Constraints:}
+    \begin{itemize}[noitemsep]
+        \item Critical operations cannot always be scheduled optimally
+        \item Some workloads require immediate execution regardless of energy costs
+        \item Batch processing jobs offer the most flexibility for optimization
+    \end{itemize}
+    
+    \item \textbf{Economic Factors:}
+    \begin{itemize}[noitemsep]
+        \item Price volatility (230.6\%  daily variation from reference price) enables significant optimization
+        \item Benefits scale linearly with server count in SME deployments
+        \item Austrian market prices may not reflect other regional patterns
+    \end{itemize}
+    
+    \item \textbf{Technical Limitations:}
+    \begin{itemize}[noitemsep]
+        \item Single server measurements may not represent diverse hardware configurations
+        \item Virtualization overhead affects absolute power measurements
+        \item Limited test duration (24 hours) may miss longer-term patterns
+    \end{itemize}
+\end{itemize}

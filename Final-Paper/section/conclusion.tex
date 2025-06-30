@@ -6,49 +6,33 @@
 
 %Englisch
 \section{Conclusion and Future Work}
-The rising energy costs present a significant challenge for small and medium-sized enterprises (SMEs)
-operating on-premise server infrastructures. This position paper addresses the critical gap in
-energy management solutions specifically tailored for SMEs, who often lack transparent insights
-into their server infrastructure's power consumption patterns and struggle to respond dynamically
-to fluctuating energy prices. While existing research has made significant advancements in
-process-level energy measurement, data center management, and IoT-based building management systems,
-our analysis reveals that no comprehensive solution exists that simultaneously delivers
-per-process energy attribution, smart-meter integration, real-time electricity price correlation,
-and a unified dashboard for actionable insights.
+\label{conclusion:conclusion}
+This paper addressed the critical challenge of energy management for SMEs operating on-premise server infrastructure through a cloud-based monitoring and optimization solution. The implementation, detailed in Section~\ref{methodology:prototype} and Appendix~\ref{appendix:github-docs}, successfully integrated IoT-based power monitoring, smart meter data, and real-time electricity pricing to provide actionable insights for cost-effective server operations.
 
-Our proposed architecture leverages cloud-based technologies to create an integrated energy
-monitoring system that collects real-time consumption data from both smart meters and connected
-server equipment, while simultaneously incorporating dynamic electricity pricing information.
-The serverless implementation on AWS provides a scalable, cost-effective solution that minimizes
-operational overhead—a critical consideration for resource-constrained SMEs. Through the
-combination of IoT devices (NOUS A5T PowerCable), facility-level monitoring via the Energy Live API
-(connected to the Sagemcom Smart Meter), and market data integration (EPEX Spot API), our system
-offers unprecedented visibility into energy consumption patterns and their economic implications.
+The key contributions of this work include:
+\begin{itemize}
+    \item A scalable, serverless architecture combining IoT monitoring and real-time pricing data,
+    as demonstrated in Section~\ref{methodology:prototype}
+    \item Empirical evidence from Section~\ref{results:energy-analysis} demonstrating 
+    potential cost savings of up to 10.5 cent per kWh for peak loads (CPU stress test) through intelligent workload scheduling
+    \item A practical framework for SMEs to optimize server operations based on energy costs, with implementation details provided in Appendix~\ref{appendix:github-docs}
+\end{itemize}
 
-The proposed measurement methodology outlines an approach for detailed energy profiling across
-various operational scenarios, including maximum computational load, I/O stress testing, system
-reboot cycles, maintenance operations, and idle states. This comprehensive approach to energy
-measurement would provide the foundation for data-driven decision-making regarding workload
-scheduling and infrastructure optimization. By understanding the energy intensity of different
-server activities and correlating these with real-time electricity pricing, SMEs could implement
-targeted strategies to reduce costs without compromising operational requirements. Our position
-paper proposes several important potential benefits for SMEs:
+A summary of the experimental results can be found in Section~\ref{results:results}.
 
-\begin{enumerate}
-	\item Server workload scheduling based on real-time energy pricing can yield significant cost
-	savings, particularly for energy-intensive computational tasks that can be time-shifted to
-	lower-cost periods.
-	\item The integration of IoT-based monitoring with cloud analytics provides a scalable solution
-	that grows with business needs without requiring substantial upfront investment.
-	\item The AWS serverless architecture offers an optimal balance of functionality, security,
-	and cost-effectiveness for SME implementations.
-	\item Granular visibility into server power consumption enables more informed infrastructure
-	planning and optimization.
-\end{enumerate}
+While the evaluation demonstrated significant potential for cost optimization (see Section~\ref{results:optimization}), several limitations should be noted:
+\begin{itemize}
+    \item Single server configuration testing, as described in Section~\ref{methodology:test-infrastructure-setup}
+    \item Limited measurement period detailed in Section~\ref{results:limitations}
+    \item Focus on Austrian electricity markets (see Appendix~\ref{appendix:strompreis-api})
+    \item Manual intervention requirements for workload scheduling
+\end{itemize}
 
-In the final paper, readers will find five concise, reproducible test scenarios—each emulating a
-typical VM action on a bare-metal server—to profile energy consumption and identify optimization
-opportunities. These include peak CPU stress, storage and network I/O workloads, full system
-reboot cycles, routine maintenance (OS patching), and idle-state baselines. For each scenario,
-we detail the tools, execution parameters, monitoring approach, and key metrics, enabling SMEs
-to replicate the methodology and correlate energy use with operational states.
+Future work should explore:
+\begin{itemize}
+    \item Machine learning for automated workload scheduling, building on the energy analysis framework (Section~\ref{results:energy-analysis})
+    \item Multi-server environment support, extending beyond the current setup (Section~\ref{methodology:test-infrastructure-setup})
+    \item Integration with renewable energy sources, complementing the price-based optimization (Section~\ref{results:optimization})
+\end{itemize}
+
+The results establish that energy-aware server management can provide substantial benefits for SMEs, creating a foundation for both cost reduction and environmental responsibility. As energy prices continue to rise, such integrated approaches will become increasingly critical for SME competitiveness. The complete implementation and analysis tools are available in the public repository (Appendix~\ref{appendix:github-docs}), enabling further research and practical applications in this domain.

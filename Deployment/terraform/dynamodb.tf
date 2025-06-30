@@ -12,9 +12,7 @@
 # DynamoDB table for energyLIVE data
 resource "aws_dynamodb_table" "energy_live_data" {
   name           = "EnergyLiveData"
-  billing_mode   = "PROVISIONED"  # Use provisioned capacity for predictable costs
-  read_capacity  = var.dynamodb_read_capacity * 2  # Higher capacity for main table
-  write_capacity = var.dynamodb_write_capacity * 2
+  billing_mode   = "PAY_PER_REQUEST"  # Use on-demand billing (matches deployed state)
 
   # Primary key structure for efficient querying
   hash_key  = "device_id"   # Partition key: identifies the specific device
@@ -46,9 +44,12 @@ resource "aws_dynamodb_table" "energy_live_data" {
     name            = "ObisCodeIndex"
     hash_key        = "obis_code"  # Query by OBIS code
     range_key       = "timestamp"  # Sort by time
-    read_capacity   = var.dynamodb_read_capacity
-    write_capacity  = var.dynamodb_write_capacity
     projection_type = "ALL"  # Include all attributes in the index
+    
+    on_demand_throughput {
+      max_read_request_units  = 100
+      max_write_request_units = 50
+    }
   }
 
   # Global Secondary Index for querying by measurement name
@@ -56,9 +57,18 @@ resource "aws_dynamodb_table" "energy_live_data" {
     name            = "MeasurementNameIndex"
     hash_key        = "measurement_name"  # Query by measurement name
     range_key       = "timestamp"         # Sort by time
-    read_capacity   = var.dynamodb_read_capacity
-    write_capacity  = var.dynamodb_write_capacity
     projection_type = "ALL"  # Include all attributes in the index
+    
+    on_demand_throughput {
+      max_read_request_units  = 100
+      max_write_request_units = 50
+    }
+  }
+
+  # On-demand throughput settings for the main table
+  on_demand_throughput {
+    max_read_request_units  = 100
+    max_write_request_units = 50
   }
 
   # TTL configuration for automatic data cleanup
@@ -82,9 +92,7 @@ resource "aws_dynamodb_table" "energy_live_data" {
 # DynamoDB table for EPEX Spot prices
 resource "aws_dynamodb_table" "epex_spot_prices" {
   name           = "EPEXSpotPrices"
-  billing_mode   = "PROVISIONED"  # Use provisioned capacity
-  read_capacity  = var.dynamodb_read_capacity
-  write_capacity = var.dynamodb_write_capacity
+  billing_mode   = "PAY_PER_REQUEST"  # Use on-demand billing (matches deployed state)
 
   # Primary key for price data
   hash_key  = "tariff"      # Partition key: price tariff type (e.g., EPEXSPOTAT)
@@ -99,6 +107,12 @@ resource "aws_dynamodb_table" "epex_spot_prices" {
   attribute {
     name = "timestamp"
     type = "N"  # Number type for Unix timestamp
+  }
+
+  # On-demand throughput settings for the main table
+  on_demand_throughput {
+    max_read_request_units  = 10
+    max_write_request_units = 10
   }
 
   # TTL configuration for automatic data cleanup
@@ -122,9 +136,7 @@ resource "aws_dynamodb_table" "epex_spot_prices" {
 # DynamoDB table for IoT sensor data (NETIO PowerCable)
 resource "aws_dynamodb_table" "sensor_data" {
   name           = "SensorData"
-  billing_mode   = "PROVISIONED"  # Use provisioned capacity
-  read_capacity  = var.dynamodb_read_capacity
-  write_capacity = var.dynamodb_write_capacity
+  billing_mode   = "PAY_PER_REQUEST"  # Use on-demand billing (matches deployed state)
 
   # Primary key for sensor data
   hash_key  = "device_id"   # Partition key: identifies the IoT device
@@ -139,6 +151,12 @@ resource "aws_dynamodb_table" "sensor_data" {
   attribute {
     name = "timestamp"
     type = "S"  # String type for ISO timestamp (different from other tables)
+  }
+
+  # On-demand throughput settings for the main table
+  on_demand_throughput {
+    max_read_request_units  = 200
+    max_write_request_units = 10
   }
 
   # TTL configuration for automatic data cleanup
